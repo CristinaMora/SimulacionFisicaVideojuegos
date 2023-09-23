@@ -7,7 +7,7 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
-
+#include "Particle.h"
 #include <iostream>
 
 std::string display_text = "This is a test";
@@ -29,7 +29,7 @@ PxPvd*                  gPvd        = NULL;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
-
+Particle* partic;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -54,6 +54,8 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
+
+	partic = new Particle(Vector3(1, 1, 1), Vector3(0, 0, 0));
 	}
 
 
