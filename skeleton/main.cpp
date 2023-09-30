@@ -9,6 +9,7 @@
 #include "callbacks.hpp"
 #include "Particle.h"
 #include <iostream>
+#include <list>
 
 std::string display_text = "This is a test";
 
@@ -29,8 +30,9 @@ PxPvd*                  gPvd        = NULL;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
-Particle* partic;
-
+std::list<Particle*>particulas;
+using namespace std;
+//std::vector<Particle*> particulas;
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -55,7 +57,6 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
-	partic = new Particle(Vector3(1, 1, 1), Vector3(0, 0, 0));
 	}
 
 
@@ -68,6 +69,14 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
+	list<Particle*>::iterator e = particulas.begin();
+	while (e != particulas.end()) {
+		auto aux = e;
+		++aux;
+		if((*e)->gettimer() <= 3)(*e)->integrate(t);
+		else { delete* e; particulas.remove(*e); }
+		e = aux;
+	}
 }
 
 // Function to clean data
@@ -95,8 +104,20 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 	switch(toupper(key))
 	{
-	//case 'B': break;
-	//case ' ':	break;
+	case 'F': {
+		//creacion de una partícula
+		Particle* p = new Particle(GetCamera()->getEye(), GetCamera()->getDir()*30, Vector3(0, -3.8, 0), 2, Vector4{ 150 , 0, 50, 1 });
+		particulas.push_back(p);
+
+		break;
+	}
+	case 'G': {
+		//creacion de una partícula
+		Particle* p = new Particle(GetCamera()->getEye(), GetCamera()->getDir() * 3, Vector3(0, -3.8, 0), 2, Vector4{ 0 , 250, 0, 1 });
+		particulas.push_back(p);
+
+		break;
+	}
 	case ' ':
 	{
 		break;
