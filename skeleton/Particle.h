@@ -10,6 +10,7 @@ public:
 	Particle(Vector3 Pos, Vector3 Vel,Vector3 aceler, int mas,Vector4 color);
 	void integrate(float t);
 	float gettimer();
+	~Particle();
 
 private:
 	float timer=0;

@@ -14,3 +14,6 @@ void Particle::integrate(float t) {
 float Particle::gettimer() {
 	return timer;
 }
+Particle::~Particle() {
+	DeregisterRenderItem(renderItem);
+}

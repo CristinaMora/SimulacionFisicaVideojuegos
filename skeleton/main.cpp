@@ -32,7 +32,7 @@ PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 std::list<Particle*>particulas;
 using namespace std;
-//std::vector<Particle*> particulas;
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -73,8 +73,11 @@ void stepPhysics(bool interactive, double t)
 	while (e != particulas.end()) {
 		auto aux = e;
 		++aux;
-		if((*e)->gettimer() <= 3)(*e)->integrate(t);
-		else { delete* e; particulas.remove(*e); }
+		if((*e)->gettimer() <= 4)(*e)->integrate(t);
+		else { 
+
+			delete* e; particulas.remove(*e);
+		}
 		e = aux;
 	}
 }
@@ -113,7 +116,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	}
 	case 'G': {
 		//creacion de una partícula
-		Particle* p = new Particle(GetCamera()->getEye(), GetCamera()->getDir() * 3, Vector3(0, -3.8, 0), 2, Vector4{ 0 , 250, 0, 1 });
+		Particle* p = new Particle(GetCamera()->getEye(), GetCamera()->getDir() * 10, Vector3(0, -3.8, 0), 2, Vector4{ 0 , 250, 0, 1 });
 		particulas.push_back(p);
 
 		break;
