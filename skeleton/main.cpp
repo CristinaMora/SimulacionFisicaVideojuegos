@@ -7,11 +7,10 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
-#include "Particle.h"
+#include "ParticleSystem.h"
 #include <iostream>
 #include <list>
-
-std::string display_text = "This is a test";
+std::string display_text = "Cristina Mora Velasco";
 
 
 using namespace physx;
@@ -29,8 +28,8 @@ PxPvd*                  gPvd        = NULL;
 
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
+ParticleSystem*         psistem = NULL;
 ContactReportCallback gContactReportCallback;
-std::list<Particle*>particulas;
 using namespace std;
 
 // Initialize physics engine
@@ -56,6 +55,8 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
+	//me creo un sistema de particulas que actualizara las particulas en todo momento
+	psistem = new ParticleSystem();
 
 	}
 
@@ -66,20 +67,11 @@ void initPhysics(bool interactive)
 void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
-
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	list<Particle*>::iterator e = particulas.begin();
-	while (e != particulas.end()) {
-		auto aux = e;
-		++aux;
-		if((*e)->gettimer() <= 4)(*e)->integrate(t);
-		else { 
+	psistem->update(t);
 
-			delete* e; particulas.remove(*e);
-		}
-		e = aux;
-	}
+	
 }
 
 // Function to clean data
@@ -107,24 +99,6 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 	switch(toupper(key))
 	{
-	case 'F': {
-		//creacion de una partícula
-		Particle* p = new Particle(GetCamera()->getEye(), GetCamera()->getDir()*30, Vector3(0, -3.8, 0), 2, Vector4{ 150 , 0, 50, 1 });
-		particulas.push_back(p);
-
-		break;
-	}
-	case 'G': {
-		//creacion de una partícula
-		Particle* p = new Particle(GetCamera()->getEye(), GetCamera()->getDir() * 10, Vector3(0, -3.8, 0), 2, Vector4{ 0 , 250, 0, 1 });
-		particulas.push_back(p);
-
-		break;
-	}
-	case ' ':
-	{
-		break;
-	}
 	default:
 		break;
 	}
