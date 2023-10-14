@@ -5,6 +5,7 @@ using namespace std;
 class ParticleGenerator
 {
 public:
+	
 	virtual std::list<Particle*> generateParticles() = 0;
 	inline void setOrigin(const Vector3& p);
 	inline void setMeanVelocity(const Vector3& v);

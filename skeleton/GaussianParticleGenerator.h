@@ -6,7 +6,7 @@ using namespace physx;
 class GaussianParticleGenerator: public ParticleGenerator
 {
 	public:
-		GaussianParticleGenerator(Vector3 std_dev_pos, Vector3 std_dev_vel);
+		GaussianParticleGenerator(Vector3 std_dev_pos, Vector3 std_dev_vel, Particle* p);
 		virtual ~GaussianParticleGenerator();
 		virtual list<Particle*> generateParticles();
 	protected:

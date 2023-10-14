@@ -15,6 +15,7 @@ class ParticleSystem
 		ParticleGenerator* getParticleGenerator(const string& n);
 	protected:
 		list <Particle*> _particles;
+		Particle* _part;
 		list<Firework*> _firework_pool;
 		list <ParticleGenerator*> _particle_generators; // These are the registred generators(for on demand set generation prob.to 0)
 		ParticleGenerator* _firework_generator; // This generator is only to shoot the firework!!

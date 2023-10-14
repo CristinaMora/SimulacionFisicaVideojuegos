@@ -1,4 +1,5 @@
 #include "ParticleGenerator.h"
+
 inline void ParticleGenerator::setOrigin(const Vector3& p) { _origin = p; }
 inline void ParticleGenerator::setMeanVelocity(const Vector3& v) {
 	_mean_velocity= v;
