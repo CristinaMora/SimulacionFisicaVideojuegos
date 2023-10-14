@@ -3,13 +3,9 @@
 	ParticleSystem::ParticleSystem(const Vector3& g) {
 		// Creates a void system with a det. gravity
 		_gravity = g;
-		_firework_generator = new GaussianParticleGenerator(Vector3 {0,0,0}, Vector3{ 0,0,0 });
+		_part = new Firework(GetCamera()->getEye() - Vector3(30, 0, 40), GetCamera()->getDir() * 30, Vector3(0, -3.8, 0), 2, Vector4{ 150 , 0, 0, 1 });
+		_firework_generator = new GaussianParticleGenerator(Vector3 {0,100,0}, Vector3{ 0,0,0 }, _part);
 		_particle_generators.push_back(_firework_generator);
-
-			//Firework* model = new Firework();
-			//fireworkGenerator = new GaussianParticleGenerator("Fireworks", Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, -1.0f, 0.0f), 0.1, 1,
-			//	model, Vector3(0.0f, 0.0f, 0.0f), Vector3(10.0f, 10.0f, 10.0f), 5);
-		
 	};
 
 	//destructora de la clase
@@ -42,11 +38,7 @@
 			e = aux;
 		}
 
-		//creacion de una partícula
-		if (_particles.size() != 40) {
-			Particle* p = new Particle(GetCamera()->getEye()- Vector3(30,0,40), GetCamera()->getDir() * 30, Vector3(0, -3.8, 0), 2, Vector4{150 , 0, 50, 1});
-			_particles.push_back(p);
-		}
+		
 		
 
 	};

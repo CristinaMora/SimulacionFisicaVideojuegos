@@ -7,7 +7,7 @@ const float damping = 0.998;
 class Particle
 {
 public:
-	Particle(Vector3 Pos, Vector3 Vel,Vector3 aceler, int mas,Vector4 c);
+	Particle(Vector3 Pos, Vector3 Vel,Vector3 aceler, int mas,Vector4 c, bool render);
 	void integrate(float t);
 	float gettimer();
 	Particle* clone();
@@ -15,7 +15,7 @@ public:
 	physx::PxTransform getPos();
 	void setVel(Vector3 Vel);
 	Vector3 getVel();
-	~Particle();
+	virtual ~Particle();
 	Vector3 vel;
 	float timer = 0;
 
