@@ -6,7 +6,7 @@ using namespace std;
 class Firework: public  Particle
 {
 public:
-	Firework(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas, Vector4 c);
+	Firework(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas,float t, Vector4 c);
 	virtual ~Firework() {};
 	// The firework generates more fireworks when exploding --> they should be gathered by the System
 		//list<Particle*> explode();

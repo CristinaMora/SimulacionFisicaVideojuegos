@@ -12,7 +12,10 @@ class GaussianParticleGenerator: public ParticleGenerator
 		virtual list<Particle*> generateParticles();
 	protected:
 	private:
-		Vector3 stdDevPos, stdDevVel;
+		std::random_device rd;
+		std::uniform_int_distribution<int> dis{ 0, 7 };
+		std::uniform_int_distribution<int> dis2{ 0, 10 };
+		Vector3 stdDevPos, stdDevVel;;
 		double stdDevTime;
 
 
