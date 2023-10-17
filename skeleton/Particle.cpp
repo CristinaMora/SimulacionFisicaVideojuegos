@@ -1,17 +1,15 @@
 #include "Particle.h"
 
 #include <iostream>
-Particle* Particle::clone() {
-	return new Particle(posicion.p, vel, acelera, masa, color,time, true);
 
-}
-Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas, Vector4 c,float t, bool render): posicion(Pos) {
+Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas, Vector4 c,float t): posicion(Pos) {
+	_type=1;
 	time = t;
 	masa = mas;
 	acelera = aceler;
 	vel = Vel;
 	color = c;
-	if(render)	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(2)), &posicion,color);
+	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(2)), &posicion,color);
 }
 bool  Particle::integrate(float t) {
 	timer += t;
@@ -21,8 +19,9 @@ bool  Particle::integrate(float t) {
 	if (timer >= time) return true;
 	else return false;
 }
-float Particle::gettimer() {
-	return timer;
+bool Particle::gettimer() {
+	if (timer >= time) return false;
+	else return true;
 }
 void Particle::setPos(Vector3 Pos) {
 	posicion.p = Pos;

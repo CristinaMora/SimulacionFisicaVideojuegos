@@ -10,12 +10,14 @@ class ParticleSystem
 		// Integrates the particles and checks for its lifetime, etc!
 		void update(double t);
 		// Method to generate a Firework with the appropiate type
-			void generateFirework(unsigned firework_type);
+		void generateFirework();
+		void generateParticleGenerator();
+		//void generateFirework(unsigned firework_type);
 		// Gets a particle generator with name...
 		ParticleGenerator* getParticleGenerator(const string& n);
 	protected:
 		list <Particle*> _particles;
-		Particle* _part;
+		Firework* _part = nullptr;
 		list<Firework*> _firework_pool;
 		list <ParticleGenerator*> _particle_generators; // These are the registred generators(for on demand set generation prob.to 0)
 		ParticleGenerator* _firework_generator; // This generator is only to shoot the firework!!

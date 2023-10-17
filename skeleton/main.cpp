@@ -100,6 +100,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	switch(toupper(key))
 	{
 	default:
+		psistem->generateFirework();
 		break;
 	}
 }

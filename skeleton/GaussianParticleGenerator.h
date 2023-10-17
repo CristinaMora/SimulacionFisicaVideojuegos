@@ -7,15 +7,15 @@ using namespace physx;
 class GaussianParticleGenerator: public ParticleGenerator
 {
 	public:
-		GaussianParticleGenerator(Vector3 std_dev_pos, Vector3 std_dev_vel, Particle* p);
+		GaussianParticleGenerator(Vector3 std_dev_pos, Vector3 std_dev_vel);
 		virtual ~GaussianParticleGenerator();
-		virtual list<Particle*> generateParticles();
+		virtual std::list<Particle*> generateParticles() override;
 	protected:
 	private:
 		std::random_device rd;
-		std::uniform_int_distribution<int> dis{ 0, 7 };
+		std::uniform_int_distribution<int> dis{ 0, 2 };
 		std::uniform_int_distribution<int> dis2{ 0, 10 };
-		Vector3 stdDevPos, stdDevVel;;
+		Vector3 stdDevPos, stdDevVel;
 		double stdDevTime;
 
 
