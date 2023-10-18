@@ -10,8 +10,7 @@ std::list<Particle*> Firework::explode() {
 	return _gens.front()->generateParticles();
 }
 void Firework::addGenerator(ParticleGenerator* p) {
-	_gens.push_back(std::shared_ptr<ParticleGenerator>(p));
+	_gens.push_back(p);
 }
 Firework::~Firework() {
-	DeregisterRenderItem(renderItem);
 }

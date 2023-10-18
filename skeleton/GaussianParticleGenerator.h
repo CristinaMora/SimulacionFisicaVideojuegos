@@ -10,6 +10,7 @@ class GaussianParticleGenerator: public ParticleGenerator
 		GaussianParticleGenerator(Vector3 std_dev_pos, Vector3 std_dev_vel);
 		virtual ~GaussianParticleGenerator();
 		virtual std::list<Particle*> generateParticles() override;
+		double GaussianParticleGenerator::generateGaussianValue(double mean, double stddev);
 	protected:
 	private:
 		std::random_device rd;

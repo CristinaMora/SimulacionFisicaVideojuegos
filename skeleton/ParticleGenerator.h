@@ -29,7 +29,7 @@ public:
 	inline void setNParticles(int n_p) { _n_particles = n_p; }
 
 protected:
-		int _n_particles = 4; // Number of particles for each generateParticles call(TODO: add randomness ? ? )
+		int _n_particles = 9; // Number of particles for each generateParticles call(TODO: add randomness ? ? )
 		double _generation_prob = 0.2; // IF 1.0 --> always produces  particles
 		Particle* _model_particle = nullptr; // Has the attributes of the particle that will be generated!
 		Vector3 _origin, _mean_velocity;

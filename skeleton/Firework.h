@@ -7,7 +7,7 @@ class Firework: public  Particle
 {
 public:
 	Firework(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas,float t, Vector4 c);
-	 ~Firework();
+	virtual ~Firework();
 
 	 bool integrate(float t);
 	// The firework generates more fireworks when exploding --> they should be gathered by the System
@@ -17,6 +17,6 @@ public:
 protected:
 private:
 	bool firework = true;
-	list<shared_ptr<ParticleGenerator> > _gens;
+	list<ParticleGenerator*> _gens;
 };
 
