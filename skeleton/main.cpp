@@ -100,8 +100,16 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 	switch(toupper(key))
 	{
+	case 'F':
+		psistem->generateFirework(2);
+
+		break;
+	case 'G':
+		psistem->generateFirework(3);
+
+		break;
 	default:
-		psistem->generateFirework(0);
+		psistem->generateFirework(1);
 		break;
 	}
 }

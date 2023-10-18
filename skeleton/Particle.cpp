@@ -2,14 +2,14 @@
 
 #include <iostream>
 
-Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas, Vector4 c,float t): posicion(Pos) {
-	_type=1;
+Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas, Vector4 c,float t , float radio, int type): posicion(Pos) {
+	_type=type;
 	time = t;
 	masa = mas;
 	acelera = aceler;
 	vel = Vel;
 	color = c;
-	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(2)), &posicion,color);
+	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(radio)), &posicion,color);
 }
 bool  Particle::integrate(float t) {
 	timer += t;

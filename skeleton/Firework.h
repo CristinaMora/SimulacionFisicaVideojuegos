@@ -6,7 +6,7 @@ using namespace std;
 class Firework: public  Particle
 {
 public:
-	Firework(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas,float t, Vector4 c);
+	Firework(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas,float t, Vector4 c, float radio, int type);
 	virtual ~Firework();
 
 	 bool integrate(float t);
