@@ -21,7 +21,7 @@ public:
 		delete _model_particle;
 		//_model_particle = p->clone();
 		if (modify_pos_vel) {
-			_origin = p->getPos().p;
+			//_origin = p->getPos().p;
 			_mean_velocity = p->vel;
 		}
 		_model_particle->setPos({ -1000.0f, -1000.0f, -1000.0f });

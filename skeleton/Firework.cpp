@@ -5,11 +5,13 @@ Firework::Firework(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas,float t, Ve
 }
 
 std::list<Particle*> Firework::explode() {
-	auto c = _gens.front();
-	c->setOrigin(posicion.p);
-	c->setMeanVelocity(vel);
-	return c->generateParticles();
+	_gens.front()->setOrigin(posicion.p);
+	_gens.front()->setMeanVelocity(vel);
+	return _gens.front()->generateParticles();
 }
 void Firework::addGenerator(ParticleGenerator* p) {
 	_gens.push_back(std::shared_ptr<ParticleGenerator>(p));
+}
+Firework::~Firework() {
+	DeregisterRenderItem(renderItem);
 }

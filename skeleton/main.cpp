@@ -28,7 +28,7 @@ PxPvd*                  gPvd        = NULL;
 
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
-ParticleSystem*         psistem = NULL;
+ParticleSystem*         psistem = nullptr;
 ContactReportCallback gContactReportCallback;
 using namespace std;
 
@@ -56,7 +56,7 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	//me creo un sistema de particulas que actualizara las particulas en todo momento
-	psistem = new ParticleSystem();
+	psistem = new ParticleSystem(Vector3{ 0.0f, -3.8, 0.0f });
 
 	}
 
@@ -69,7 +69,7 @@ void stepPhysics(bool interactive, double t)
 	PX_UNUSED(interactive);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	psistem->update(t);
+	if (psistem != nullptr)psistem->update(t);
 
 	
 }
@@ -90,6 +90,7 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 	
 	gFoundation->release();
+	delete (psistem);
 	}
 
 // Function called when a key is pressed
@@ -100,7 +101,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	switch(toupper(key))
 	{
 	default:
-		psistem->generateFirework();
+		psistem->generateFirework(0);
 		break;
 	}
 }

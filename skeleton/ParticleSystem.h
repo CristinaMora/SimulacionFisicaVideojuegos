@@ -10,7 +10,7 @@ class ParticleSystem
 		// Integrates the particles and checks for its lifetime, etc!
 		void update(double t);
 		// Method to generate a Firework with the appropiate type
-		void generateFirework();
+		void generateFirework(unsigned firework_type);
 		void generateParticleGenerator();
 		//void generateFirework(unsigned firework_type);
 		// Gets a particle generator with name...

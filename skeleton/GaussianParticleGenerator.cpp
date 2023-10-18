@@ -13,12 +13,10 @@ list<Particle*> GaussianParticleGenerator::generateParticles() {
 	list<Particle*> particles;
 
 	for (int i = 0; i < _n_particles; i++) {
-		//double randomValue = _u(_mt);
-		//if (randomValue <= _generation_prob) {
 			Vector3 Vel = _mean_velocity + Vector3(_u(_mt) * stdDevVel.x, _u(_mt) * stdDevVel.y, _u(_mt) * stdDevVel.z);
 			Vector3 Pos = _origin + Vector3(_u(_mt) , _u(_mt) , _u(_mt) );
 			int time = dis2(_mt);
-			int r = dis(_mt);
+			int r = dis2(_mt);
 			int mas = 3;
 			Vector4 Col;
 			switch (r)
@@ -49,13 +47,14 @@ list<Particle*> GaussianParticleGenerator::generateParticles() {
 				break;
 				
 			default:
+				Col = (Vector4(0.7, 0.5, 0.6, 1));
+
 				break;
 			}
 			
-			Particle *p = new Particle( Pos,  Vel, Vector3(0, -3.8, 0),  mas,  Col,  time);
-			particles.push_back(p);
+			Particle *newparticle = new Particle( Pos,  Vel, Vector3(0, -3.8, 0),  mas,  Col,  time);
+			particles.push_back(newparticle);
 
-		//}
 	}
 	return particles;
 }
