@@ -3,6 +3,8 @@
 	ParticleSystem::ParticleSystem(const Vector3& g) {
 		// Creates a void system with a det. gravity
 		_gravity = g;
+		_firework_generator = new UniformParticleGenerator(Vector3{ 50,50,50 }, Vector3{ 20,20,20 });
+		_particle_generators.push_back(_firework_generator);
 		_firework_generator = new GaussianParticleGenerator(Vector3{ 50,50,50 }, Vector3{ 20,20,20 });
 		_particle_generators.push_back(_firework_generator);
 	};
@@ -41,10 +43,11 @@
 
 	};
 	// Method to generate a Firework with the appropiate type
-	void ParticleSystem::generateFirework(unsigned firework_type){
-		_part = new Firework(Vector3(0,20,0), Vector3(0,1,0) * 30, Vector3(0, -9.8, 0), 2, 3, Vector4{150 , 0, 0, 1}, 2.0f, firework_type);
+	void ParticleSystem::generateFirework(unsigned firework_type, Vector3 pos,Vector3 vel, Vector3 acel, int masa,float t,Vector4 c, int radio){
+		_part = new Firework(pos, vel, acel, masa, t, c, radio, firework_type);
 		_particles.push_back(_part);
-		_part->addGenerator(_firework_generator);
+		if(firework_type==4) _part->addGenerator(_particle_generators.back());
+		else _part->addGenerator(_particle_generators.front());
 
 	};
 	// Gets a particle generator with name

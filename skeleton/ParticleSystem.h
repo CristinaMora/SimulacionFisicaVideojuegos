@@ -1,4 +1,5 @@
 #pragma once
+#include "UniformParticleGenerator.h"
 #include "GaussianParticleGenerator.h"
 #include "Firework.h"
 class ParticleSystem
@@ -10,7 +11,7 @@ class ParticleSystem
 		// Integrates the particles and checks for its lifetime, etc!
 		void update(double t);
 		// Method to generate a Firework with the appropiate type
-		void generateFirework(unsigned firework_type);
+		void generateFirework(unsigned firework_type, Vector3 pos, Vector3 vel, Vector3 acel, int masa, float t, Vector4 c, int radio);
 		void generateParticleGenerator();
 		//void generateFirework(unsigned firework_type);
 		// Gets a particle generator with name...

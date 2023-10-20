@@ -11,15 +11,13 @@ class GaussianParticleGenerator: public ParticleGenerator
 		GaussianParticleGenerator(Vector3 std_dev_pos, Vector3 std_dev_vel);
 		virtual ~GaussianParticleGenerator();
 		virtual std::list<Particle*> generateParticles(int type) override;
-		std::list<Particle*> generatefirework1();
-		std::list<Particle*> generatefirework2();
-		std::list<Particle*> generatefirework3();
+		list<Particle*> generatefirework1();
 		
 	protected:
 	private:
-		std::uniform_real_distribution<float> dis{ 1, 3 };
-		std::uniform_real_distribution<float> dis1{ 0.6, 1.7 };
-		std::uniform_int_distribution<int> dis2{ 0, 10 };
+		
+		normal_distribution<float> dis{ 0, 1 }; 
+		normal_distribution<float> dis1{ 1, 3 };
 		Vector3 stdDevPos, stdDevVel;
 
 
