@@ -101,20 +101,19 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	switch(toupper(key))
 	{
 	case 'F':
-		psistem->generateFirework(2, Vector3(0, -90, 0), Vector3(0, 1, 0) * 50, Vector3(0, -9.8, 0), 2, 3, Vector4{ 150 , 0, 0, 1 }, 2.0f);
+		psistem->generateFirework(2, GetCamera()->getEye()+ Vector3(-90, -90, -90), Vector3(0, 1, 0) * 50, Vector3(0, -9.8, 0), 2, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
 
 		break;
 	case 'G':
-		psistem->generateFirework(3,Vector3(0, -90, 0), Vector3(0, 1, 0) * 50, Vector3(0, -9.8, 0), 2, 3, Vector4{ 150 , 0, 0, 1 }, 2.0f);
+		psistem->generateFirework(3, GetCamera()->getEye()+Vector3(-90, -90, -90), Vector3(0, 1, 0) * 50, Vector3(0, -9.8, 0), 2, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
 
 		break;
 	case 'C':
-		psistem->generateFirework(4, Vector3(0, 0, 0), Vector3(0, 1, 0) * 30, Vector3(0, -9.8, 0), 2, 3, Vector4{ 150 , 0, 0, 1 }, 2.0f);
-
+		psistem->generateFirework(4, GetCamera()->getEye()+ Vector3(-90, -90, -90), Vector3(0, 1, 0) * 50, Vector3(0,-9.8, 0), 2, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
 
 		break;
 	default:
-		psistem->generateFirework(1, Vector3(0, -90, 0), Vector3(0, 1, 0) * 50, Vector3(0, -9.8, 0), 2, 3, Vector4{ 150 , 0, 0, 1 }, 2.0f);
+		psistem->generateFirework(1, GetCamera()->getEye() + Vector3(-90, -90, -90), Vector3(0, 1, 0) * 50, Vector3(0, -9.8, 0), 2, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
 		break;
 	}
 }

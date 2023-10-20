@@ -46,7 +46,7 @@
 	void ParticleSystem::generateFirework(unsigned firework_type, Vector3 pos,Vector3 vel, Vector3 acel, int masa,float t,Vector4 c, int radio){
 		_part = new Firework(pos, vel, acel, masa, t, c, radio, firework_type);
 		_particles.push_back(_part);
-		if(firework_type==4) _part->addGenerator(_particle_generators.back());
+		if(firework_type!=4) _part->addGenerator(_particle_generators.back());
 		else _part->addGenerator(_particle_generators.front());
 
 	};
