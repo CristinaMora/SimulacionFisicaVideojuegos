@@ -12,6 +12,19 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas, Vector4 c,
 	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(radio)), &posicion,color);
 }
 bool  Particle::integrate(float t) {
+
+	//// Get the accel considering the force accum
+	//Vector3 resulting_accel = _force_accum * _inv_mass;
+	//_vel += resulting_accel * delta_t; // Ex. 1.3 --> add 
+	//acceleration
+	//	_vel *= powf(_damp, delta_t); // Exercise 1.3 --> add
+	//damping
+	//	_pose.p += _vel * delta_t;
+	//_remaining_time -= delta_t;
+	//// Clear accum
+	//clearAccum();
+
+
 	timer += t;
 	vel += acelera * t;
 	vel *= pow(damping, t);
@@ -45,3 +58,10 @@ Vector3 Particle::getVel() {
 Particle::~Particle() {
 	DeregisterRenderItem(renderItem);
 }
+ inline void Particle::addForce(const Vector3 f) {
+	_force_accum += f;
+}
+inline void Particle::clearForce() {
+	_force_accum *= 0.0;
+}
+

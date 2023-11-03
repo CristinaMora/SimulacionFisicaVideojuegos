@@ -18,13 +18,19 @@ public:
 	void settime(float t);
 	Vector3 getVel();
 	virtual ~Particle();
+	
+	// Clears accumulated force
+	void clearForce();
+	// Add force to apply in next integration only
+	void addForce(const Vector3 f);
 	Vector3 vel;
 	float timer = 0;
 	float time;
 	unsigned _type;
 
 protected:
-	
+	// Accumulated force
+	Vector3 _force_accum;
 	int masa;
 	Vector3 acelera;
 	Vector4 color;
