@@ -13,22 +13,20 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas, Vector4 c,
 }
 bool  Particle::integrate(float t) {
 
-	//// Get the accel considering the force accum
-	//Vector3 resulting_accel = _force_accum * _inv_mass;
-	//_vel += resulting_accel * delta_t; // Ex. 1.3 --> add 
-	//acceleration
-	//	_vel *= powf(_damp, delta_t); // Exercise 1.3 --> add
-	//damping
-	//	_pose.p += _vel * delta_t;
+	// Get the accel considering the force accum
+	Vector3 resulting_accel = _force_accum * (1/masa);
+	vel += resulting_accel * t; // Ex. 1.3 --> add acceleration
+	vel *= pow(damping, t); // Exercise 1.3 --> add damping
+	posicion.p += vel * t;
 	//_remaining_time -= delta_t;
-	//// Clear accum
-	//clearAccum();
+	// Clear accum
+	clearForce();
 
 
+	//vel += acelera * t;
+	//vel *= pow(damping, t);
+	//posicion.p = posicion.p + (vel * t);
 	timer += t;
-	vel += acelera * t;
-	vel *= pow(damping, t);
-	posicion.p = posicion.p + (vel * t);
 	if (timer >= time) return true;
 	else return false;
 }
@@ -58,7 +56,7 @@ Vector3 Particle::getVel() {
 Particle::~Particle() {
 	DeregisterRenderItem(renderItem);
 }
- inline void Particle::addForce(const Vector3 f) {
+ void Particle::addForce(const Vector3 f) {
 	_force_accum += f;
 }
 inline void Particle::clearForce() {

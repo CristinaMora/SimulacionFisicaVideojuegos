@@ -2,6 +2,8 @@
 #include "UniformParticleGenerator.h"
 #include "GaussianParticleGenerator.h"
 #include "Firework.h"
+#include "GravityForceGenerator.h"
+#include "ParticleDragGenerator.h"
 class ParticleSystem
 {
 	public:
@@ -13,17 +15,18 @@ class ParticleSystem
 		// Method to generate a Firework with the appropiate type
 		void generateFirework(unsigned firework_type, Vector3 pos, Vector3 vel, Vector3 acel, int masa, float t, Vector4 c, int radio);
 		void generateParticleGenerator();
-		//void generateFirework(unsigned firework_type);
 		// Gets a particle generator with name...
 		ParticleGenerator* getParticleGenerator(const string& n);
 	protected:
-		list <Particle*> _particles;
 		Firework* _part = nullptr;
+		list <Particle*> _particles;
 		list<Firework*> _firework_pool;
-		list <ParticleGenerator*> _particle_generators; // These are the registred generators(for on demand set generation prob.to 0)
-		ParticleGenerator* _firework_generator; // This generator is only to shoot the firework!!
+		list<ForceGenerator*> listOfForceGenerators;
+		list <ParticleGenerator*> _particle_generators; 
+		ParticleGenerator* _firework_generator; 
 		Vector3 _gravity;
-			//! This is used currently in the Fireworks to spread more Fireworks!
 		void onParticleDeath(Particle * p);
 		void createFireworkSystem();
+		ParticleDragGenerator* _particle_drag_generator;
+		GravityForceGenerator* _gravity_force_generator;
 };
