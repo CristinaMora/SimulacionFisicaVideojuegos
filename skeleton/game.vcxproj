@@ -254,6 +254,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="callbacks.cpp" />
+    <ClCompile Include="ExpplosionForceGenerator.cpp" />
     <ClCompile Include="Firework.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="GaussianParticleGenerator.cpp" />
@@ -268,11 +269,13 @@
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
+    <ClCompile Include="whirlwind.cpp" />
     <ClCompile Include="WindOfChangeForceGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
+    <ClInclude Include="ExpplosionForceGenerator.h" />
     <ClInclude Include="Firework.h" />
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="GaussianParticleGenerator.h" />
@@ -286,6 +289,7 @@
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
+    <ClInclude Include="whirlwind.h" />
     <ClInclude Include="WindofChangeForceGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
