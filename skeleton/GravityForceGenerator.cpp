@@ -4,4 +4,5 @@ void GravityForceGenerator::updateForce(Particle*p, double t) {
 		return;
 	}
 	p->addForce(_gravity * p->masa);
+	
 }

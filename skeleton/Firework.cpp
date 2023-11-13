@@ -1,6 +1,6 @@
 #include "Firework.h"
 #include "ParticleGenerator.h"
-Firework::Firework(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas,float t, Vector4 c, float radio, int type):Particle(Pos, Vel, aceler, mas, c, t, radio, type){
+Firework::Firework(Vector3 Pos, Vector3 Vel, Vector3 aceler, float mas,float t, Vector4 c, float radio, int type):Particle(Pos, Vel, aceler, mas, c, t, radio, type){
 	
 }
 

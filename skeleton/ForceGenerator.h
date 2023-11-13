@@ -4,6 +4,7 @@
 using namespace std;
 class ForceGenerator {
 public:
+	bool isOn = false;
 	virtual void updateForce(Particle* particle, double duration) = 0;
 	std::string _name;
 	double _t = 0.0; // If starting negative --> eternal

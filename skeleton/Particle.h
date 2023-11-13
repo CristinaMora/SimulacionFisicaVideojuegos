@@ -3,12 +3,12 @@
 #include "PxShape.h"
 #include <random>
 #include "RenderUtils.hpp"
-const float damping = 0.998;
+const float damping = 0.99;
 using namespace std;
 class Particle
 {
 public:
-	Particle(Vector3 Pos, Vector3 Vel,Vector3 aceler, int mas,Vector4 c, float time, float radio, int type);
+	Particle(Vector3 Pos, Vector3 Vel,Vector3 aceler, double mas,Vector4 c, float time, float radio, int type);
 	bool integrate(float t);
 	bool gettimer();
 	void setPos(Vector3 Pos);
@@ -27,7 +27,7 @@ public:
 	float timer = 0;
 	float time;
 	unsigned _type;
-	int masa;
+	double masa;
 
 protected:
 	// Accumulated force

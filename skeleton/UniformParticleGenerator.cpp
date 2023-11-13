@@ -29,7 +29,7 @@ std::list<Particle*>  UniformParticleGenerator::generatefirework1() {
 		float time = dis1(_mt);
 		float radio = 0.6;
 		Vector4 Col(0.655, 0.804, 0.91,1);
-		particles.push_back(new Particle(Pos, Vel, Vector3(0, -9.8, 0), 3, Col, time, radio, 0));
+		particles.push_back(new Particle(Pos, Vel, Vector3(0, 0, 0), 0.2f, Col, time, radio, 0));
 	}
 
 	return particles;

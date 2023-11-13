@@ -72,7 +72,7 @@ std::list<Particle*>  GaussianParticleGenerator::generatefirework1() {
 			break;
 		}
 
-		particles.push_back(new Particle(Pos, Vel, Vector3(0, -9.8, 0), 3, Col, time, radio, 0));
+		particles.push_back(new Particle(Pos, Vel, Vector3(0,0, 0), 0.2f, Col, time, radio, 0));
 	}
 
 	return particles;
@@ -88,7 +88,7 @@ std::list<Particle*>  GaussianParticleGenerator::generatefirework2() {
 		float radio = abs( dis1(_mt));
 		Vector4 Col = (Vector4(0.4, 0, 1, 1));
 		
-		Firework* fire = new Firework(Pos, Vel, Vector3(0, -9.8, 0), 3, time, Col, radio, 1);
+		Firework* fire = new Firework(Pos, Vel, Vector3(0, 0, 0), 0.2f, time, Col, radio, 1);
 		particles.push_back(fire);
 		fire->addGenerator(this);
 
@@ -118,7 +118,7 @@ std::list<Particle*>  GaussianParticleGenerator::generatefirework3() {
 
 		// Resto de tu código para el tiempo, color, etc.
 
-		particles.push_back(new Particle(Pos, Vel, Vector3(0, -9.8, 0), 3, Col, time, radio, 0));
+		particles.push_back(new Particle(Pos, Vel, Vector3(0, 0, 0), 0.2f, Col, time, radio, 0));
 
 	}
 

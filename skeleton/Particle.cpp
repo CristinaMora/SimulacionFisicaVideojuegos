@@ -2,30 +2,25 @@
 
 #include <iostream>
 
-Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, int mas, Vector4 c,float t , float radio, int type): posicion(Pos) {
+Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, double mas, Vector4 c,float t , float radio, int type): posicion(Pos) {
 	_type=type;
 	time = t;
 	masa = mas;
 	acelera = aceler;
 	vel = Vel;
 	color = c;
+	_force_accum = { 0,0,0 };
 	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(radio)), &posicion,color);
 }
 bool  Particle::integrate(float t) {
 
 	// Get the accel considering the force accum
-	Vector3 resulting_accel = _force_accum * (1/masa);
-	vel += resulting_accel * t; // Ex. 1.3 --> add acceleration
-	vel *= pow(damping, t); // Exercise 1.3 --> add damping
+	Vector3 resulting_accel = acelera + _force_accum * (1/masa);
+	vel += resulting_accel * t; 
+	vel *= pow(damping, t); 
 	posicion.p += vel * t;
-	//_remaining_time -= delta_t;
-	// Clear accum
 	clearForce();
 
-
-	//vel += acelera * t;
-	//vel *= pow(damping, t);
-	//posicion.p = posicion.p + (vel * t);
 	timer += t;
 	if (timer >= time) return true;
 	else return false;
