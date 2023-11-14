@@ -2,10 +2,9 @@
 #include "UniformParticleGenerator.h"
 #include "GaussianParticleGenerator.h"
 #include "Firework.h"
-
 #include "ParticleForceRegistry.h"
 #include "GravityForceGenerator.h"
-#include "WindofChangeForceGenerator.h"
+#include "whirlwind.h"
 class ParticleSystem
 {
 	public:
@@ -34,5 +33,6 @@ class ParticleSystem
 		list<ForceGenerator*> listOfForceGenerators;
 		ParticleForsceRegistry* _pFR;
 		WindofChangeForceGenerator* _WindofChange_Force_Generator;
+		whirlwind* whirlwindfChange_Force_Generator;
 		GravityForceGenerator* _gravity_force_generator;
 };

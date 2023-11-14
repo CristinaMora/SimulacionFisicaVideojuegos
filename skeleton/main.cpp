@@ -109,7 +109,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 		break;
 	case 'C':
-		psistem->generateFirework(4, GetCamera()->getEye()+ Vector3(-90, -90, -90), Vector3(0, 1, 0) * 50, Vector3(0,0, 0), 0.2f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
+		psistem->generateFirework(4, Vector3(0, 2, 0), Vector3(0, 1, 0) * 50, Vector3(0,0, 0), 0.2f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
 
 		break;
 	default:

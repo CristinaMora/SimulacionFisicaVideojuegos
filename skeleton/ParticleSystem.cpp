@@ -10,8 +10,11 @@
 		_pFR = new ParticleForsceRegistry();
 		_gravity_force_generator = new GravityForceGenerator({0,-9.8f,0});
 		listOfForceGenerators.push_back(_gravity_force_generator);
-		_WindofChange_Force_Generator = new WindofChangeForceGenerator({6,0,0},{10,0,0},{10,5,5},10 , 0);
-		listOfForceGenerators.push_back(_WindofChange_Force_Generator);
+		/*_WindofChange_Force_Generator = new WindofChangeForceGenerator({6,0,0},{10,0,0},{10,5,5},10 , 0);
+		listOfForceGenerators.push_back(_WindofChange_Force_Generator);*/
+		whirlwindfChange_Force_Generator = new whirlwind({0.7f,0.03f,0.03f }, 2.0f,{10,0,0}, { 10,5,5 });
+		listOfForceGenerators.push_back(whirlwindfChange_Force_Generator);
+
 	};
 
 	//destructora de la clase
@@ -72,7 +75,8 @@
 			}
 			else {
 				_pFR->addRegistry(_gravity_force_generator, *e);
-				_pFR->addRegistry(_WindofChange_Force_Generator, *e);
+				//_pFR->addRegistry(_WindofChange_Force_Generator, *e);
+				_pFR->addRegistry(whirlwindfChange_Force_Generator, *e);
 			}
 			e = aux;
 		

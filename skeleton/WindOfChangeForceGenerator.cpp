@@ -8,12 +8,9 @@ WindofChangeForceGenerator::WindofChangeForceGenerator(Vector3 fuerzaViento, Vec
 	}
 	void WindofChangeForceGenerator::updateForce(Particle* particle, double t){
 		Vector3 pp = particle->getPos().p;
-		if (pp.x > 10) {
-			Vector3 vresult = (f - particle->getVel());
-		}
 		if ((pp.x >= porigen.x && pp.x <= porigen.x + size.x) && (pp.y >= porigen.y && pp.y <= porigen.y + size.y) && (pp.z >= porigen.z && pp.z <= porigen.z + size.z)) {
 			if (fabs(1 / particle->masa) < 1e-10) return;
-			Vector3 vresult = (f - particle->getVel());
+			Vector3 vresult = (f + particle->getVel());
 			//compute drag force
 			Vector3 dragF = _k1 * vresult + _k2 * vresult * vresult.magnitude();
 			particle->addForce(dragF);
