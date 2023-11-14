@@ -5,6 +5,7 @@
 #include "ParticleForceRegistry.h"
 #include "GravityForceGenerator.h"
 #include "whirlwind.h"
+#include "ExpplosionForceGenerator.h"
 class ParticleSystem
 {
 	public:
@@ -19,6 +20,11 @@ class ParticleSystem
 		void activeGrav() { _gravity_force_generator->isOn = true; }
 		// Gets a particle generator with name...
 		ParticleGenerator* getParticleGenerator(const string& n);
+		void boomNow() {
+			for (auto p : _particles) {
+				_pFR->addRegistry(_explosion_force_generator, p);
+			}
+		}
 	protected:
 		Firework* _part = nullptr;
 		list <Particle*> _particles;
@@ -35,4 +41,5 @@ class ParticleSystem
 		WindofChangeForceGenerator* _WindofChange_Force_Generator;
 		whirlwind* whirlwindfChange_Force_Generator;
 		GravityForceGenerator* _gravity_force_generator;
+		ExplosionForceGenerator* _explosion_force_generator;
 };

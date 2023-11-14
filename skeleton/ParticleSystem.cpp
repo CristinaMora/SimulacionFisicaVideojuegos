@@ -10,10 +10,13 @@
 		_pFR = new ParticleForsceRegistry();
 		_gravity_force_generator = new GravityForceGenerator({0,-9.8f,0});
 		listOfForceGenerators.push_back(_gravity_force_generator);
-		/*_WindofChange_Force_Generator = new WindofChangeForceGenerator({6,0,0},{10,0,0},{10,5,5},10 , 0);
-		listOfForceGenerators.push_back(_WindofChange_Force_Generator);*/
+		_WindofChange_Force_Generator = new WindofChangeForceGenerator({6,0,0},{10,0,0},{10,5,5},10 , 0);
+		listOfForceGenerators.push_back(_WindofChange_Force_Generator);
 		whirlwindfChange_Force_Generator = new whirlwind({0.7f,0.03f,0.03f }, 2.0f,{10,0,0}, { 10,5,5 });
 		listOfForceGenerators.push_back(whirlwindfChange_Force_Generator);
+		_explosion_force_generator = new ExplosionForceGenerator(500,300, {0,20,0},200,100);
+		listOfForceGenerators.push_back(_explosion_force_generator);
+
 
 	};
 
@@ -73,11 +76,6 @@
 				}
 				onParticleDeath(*e);
 			}
-			else {
-				_pFR->addRegistry(_gravity_force_generator, *e);
-				//_pFR->addRegistry(_WindofChange_Force_Generator, *e);
-				_pFR->addRegistry(whirlwindfChange_Force_Generator, *e);
-			}
 			e = aux;
 		
 		}
@@ -89,6 +87,10 @@
 		_particles.push_back(_part);
 		if(firework_type!=4) _part->addGenerator(_particle_generators.back());
 		else _part->addGenerator(_particle_generators.front());
+		_pFR->addRegistry(_gravity_force_generator, _part);
+		//_pFR->addRegistry(_WindofChange_Force_Generator, _part);
+		//_pFR->addRegistry(whirlwindfChange_Force_Generator, _part);
+		
 
 	};
 	// Gets a particle generator with name
