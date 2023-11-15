@@ -100,16 +100,27 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	PX_UNUSED(camera);
 	switch(toupper(key))
 	{
-	case 'P':
+	case 'L': //añade dos particulas con distintas gravedades
+		psistem->generateParticle(1, { 0,300,30 }, Vector3(0, 1, 0) * (-80), Vector3(0, 0, 0), 3.0f, 10, Vector4{ 0.659, 0.659, 0.478, 1 }, 5);
+		psistem->generateParticle(2, { 0,300,0 }, Vector3(0, 1, 0) * (-80), Vector3(0, 0, 0), 3.0f, 10, Vector4{ 0.431, 0.42, 0.722, 1 }, 5);
+		break;
+	case 'P': //explota
 		psistem->boom();
 		break;
-	case 'I':
-		psistem->generateFirework(2, GetCamera()->getEye() + Vector3(-90, -90, -90), Vector3(0, 1, 0) * 50, Vector3(0, 0, 0), 0.2f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
+	case 'I': //tornado
+		psistem->generateParticle(4, { 0,18,0 }, Vector3(0, 0, 1) * (-80), Vector3(0, 0, 0), 0.5f, 50, Vector4{ 0.902, 0.62, 0.063, 1 }, 10);
+
 	break;
-	case 'O':
-		psistem->generateFirework(2, GetCamera()->getEye() + Vector3(-90, -90, -90), Vector3(0, 1, 0) * 50, Vector3(0, 0, 0), 0.2f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
+	case 'O'://añade particulas para la explosion
+		psistem->generateParticle(5, { 0,18,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
+		psistem->generateParticle(5, { 0,18,10 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
+		psistem->generateParticle(5, { 50,18,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
+		psistem->generateParticle(5, { 0,70,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
+		psistem->generateParticle(5, { 50,50,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
+		psistem->generateParticle(5, { 50,50,50 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 },4);
+
 		break;
-	case 'U':
+	case 'U': //viento
 		psistem->generateParticle(3, { 0,18,0 }, Vector3(0, 0, 1) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 10);
 		break;
 	case 'R':

@@ -16,7 +16,7 @@
 		listOfForceGenerators.push_back(_Wind_Force_Generator);
 		whirlwindfChange_Force_Generator = new whirlwind({0.7f,0.03f,0.03f }, 2.0f,{10,0,0}, { 10,5,5 });
 		listOfForceGenerators.push_back(whirlwindfChange_Force_Generator);
-		_explosion_force_generator = new ExplosionForceGenerator(500,300, {0,20,0},200,100);
+		_explosion_force_generator = new ExplosionForceGenerator(10000,300, {0,20,0},900,100);
 		listOfForceGenerators.push_back(_explosion_force_generator);
 
 
