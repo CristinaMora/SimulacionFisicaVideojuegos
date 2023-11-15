@@ -1,6 +1,6 @@
 #pragma once
-#include "WindofChangeForceGenerator.h"
-class whirlwind: public WindofChangeForceGenerator
+#include "WindForceGenerator.h"
+class whirlwind: public WindForceGenerator
 {
 public: 
 	whirlwind(Vector3 fuerza,const float k, Vector3 WhirlPos, Vector3 tam_);

@@ -10,6 +10,7 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, double mas, Vector4
 	vel = Vel;
 	color = c;
 	_force_accum = { 0,0,0 };
+
 	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(radio)), &posicion,color);
 }
 bool  Particle::integrate(float t) {

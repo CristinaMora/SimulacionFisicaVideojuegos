@@ -7,21 +7,9 @@
 		}
 	}
 	void ParticleForsceRegistry::addRegistry(ForceGenerator* fg, Particle* p) { //registra una particula
-		auto range = equal_range(fg);
-		bool exists = false;
-		auto it = range.first;
-		while (it != range.second) {
-			if (it->second == p) {
-				exists = true;
-				break;
-			}
-			++it;
-		}
-
-		// Si no existe, insertar
-		if (!exists) {
+		
 			insert(FRPair(fg, p));
-		}
+		
 
 		//this->insert(FRPair(fg, p));
 	}

@@ -110,7 +110,7 @@ std::list<Particle*>  GaussianParticleGenerator::generatefirework3() {
 		float t = 2.0f * (3.14159) * _u(_mt);
 		float x = 16.0f * sin(t) * sin(t) * sin(t);
 		float y = 13.0f * cos(t) - 5.0f * cos(2 * t) - 2.0f * cos(3 * t) - cos(4 * t);
-		Vector3 Pos = _origin + Vector3(x, y, 0);
+		Vector3 Pos = _origin + Vector3(0, y, x);
 
 		// Genera velocidades en función de la posición
 		Vector3 distanceToCenter = Pos - _origin;

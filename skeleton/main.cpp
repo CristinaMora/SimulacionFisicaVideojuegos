@@ -56,7 +56,8 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	//me creo un sistema de particulas que actualizara las particulas en todo momento
-	psistem = new ParticleSystem(Vector3{ 0.0f, -3.8, 0.0f });
+	psistem = new ParticleSystem();
+	psistem->createscene();
 
 	}
 
@@ -97,27 +98,34 @@ void cleanupPhysics(bool interactive)
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
-
 	switch(toupper(key))
 	{
+	case 'P':
+		psistem->boom();
+		break;
+	case 'I':
+		psistem->generateFirework(2, GetCamera()->getEye() + Vector3(-90, -90, -90), Vector3(0, 1, 0) * 50, Vector3(0, 0, 0), 0.2f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
+	break;
+	case 'O':
+		psistem->generateFirework(2, GetCamera()->getEye() + Vector3(-90, -90, -90), Vector3(0, 1, 0) * 50, Vector3(0, 0, 0), 0.2f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
+		break;
+	case 'U':
+		psistem->generateParticle(3, { 0,18,0 }, Vector3(0, 0, 1) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 10);
+		break;
+	case 'R':
+		psistem->generateFirework(2, Vector3(0, 2, 200), Vector3(0, 1, 0) * 80, Vector3(0, 0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
+		break;
+	case 'T':
+		psistem->generateFirework(3, Vector3(0, 2, 100), Vector3(0, 1, 0) * 50, Vector3(0,0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
+
+		break;
 	case 'Y':
-		//psistem->generateFirework(2, GetCamera()->getEye() + Vector3(-90, -90, -90), Vector3(0, 1, 0) * 50, Vector3(0, 0, 0), 0.2f, 300, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-		psistem->boomNow();
+		psistem->generateFirework(4, Vector3(0, 2, 0), Vector3(0, 1, 0) * 80, Vector3(0,0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
 		break;
-	case 'F':
-		psistem->generateFirework(2, GetCamera()->getEye()+ Vector3(-90, -90, -90), Vector3(0, 1, 0) * 50, Vector3(0, 0, 0), 0.2f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-
-		break;
-	case 'G':
-		psistem->generateFirework(3, GetCamera()->getEye()+Vector3(-90, -90, -90), Vector3(0, 1, 0) * 50, Vector3(0,0, 0), 0.2f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-
-		break;
-	case 'C':
-		psistem->generateFirework(4, Vector3(0, 2, 0), Vector3(0, 1, 0) * 50, Vector3(0,0, 0), 0.2f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-
+	case 'E':
+		psistem->generateFirework(1, Vector3(0, 2, 300), Vector3(0, 1, 0) * 80, Vector3(0, 0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
 		break;
 	default:
-		psistem->generateFirework(1, Vector3(0, 2, 0), Vector3(1, 0, 0) * 50, Vector3(0, 0, 0), 0.2f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
 		break;
 	}
 }
