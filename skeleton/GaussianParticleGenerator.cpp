@@ -33,7 +33,7 @@ std::list<Particle*>  GaussianParticleGenerator::generatefirework1() {
 
 	for (int i = 0; i < _n_particles; i++) {
 
-		Vector3 Vel = _mean_velocity + Vector3(_u(_mt) * stdDevVel.x, _u(_mt) * stdDevVel.y, _u(_mt) * stdDevVel.z);
+		Vector3 Vel = _mean_velocity + Vector3(_u(_mt) * stdDevVel.x, _u(_mt) * stdDevVel.y, 0);
 		Vector3 Pos = _origin + Vector3(_u(_mt), _u(_mt), _u(_mt));
 		float time = dis(_mt);
 		float radio = abs(dis1(_mt));
