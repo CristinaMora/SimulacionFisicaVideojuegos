@@ -136,6 +136,12 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case 'E':
 		psistem->generateFirework(1, Vector3(0, 2, 300), Vector3(0, 1, 0) * 80, Vector3(0, 0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
 		break;
+	case 'B': psistem->generateSpringDemo();
+		break;
+	case 'N': psistem->slinky();
+		break;
+	case 'M': psistem->buoyancy();
+		break;
 	default:
 		break;
 	}

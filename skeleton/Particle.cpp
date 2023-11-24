@@ -13,10 +13,25 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, double mas, Vector4
 
 	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(radio)), &posicion,color);
 }
+Particle::Particle(RenderItem* render, physx::PxTransform pos, Vector3 Vel, double mas, float t, int type){
+	_type = type;
+	time = t;
+	masa = mas;
+	acelera = {0,0,0};
+	vel = Vel;
+	_force_accum = { 0,0,0 };
+	renderItem = render;
+	posicion = pos;
+}
+
 bool  Particle::integrate(float t) {
 
 	// Get the accel considering the force accum
 	Vector3 resulting_accel = acelera + _force_accum * (1/masa);
+	//euler
+	// posicion.p =posicion.p+vel*t;
+	// vel = vel+ resulting_accel*t;
+	//euler semi- implicito
 	vel += resulting_accel * t; 
 	vel *= pow(damping, t); 
 	posicion.p += vel * t;

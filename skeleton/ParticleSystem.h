@@ -6,6 +6,9 @@
 #include "GravityForceGenerator.h"
 #include "whirlwind.h"
 #include "ExpplosionForceGenerator.h"
+#include "SpringForceGenerator.h"
+#include "AnchoredSpringFG.h"
+#include "BuoyancyForceGenerator.h"
 class ParticleSystem
 {
 	public:
@@ -26,6 +29,10 @@ class ParticleSystem
 			}
 		}
 		void createscene();
+		//MUELLES
+		void generateSpringDemo();
+		void slinky();
+		void buoyancy();
 
 	protected:
 		Firework* _part = nullptr;

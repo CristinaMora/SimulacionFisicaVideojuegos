@@ -8,7 +8,8 @@ using namespace std;
 class Particle
 {
 public:
-	Particle(Vector3 Pos, Vector3 Vel,Vector3 aceler, double mas,Vector4 c, float time, float radio, int type);
+	Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, double mas, Vector4 c, float time, float radio, int type);
+	Particle(RenderItem* render, physx::PxTransform Pos, Vector3 Vel, double mas, float time, int type);
 	bool integrate(float t);
 	bool gettimer();
 	void setPos(Vector3 Pos);
