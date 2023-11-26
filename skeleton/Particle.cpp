@@ -1,7 +1,17 @@
 #include "Particle.h"
 
 #include <iostream>
+Particle::Particle(Vector4 c, Vector3 tam, Vector3 Pos, double mas, float t, int type) : posicion(Pos) {
+	_type = type;
+	time = t;
+	masa = mas;
+	acelera = { 0,0,0 };
+	vel = { 0,0,0 };
+	color = c;
+	_force_accum = { 0,0,0 };
 
+	renderItem = new RenderItem(CreateShape(physx::PxBoxGeometry(tam)), &posicion, color);
+}
 Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, double mas, Vector4 c,float t , float radio, int type): posicion(Pos) {
 	_type=type;
 	time = t;

@@ -142,11 +142,11 @@
 	void ParticleSystem::generateSpringDemo() {
 		//creamos dos particulas
 		
-		Particle* p1 = new Particle({ -10,10,0 }, { 0,0,0 }, { 0,0,0 }, 2.0f, { 0.631, 0.196, 0.494, 1 }, 15, 2, 0);
-		Particle* p2 = new Particle({ 10,10,0 }, { 0,0,0 }, { 0,0,0 }, 2.0f,{ 0.631, 0.196, 0.494, 1 },15,2,0);
+		p1 = new Particle({ 350,10,80 }, { 0,0,0 }, { 0,0,0 }, 2.0f, { 0.631, 0.196, 0.494, 1 }, 600, 4, 0);
+		 p2 = new Particle({ 350,10,130 }, { 0,0,0 }, { 0,0,0 }, 2.0f,{ 0.631, 0.196, 0.494, 1 },600,4,0);
 		//dos generadores
-		SpringForceGenerator* f1 = new SpringForceGenerator(1, 10, p2);
-		SpringForceGenerator* f2 = new SpringForceGenerator(1, 10, p1);
+		SpringForceGenerator* f1 = new SpringForceGenerator(1, 30, p2);
+		SpringForceGenerator* f2 = new SpringForceGenerator(1, 30, p1);
 		//añades las dos conexiones
 		_pFR->addRegistry(f1, p1);
 		_pFR->addRegistry(f2, p2);
@@ -157,29 +157,42 @@
 
 		
 
-		Particle* p3 = new Particle({ 0,30,0 }, { 0,0,0 }, { 0,0,0 }, 2.0f, { 0.631, 0.196, 0.494, 1 }, 15, 2, 0);
-		AnchoredSpringFG* f3 = new AnchoredSpringFG(20, 10, { 0.0,50.0,0.0 });
+		 p3 = new Particle({ 450,40,60 }, { 0,0,0 }, { 0,0,0 }, 2.0f, { 0.631, 0.196, 0.494, 1 },600, 2, 0);
+		f3 = new AnchoredSpringFG(k, 8, { 450,60, 60});
 		_pFR->addRegistry(f3, p3);
 		listOfForceGenerators.push_back(f3);
 		_particles.push_back(p3);
 		_pFR->addRegistry(_gravity_force_generator, p3);
 
 
+	}
+	void ParticleSystem::Deleteforce() {
+		cout << "se quita\n";
+		_pFR->deleteParticleRegistry(p3);
+		_pFR->addRegistry(f3, p3);
+		_pFR->addRegistry(_gravity_force_generator, p3);
+	}
+	void ParticleSystem::addforce() {
+		cout << "se añade\n";
+		GravityForceGenerator* grav = new GravityForceGenerator({ 0,0,7.5 });
+		listOfForceGenerators.push_back(grav);
+		_pFR->addRegistry(grav, p3);
 
 	}
+
 	void ParticleSystem::slinky() {
-		float y = 90.0f;
-		Particle* p = new Particle({ -10,y,0 }, { 0,0,0 }, { 0,0,0 }, 20.0f, { 0.969, 0.373, 0.792, 1 }, 15, 2, 0);
-		y -= 5;
-		Particle* p2 = new Particle({ -10,y,0 }, { 0,0,0 }, { 0,0,0 }, 20.0f, { 0.851, 0.325, 0.694, 1 }, 15, 2, 0);
-		y -= 5;
-		Particle* p3 = new Particle({ -10,y,0 }, { 0,0,0 }, { 0,0,0 }, 20.0f, { 0.69, 0.263, 0.561, 1 }, 15, 2, 0);
-		y -= 5;
-		Particle* p4 = new Particle({ -10,y,0 }, { 0,0,0 }, { 0,0,0 }, 20.0f, { 0.549, 0.208, 0.447, 1}, 15, 2, 0);
-		y -= 5;
-		Particle* p5 = new Particle({ -10,y,0 }, { 0,0,0 }, { 0,0,0 }, 20.0f, { 0.412, 0.153, 0.333, 1 }, 15, 2, 0);
-		y -= 5;
-		Particle* p6 = new Particle({ -10,y,0 }, { 0,0,0 }, { 0,0,0 }, 20.0f, { 0.239, 0.09, 0.196, 1 }, 15, 2, 0);
+		float y = 100.0f;
+		Particle* p = new Particle({ 400,y,0 }, { 0,0,0 }, { 0,0,0 }, 60.0f, { 0.969, 0.373, 0.792, 1 }, 15, 3, 0);
+		y -= 10;
+		Particle* p2 = new Particle({ 400,y,0 }, { 0,0,0 }, { 0,0,0 }, 20.0f, { 0.851, 0.325, 0.694, 1 }, 15, 3, 0);
+		y -= 10;
+		Particle* p3 = new Particle({ 400,y,0 }, { 0,0,0 }, { 0,0,0 }, 20.0f, { 0.69, 0.263, 0.561, 1 }, 15, 3, 0);
+		y -= 10;
+		Particle* p4 = new Particle({ 400,y,0 }, { 0,0,0 }, { 0,0,0 }, 20.0f, { 0.549, 0.208, 0.447, 1}, 15, 3, 0);
+		y -= 10;
+		Particle* p5 = new Particle({ 400,y,0 }, { 0,0,0 }, { 0,0,0 }, 20.0f, { 0.412, 0.153, 0.333, 1}, 15, 3, 0);
+		y -= 10;
+		Particle* p6 = new Particle({ 400,y,0 }, { 0,0,0 }, { 0,0,0 }, 20.0f, { 0.239, 0.09, 0.196, 1}, 15, 3, 0);
 		_particles.push_back(p);
 		_particles.push_back(p2);
 		_particles.push_back(p3);
@@ -194,30 +207,28 @@
 		SpringForceGenerator* f5 = new SpringForceGenerator(100, 1, p6);
 		_pFR->addRegistry(f, p2);
 		_pFR->addRegistry(f1, p);
-
 		_pFR->addRegistry(f1, p3);
 		_pFR->addRegistry(f2, p2);
-
 		_pFR->addRegistry(f2, p4);
 		_pFR->addRegistry(f3, p3);
-
 		_pFR->addRegistry(f3, p5);
 		_pFR->addRegistry(f4, p4);
-
 		_pFR->addRegistry(f4, p6);
-		_pFR->addRegistry(f5, p5);
-
-
-
-
-
+		_pFR->addRegistry(f5, p5);/*
+		_pFR->addRegistry(_gravity_force_generator, p2);
+		_pFR->addRegistry(_gravity_force_generator, p3);
+		_pFR->addRegistry(_gravity_force_generator, p4);
+		_pFR->addRegistry(_gravity_force_generator, p5);
+		_pFR->addRegistry(_gravity_force_generator, p6);*/
 	}
 	void ParticleSystem::buoyancy() {
-		Particle* p = new Particle({ 0,15,0 }, { 0,0,0 }, { 0,0,0 }, 50.0f, { 0.631, 0.196, 0.494, 1 }, 50, 2, 0);
-		_particles.push_back(p);
-		auto f = new BuoyancyForceGenerator(12, 7, 1000);
-		_pFR->addRegistry(_gravity_force_generator, p);
-		_pFR->addRegistry(f, p);
+
+		//	//particula en forma cuadrada
+		Particle* parti = new Particle({ 1, 0.984, 0.678,1.0 }, { 5.0f, 5.0f, 5.0f }, { 450,15,80 }, 5.0f, 600.0f, 0);
+		_particles.push_back(parti);
+		_pFR->addRegistry(_gravity_force_generator, parti);
+		BuoyancyForceGenerator* f = new BuoyancyForceGenerator(5, 10, 30, { 450,0,80 });
+		_pFR->addRegistry(f, parti);
 	}
 
 

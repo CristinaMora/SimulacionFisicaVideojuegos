@@ -8,6 +8,9 @@ using namespace std;
 class Particle
 {
 public:
+	
+
+	Particle(Vector4 c, Vector3 tam, Vector3 Pos, double mas,  float time, int type);
 	Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, double mas, Vector4 c, float time, float radio, int type);
 	Particle(RenderItem* render, physx::PxTransform Pos, Vector3 Vel, double mas, float time, int type);
 	bool integrate(float t);

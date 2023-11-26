@@ -109,8 +109,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 	case 'I': //tornado
 		psistem->generateParticle(4, { 0,18,0 }, Vector3(0, 0, 1) * (-80), Vector3(0, 0, 0), 0.5f, 50, Vector4{ 0.902, 0.62, 0.063, 1 }, 10);
-
-	break;
+		break;
 	case 'O'://añade particulas para la explosion
 		psistem->generateParticle(5, { 0,18,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
 		psistem->generateParticle(5, { 0,18,10 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
@@ -118,7 +117,6 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		psistem->generateParticle(5, { 0,70,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
 		psistem->generateParticle(5, { 50,50,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
 		psistem->generateParticle(5, { 50,50,50 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 },4);
-
 		break;
 	case 'U': //viento
 		psistem->generateParticle(3, { 0,18,0 }, Vector3(0, 0, 1) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 10);
@@ -128,7 +126,6 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 	case 'T':
 		psistem->generateFirework(3, Vector3(0, 2, 100), Vector3(0, 1, 0) * 50, Vector3(0,0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-
 		break;
 	case 'Y':
 		psistem->generateFirework(4, Vector3(0, 2, 0), Vector3(0, 1, 0) * 80, Vector3(0,0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
@@ -141,6 +138,14 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case 'N': psistem->slinky();
 		break;
 	case 'M': psistem->buoyancy();
+		break;
+	case 'C': psistem->increasek();
+		break;
+	case 'V': psistem->decreasek();
+		break;
+	case 'Z': psistem->addforce();
+		break;
+	case 'X': psistem->Deleteforce();
 		break;
 	default:
 		break;

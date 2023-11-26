@@ -1,5 +1,6 @@
 #include "BuoyancyForceGenerator.h"
-BuoyancyForceGenerator::BuoyancyForceGenerator(float h, float V, float d) :posicion({0,10,0}) {
+#include <iostream>
+BuoyancyForceGenerator::BuoyancyForceGenerator(float h, float V, float d,Vector3 pos) :posicion(pos) {
 	_height = h;
 	_volume = V;
 	_liquid_density = d;

@@ -33,8 +33,18 @@ class ParticleSystem
 		void generateSpringDemo();
 		void slinky();
 		void buoyancy();
+		inline void increasek() {if(f3!= nullptr) f3->setk(f3->getK() +1); };
+		inline void decreasek() { if (f3 != nullptr) { f3->setk(f3->getK() - 1); } };
+		void Deleteforce();
+		void addforce();
 
 	protected:
+		Particle* p1 = nullptr;
+		Particle* p2 = nullptr;
+		Particle* p3 = nullptr;
+		AnchoredSpringFG* f3 = nullptr;
+
+		int k = 5;
 		Firework* _part = nullptr;
 		list <Particle*> _particles;
 		list<Firework*> _firework_pool;
