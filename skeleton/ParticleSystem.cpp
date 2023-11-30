@@ -133,7 +133,7 @@
 	};
 	void ParticleSystem::createscene() {
 		//suelgo gris
-		base = new RenderItem(CreateShape(PxBoxGeometry(500, 1, 500)), new PxTransform(0, 0,0), { 0.51f, 0.486f, 0.455f,1.0f });
+		//base = new RenderItem(CreateShape(PxBoxGeometry(500, 1, 500)), new PxTransform(0, 0,0), { 0.51f, 0.486f, 0.455f,1.0f });
 		//cuadrado de viento  {10,0,0},{10,5,5} orig tam
 		//cuadviento = new RenderItem(CreateShape(PxBoxGeometry(100, 100, 50)), new PxTransform(0, 20, -100), { 1.0f, 0.251f, 0.42f, 0.361f });
 		
