@@ -26,7 +26,7 @@ BuoyancyForceGenerator::BuoyancyForceGenerator(float h, float V, float d,Vector3
 	{
 		immersed = (h0 - h) / _height + 0.5;
 	}
-	f.y = _liquid_density * _volume * immersed * 9.8;
+	f.y = _liquid_density * _volume * immersed * _gravity;
 	particle->addForce(f);
 }
  BuoyancyForceGenerator::~BuoyancyForceGenerator() {}
