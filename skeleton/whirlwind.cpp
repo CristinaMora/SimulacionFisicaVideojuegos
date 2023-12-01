@@ -13,7 +13,7 @@ void whirlwind::updateForce(Particle* particle, double t) {
 
 	//}
 }
-//Vector3 fuerzaViento, 
+ 
 whirlwind::whirlwind(Vector3 fuerza, const float k, Vector3 WhirlPos, Vector3 tam_): WindForceGenerator( fuerza, WhirlPos, tam_, k, 0) {
 
 }
