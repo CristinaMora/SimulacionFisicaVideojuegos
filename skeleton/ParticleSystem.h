@@ -28,7 +28,7 @@ class ParticleSystem
 				_pFR->addRegistry(_explosion_force_generator, p);
 			}
 		}
-		void createscene();
+		void createscene(PxScene* gScene, PxPhysics* gPhysics);
 		//MUELLES
 		void generateSpringDemo();
 		void slinky();
@@ -64,5 +64,8 @@ class ParticleSystem
 private:
 	//objetos para la creacion de la escena:
 	RenderItem* base;
-	RenderItem* cuadviento;
+
+	PxRigidStatic* suelo;
+	PxShape* shape;
+
 };

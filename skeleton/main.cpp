@@ -32,10 +32,8 @@ ParticleSystem*         psistem = nullptr;
 ContactReportCallback gContactReportCallback;
 
 
-PxRigidStatic* suelo;
 PxRigidDynamic* new_Solid;
 PxRigidDynamic* new_Solid2;
-PxShape* shape;
 PxShape* shape_ad;
 PxShape* shape_ad2;
 
@@ -67,7 +65,7 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 	//me creo un sistema de particulas que actualizara las particulas en todo momento
 	psistem = new ParticleSystem();
-	psistem->createscene();
+	psistem->createscene(gScene,gPhysics);
 
 	}
 
@@ -157,14 +155,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 	case 'X': psistem->Deleteforce();
 		break;
-	case 'G':
-		suelo = gPhysics->createRigidStatic(PxTransform({0,0,0}));
-		shape = CreateShape(PxBoxGeometry(100, 20, 1000));
-		suelo->attachShape(*shape);
-		gScene->addActor(*suelo);
-		RenderItem* item;
-		item = new RenderItem(shape, suelo, { 0.8,0.8,0.8,1 });
-		break;
+
 	case 'H':
 		new_Solid = gPhysics->createRigidDynamic(PxTransform({ -70,200,-70 }));
 		new_Solid->setLinearVelocity({ 0,-100,0 });
@@ -172,9 +163,11 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		shape_ad = CreateShape(PxBoxGeometry(5, 5, 5));
 		new_Solid->attachShape(*shape_ad);
 		PxRigidBodyExt::updateMassAndInertia(*new_Solid, 0.15);
-		gScene->addActor(*new_Solid);
+		//PxRigidBodyExt::setMassAndUpdateInertia(*new_Solid, 5);
 		RenderItem* item2;
 		item2 = new RenderItem(shape_ad, new_Solid, { 0.8,0.8,0.8,1 });
+		gScene->addActor(*new_Solid);
+	
 
 		new_Solid2 = gPhysics->createRigidDynamic(PxTransform({ -70,150,-70 }));
 		new_Solid2->setLinearVelocity({ 0,5,0 });
@@ -182,9 +175,10 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		shape_ad2 = CreateShape(PxBoxGeometry(5, 5, 5));
 		new_Solid2->attachShape(*shape_ad2);
 		PxRigidBodyExt::updateMassAndInertia(*new_Solid2, 0.95);
-		gScene->addActor(*new_Solid2);
 		RenderItem* item3;
 		item3 = new RenderItem(shape_ad2, new_Solid2, { 0.1,0.1,0.1,1 });
+		gScene->addActor(*new_Solid2);
+
 
 		break;
 	default:
