@@ -25,6 +25,16 @@ WindForceGenerator::WindForceGenerator(Vector3 fuerzaViento, Vector3 origen, Vec
 
 
 		}
-		else return;
 		
+	}
+	void WindForceGenerator::updateForce(physx::PxRigidBody* solid, double duration) {
+		
+		//compute drag force
+		Vector3 v = solid->getLinearVelocity() + f;
+		float drag_coef = v.normalize();
+		float absdrag = abs(drag_coef);
+		Vector3 dragF;
+		drag_coef = _k1 * drag_coef + _k2 * absdrag * drag_coef;
+		dragF = -v * drag_coef;
+		solid->addForce(dragF);
 	}

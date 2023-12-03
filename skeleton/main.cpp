@@ -8,6 +8,7 @@
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
 #include "ParticleSystem.h"
+#include "RBManager.h"
 #include <iostream>
 #include <list>
 std::string display_text = "Cristina Mora Velasco";
@@ -32,6 +33,9 @@ ParticleSystem*         psistem = nullptr;
 ContactReportCallback gContactReportCallback;
 
 
+
+
+RBManager* rbmanager = nullptr;
 PxRigidDynamic* new_Solid;
 PxRigidDynamic* new_Solid2;
 PxShape* shape_ad;
@@ -66,6 +70,7 @@ void initPhysics(bool interactive)
 	//me creo un sistema de particulas que actualizara las particulas en todo momento
 	psistem = new ParticleSystem();
 	psistem->createscene(gScene,gPhysics);
+	rbmanager = new RBManager(gPhysics, gScene);
 
 	}
 
@@ -79,6 +84,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 	if (psistem != nullptr)psistem->update(t);
+	if (rbmanager != nullptr)rbmanager->update(t);
 
 	
 }
@@ -157,27 +163,28 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 
 	case 'H':
-		new_Solid = gPhysics->createRigidDynamic(PxTransform({ -70,200,-70 }));
-		new_Solid->setLinearVelocity({ 0,-100,0 });
-		new_Solid->setAngularVelocity({ 0,0,0 });
-		shape_ad = CreateShape(PxBoxGeometry(5, 5, 5));
-		new_Solid->attachShape(*shape_ad);
-		PxRigidBodyExt::updateMassAndInertia(*new_Solid, 0.15);
-		//PxRigidBodyExt::setMassAndUpdateInertia(*new_Solid, 5);
-		RenderItem* item2;
-		item2 = new RenderItem(shape_ad, new_Solid, { 0.8,0.8,0.8,1 });
-		gScene->addActor(*new_Solid);
+		rbmanager->addDynamicObject();
+		//new_Solid = gPhysics->createRigidDynamic(PxTransform({ -70,200,-70 }));
+		//new_Solid->setLinearVelocity({ 0,-100,0 });
+		//new_Solid->setAngularVelocity({ 0,0,0 });
+		//shape_ad = CreateShape(PxBoxGeometry(5, 5, 5));
+		//new_Solid->attachShape(*shape_ad);
+		//PxRigidBodyExt::updateMassAndInertia(*new_Solid, 0.15);
+		////PxRigidBodyExt::setMassAndUpdateInertia(*new_Solid, 5);
+		//RenderItem* item2;
+		//item2 = new RenderItem(shape_ad, new_Solid, { 0.8,0.8,0.8,1 });
+		//gScene->addActor(*new_Solid);
 	
 
-		new_Solid2 = gPhysics->createRigidDynamic(PxTransform({ -70,150,-70 }));
-		new_Solid2->setLinearVelocity({ 0,5,0 });
-		new_Solid2->setAngularVelocity({ 0,0,0 });
-		shape_ad2 = CreateShape(PxBoxGeometry(5, 5, 5));
-		new_Solid2->attachShape(*shape_ad2);
-		PxRigidBodyExt::updateMassAndInertia(*new_Solid2, 0.95);
-		RenderItem* item3;
-		item3 = new RenderItem(shape_ad2, new_Solid2, { 0.1,0.1,0.1,1 });
-		gScene->addActor(*new_Solid2);
+		//new_Solid2 = gPhysics->createRigidDynamic(PxTransform({ -70,150,-70 }));
+		//new_Solid2->setLinearVelocity({ 0,5,0 });
+		//new_Solid2->setAngularVelocity({ 0,0,0 });
+		//shape_ad2 = CreateShape(PxBoxGeometry(5, 5, 5));
+		//new_Solid2->attachShape(*shape_ad2);
+		//PxRigidBodyExt::updateMassAndInertia(*new_Solid2, 0.95);
+		//RenderItem* item3;
+		//item3 = new RenderItem(shape_ad2, new_Solid2, { 0.1,0.1,0.1,1 });
+		//gScene->addActor(*new_Solid2);
 
 
 		break;

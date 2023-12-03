@@ -5,6 +5,16 @@
 #include "RenderUtils.hpp"
 const float damping = 0.99;
 using namespace std;
+using namespace physx;
+
+struct RigidBodyWithTime {
+	PxRigidBody* body;
+	RenderItem* item;
+	PxShape* shape;
+	float time = 0;
+	float tolive;
+};
+
 class Particle
 {
 public:

@@ -263,6 +263,8 @@
     <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="ParticleDragGenerator.cpp" />
     <ClCompile Include="ParticleForceRegistry.cpp" />
+    <ClCompile Include="RBManager.cpp" />
+    <ClCompile Include="SolidForceRegistry.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="UniformParticleGenerator.cpp" />
     <ClCompile Include="main.cpp" />
@@ -287,6 +289,8 @@
     <ClInclude Include="GravityForceGenerator.h" />
     <ClInclude Include="ParticleDragGenerator.h" />
     <ClInclude Include="ParticleForceRegistry.h" />
+    <ClInclude Include="RBManager.h" />
+    <ClInclude Include="SolidForceRegistry.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="UniformParticleGenerator.h" />
     <ClInclude Include="Particle.h" />
