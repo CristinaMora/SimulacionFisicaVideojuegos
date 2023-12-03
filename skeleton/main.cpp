@@ -31,15 +31,7 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ParticleSystem*         psistem = nullptr;
 ContactReportCallback gContactReportCallback;
-
-
-
-
 RBManager* rbmanager = nullptr;
-PxRigidDynamic* new_Solid;
-PxRigidDynamic* new_Solid2;
-PxShape* shape_ad;
-PxShape* shape_ad2;
 
 
 using namespace std;
@@ -161,33 +153,38 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		break;
 	case 'X': psistem->Deleteforce();
 		break;
-
 	case 'H':
-		rbmanager->addDynamicObject();
-		//new_Solid = gPhysics->createRigidDynamic(PxTransform({ -70,200,-70 }));
-		//new_Solid->setLinearVelocity({ 0,-100,0 });
-		//new_Solid->setAngularVelocity({ 0,0,0 });
-		//shape_ad = CreateShape(PxBoxGeometry(5, 5, 5));
-		//new_Solid->attachShape(*shape_ad);
-		//PxRigidBodyExt::updateMassAndInertia(*new_Solid, 0.15);
-		////PxRigidBodyExt::setMassAndUpdateInertia(*new_Solid, 5);
-		//RenderItem* item2;
-		//item2 = new RenderItem(shape_ad, new_Solid, { 0.8,0.8,0.8,1 });
-		//gScene->addActor(*new_Solid);
-	
-
-		//new_Solid2 = gPhysics->createRigidDynamic(PxTransform({ -70,150,-70 }));
-		//new_Solid2->setLinearVelocity({ 0,5,0 });
-		//new_Solid2->setAngularVelocity({ 0,0,0 });
-		//shape_ad2 = CreateShape(PxBoxGeometry(5, 5, 5));
-		//new_Solid2->attachShape(*shape_ad2);
-		//PxRigidBodyExt::updateMassAndInertia(*new_Solid2, 0.95);
-		//RenderItem* item3;
-		//item3 = new RenderItem(shape_ad2, new_Solid2, { 0.1,0.1,0.1,1 });
-		//gScene->addActor(*new_Solid2);
-
-
+		//float Cestatico, float Cdinamico, float Elastico, PxVec3 inertiaT, Vector3 dimension,
+		//	Vector4 color, Vector3 transform, Vector3 velocity, Vector3 angularvelocity, int density, int timetoleave
+		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(1,1,1), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 60),
+			Vector3(0, -100, 0), Vector3(0, 80, 80), 0.15, 3);
+		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(0.5, 0.5, 0.5), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 40),
+			Vector3(0, -400, 0), Vector3(0, 0, 0), 0.15, 3);
+		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(0.5,0.5,0.5),Vector3(4,4,4),Vector4(0.529,0.22,0.878,1.0),Vector3(-70, 200, -70),
+			Vector3(0, -100, 0), Vector3 (0,0,0), 0.15, 3);
+		rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, Vector3(0.5, 0.5, 0.5), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 0),
+			Vector3(0, -100, 0), Vector3(0, 0, 0), 0.15, 3);
+		rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, Vector3(0.5, 0.5, 0.5), Vector3(2, 2, 2), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 20),
+			Vector3(0, -100, 0), Vector3(0, 0, 0), 0.15, 3);
 		break;
+	//case 'G': //distinta masa
+	//	rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, );
+	//	break;
+	//case 'J': //distinto tensor de inercia
+	//	rbmanager->addDynamicObject();
+	//	break;
+	//case 'K': //distinto material
+	//	rbmanager->addDynamicObject();
+	//	break;
+	//case '1': //dispara desde la camara
+	//	rbmanager->addDynamicObject();
+	//	break;
+	//case '2': //dispara desde la camara circulos
+	//	rbmanager->addDynamicObject();
+	//	break;
+	//case '3': //dispara desde la camara capsulas
+	//	rbmanager->addDynamicObject();
+	//	break;
 	default:
 		break;
 	}

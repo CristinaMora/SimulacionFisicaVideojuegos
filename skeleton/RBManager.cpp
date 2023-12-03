@@ -4,7 +4,7 @@ RBManager::RBManager(PxPhysics* gPhysics, PxScene* gScene)
 	//CREAMOS LA FISICA NECESARIA
 	_gPhysics = gPhysics;
 	_gScene = gScene;
-	num = 30;
+	num = 0;
 	//CREAMOS EL GENERADOR DE PARTICULAS
 	_generator = new UniformParticleGenerator(Vector3{ 50,50,50 }, Vector3{ 20,20,20 }, gPhysics, gScene);
 	//GENERADOR DE FUERZAS
@@ -22,24 +22,34 @@ RBManager::~RBManager() {
 	delete windForceGen;
 	delete _sFR;
 }
-void RBManager::addDynamicObject()
+void RBManager::addDynamicObject(float Cestatico,float Cdinamico,float Elastico, PxVec3 inertiaT, Vector3 dimension, 
+	Vector4 color, Vector3 transform, Vector3 velocity,Vector3 angularvelocity, float density, int timetoleave)
 {
 		RigidBodyWithTime solid;
 		PxRigidDynamic* new_solid;
+		//MATERIAL
+		PxMaterial* gMaterial = _gPhysics->createMaterial(Cestatico, Cdinamico, Elastico);
 		//POSICION
-		new_solid = _gPhysics->createRigidDynamic(PxTransform({ -70,200,-70 }));
-		new_solid->setLinearVelocity({ 0,-100,0 });
-		new_solid->setAngularVelocity({ 0, 0, 0 });
-		solid.shape = CreateShape(PxBoxGeometry(5, 5, 5));
+		new_solid = _gPhysics->createRigidDynamic(PxTransform(transform));
+		//VELOCIDAD
+		new_solid->setLinearVelocity(velocity);
+		new_solid->setAngularVelocity(angularvelocity);
+		//FORMA
+		solid.shape = CreateShape(PxBoxGeometry(dimension.x, dimension.y, dimension.z), gMaterial);
 		new_solid->attachShape(*solid.shape);
-		PxRigidBodyExt::updateMassAndInertia(*new_solid, 0.15);
-		solid.item = new RenderItem(solid.shape, new_solid, { 0.5, 0.5, 0.5, 1 });
+		PxRigidBodyExt::updateMassAndInertia(*new_solid, density);
+		new_solid->setMassSpaceInertiaTensor(inertiaT);
+		//RENDERITEM
+		solid.item = new RenderItem(solid.shape, new_solid, color);
 		_gScene->addActor(*new_solid);
+		//TIEMPOS Y REGISTROS
 		solid.body = new_solid;
-		solid.tolive = 3;
-		_sFR->addRegistry(windForceGen, solid);
+		solid.tolive = timetoleave;
+		//_sFR->addRegistry(windForceGen, solid);
 		_objects.push_back(solid);
-	
+		cout << new_solid->getMass()<< "  ";
+
+
 }
 void RBManager::update(double t)
 {

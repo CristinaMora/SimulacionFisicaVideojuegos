@@ -15,7 +15,8 @@ class RBManager
 	public:
 		RBManager(PxPhysics* gPhysics, PxScene* gScene);
 		virtual ~RBManager();
-		void addDynamicObject();
+		void addDynamicObject(float Cestatico, float Cdinamico, float Elastico, PxVec3 inertiaT, Vector3 dimension,
+			Vector4 color, Vector3 transform, Vector3 velocity, Vector3 angularvelocity, float density, int timetoleave);
 		void addStaticObject();
 		void update(double t);
 		void addForce();
