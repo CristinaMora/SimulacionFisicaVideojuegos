@@ -38,7 +38,7 @@ void RBManager::addDynamicObject(float Cestatico,float Cdinamico,float Elastico,
 		solid.shape = CreateShape(PxBoxGeometry(dimension.x, dimension.y, dimension.z), gMaterial);
 		new_solid->attachShape(*solid.shape);
 		PxRigidBodyExt::updateMassAndInertia(*new_solid, density);
-		new_solid->setMassSpaceInertiaTensor(inertiaT);
+		//new_solid->setMassSpaceInertiaTensor(inertiaT);
 		//RENDERITEM
 		solid.item = new RenderItem(solid.shape, new_solid, color);
 		_gScene->addActor(*new_solid);
