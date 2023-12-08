@@ -17,20 +17,21 @@ class RBManager
 		virtual ~RBManager();
 		void addDynamicObject(float Cestatico, float Cdinamico, float Elastico, PxVec3 inertiaT, Vector3 dimension,
 			Vector4 color, Vector3 transform, Vector3 velocity, Vector3 angularvelocity, float density, int timetoleave);
-		void addStaticObject();
+		void addStaticObject(Vector3 dimension, Vector4 color, Vector3 transform);
+		void createscene();
 		void update(double t);
 		void addForce();
 	private:
 		
 		std::list<RigidBody> _objects;
+		std::list<StaticRigidBody> _statics;
 		UniformParticleGenerator* _generator;
-		//RigidForceRegistry* reg;
 		WindForceGenerator* windForceGen;
 		
 		PxPhysics* _gPhysics;
 		PxScene* _gScene;
-		PxRigidDynamic* object;
 		SolidForceRegistry* _sFR;
+
 		
 		int num = 0;
 		

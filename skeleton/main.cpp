@@ -6,6 +6,10 @@
 #include "callbacks.hpp"
 #include <iostream>
 #include <list>
+#include "RBManager.h"
+#include "ParticleSystem.h"
+
+
 std::string display_text = "Cristina Mora Velasco";
 
 using namespace physx;
@@ -25,7 +29,8 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
-
+RBManager* _RBManager = nullptr;
+ParticleSystem* _particleSystem = nullptr;
 using namespace std;
 
 // Initialize physics engine
@@ -52,7 +57,11 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	//INICIALIZACION DE LOS OBJETOS
-	
+
+	_particleSystem = new ParticleSystem();
+	_particleSystem->createscene(gScene,gPhysics );
+	//_RBManager = new RBManager(gPhysics, gScene);
+	//_RBManager->createscene();
 
 	}
 

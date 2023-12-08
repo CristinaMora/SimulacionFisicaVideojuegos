@@ -12,3 +12,11 @@ class RigidBody
 		float time = 0;
 		float tolive;
 };
+class StaticRigidBody
+{
+public:
+	PxRigidStatic* body;
+	RenderItem* item;
+	PxShape* shape;
+	float time = 0;
+};

@@ -47,8 +47,23 @@ void RBManager::addDynamicObject(float Cestatico,float Cdinamico,float Elastico,
 		solid.tolive = timetoleave;
 		//_sFR->addRegistry(windForceGen, solid);
 		_objects.push_back(solid);
-		cout << new_solid->getMass()<< "  ";
 
+
+}
+void RBManager::addStaticObject(Vector3 dimension, Vector4 color, Vector3 transform) {
+	StaticRigidBody solid;
+	PxRigidStatic* suelo;
+	suelo = _gPhysics->createRigidStatic(PxTransform(transform));
+	solid.shape = CreateShape(PxBoxGeometry(dimension));
+	suelo->attachShape(*solid.shape);
+	_gScene->addActor(*suelo);
+	RenderItem* item;
+	solid.item = new RenderItem(solid.shape, suelo, color);
+	solid.body = suelo;
+	_statics.push_back(solid);
+}
+void RBManager::createscene() {
+	addStaticObject(Vector3{ 400, 0.2, 400 }, Vector4{ 0.812, 0.294, 0.812,1 }, Vector3{ 0,0,0 });
 
 }
 void RBManager::update(double t)

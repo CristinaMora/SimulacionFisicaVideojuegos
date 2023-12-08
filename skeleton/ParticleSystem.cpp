@@ -121,18 +121,12 @@
 
 	};
 	void ParticleSystem::createscene(PxScene* gScene, PxPhysics* gPhysics) {
-
 		suelo = gPhysics->createRigidStatic(PxTransform({ 0,0,0 }));
 		shape = CreateShape(PxBoxGeometry(400, 0.2, 400));
 		suelo->attachShape(*shape);
 		gScene->addActor(*suelo);
 		RenderItem* item;
 		item = new RenderItem(shape, suelo, { 0.8,0.8,0.8,1 });
-
-		//suelgo gris
-		//base = new RenderItem(CreateShape(PxBoxGeometry(500, 1, 500)), new PxTransform(0, 0,0), { 0.51f, 0.486f, 0.455f,1.0f });
-		
-	
 	};
 	void ParticleSystem::Deleteforce() {
 		cout << "se quita\n";
