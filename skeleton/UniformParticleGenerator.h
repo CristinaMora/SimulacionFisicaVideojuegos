@@ -14,7 +14,7 @@ class UniformParticleGenerator: public ParticleGenerator
 		virtual ~UniformParticleGenerator();
 		virtual std::list<Particle*> generateParticles(int type) override;
 		list<Particle*> generatefirework1();
-		list<RigidBodyWithTime>generateSolidRigid();
+		list<RigidBody>generateSolidRigid();
 	
 	private:
 		std::uniform_real_distribution<float> dis{ 0, 1 };

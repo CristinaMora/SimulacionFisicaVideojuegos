@@ -1,5 +1,5 @@
 #include "GaussianParticleGenerator.h"
-#include "Firework.h"
+
 #include <random>
 //constructora
 GaussianParticleGenerator::GaussianParticleGenerator(Vector3 std_dev_pos, Vector3 std_dev_vel) {

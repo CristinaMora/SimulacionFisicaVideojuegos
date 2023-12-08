@@ -2,10 +2,10 @@
 #include <PxScene.h>
 #include <PxPhysics.h>
 #include "RenderUtils.hpp"
-#include "UniformParticleGenerator.h"
-#include "WindForceGenerator.h"
 #include <list>
 #include "PxShape.h"
+#include "UniformParticleGenerator.h"
+#include "WindForceGenerator.h"
 #include "SolidForceRegistry.h"
 
 
@@ -22,7 +22,7 @@ class RBManager
 		void addForce();
 	private:
 		
-		std::list<RigidBodyWithTime> _objects;
+		std::list<RigidBody> _objects;
 		UniformParticleGenerator* _generator;
 		//RigidForceRegistry* reg;
 		WindForceGenerator* windForceGen;

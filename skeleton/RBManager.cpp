@@ -25,7 +25,7 @@ RBManager::~RBManager() {
 void RBManager::addDynamicObject(float Cestatico,float Cdinamico,float Elastico, PxVec3 inertiaT, Vector3 dimension, 
 	Vector4 color, Vector3 transform, Vector3 velocity,Vector3 angularvelocity, float density, int timetoleave)
 {
-		RigidBodyWithTime solid;
+		RigidBody solid;
 		PxRigidDynamic* new_solid;
 		//MATERIAL
 		PxMaterial* gMaterial = _gPhysics->createMaterial(Cestatico, Cdinamico, Elastico);
@@ -55,7 +55,7 @@ void RBManager::update(double t)
 {
 	//añadimos las partículas
 	if (_objects.size() < num) {
-		std::list<RigidBodyWithTime> lista = _generator->generateSolidRigid();
+		std::list<RigidBody> lista = _generator->generateSolidRigid();
 		for (auto partic : lista) {
 			_objects.push_back(partic);
 			_sFR->addRegistry(windForceGen, partic);

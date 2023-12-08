@@ -7,6 +7,4 @@ class AnchoredSpringFG : public SpringForceGenerator {
 public:
 	AnchoredSpringFG(double k, double resting, Vector3 anchor_pos);
 	virtual ~AnchoredSpringFG();
-private:
-	physx::PxTransform posicion;
 };

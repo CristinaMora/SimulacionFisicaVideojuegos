@@ -5,11 +5,11 @@ void SolidForceRegistry::updateForces(double duration) {
 		it->first->updateForce(it->second.body, duration);
 	}
 }
-void SolidForceRegistry::addRegistry(ForceGenerator* fg, RigidBodyWithTime p) { //registra una particula
+void SolidForceRegistry::addRegistry(ForceGenerator* fg, RigidBody p) { //registra una particula
 
 	insert(SolidFR(fg, p));
 }
-void SolidForceRegistry::deleteParticleRegistry(RigidBodyWithTime p) {//borra una particula
+void SolidForceRegistry::deleteParticleRegistry(RigidBody p) {//borra una particula
 	auto it = begin();
 	while (it != end())
 	{

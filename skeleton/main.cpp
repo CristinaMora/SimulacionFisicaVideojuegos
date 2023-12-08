@@ -1,18 +1,12 @@
 #include <ctype.h>
-
 #include <PxPhysicsAPI.h>
-
 #include <vector>
-
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
-#include "ParticleSystem.h"
-#include "RBManager.h"
 #include <iostream>
 #include <list>
 std::string display_text = "Cristina Mora Velasco";
-
 
 using namespace physx;
 
@@ -29,9 +23,7 @@ PxPvd*                  gPvd        = NULL;
 
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
-ParticleSystem*         psistem = nullptr;
 ContactReportCallback gContactReportCallback;
-RBManager* rbmanager = nullptr;
 
 
 using namespace std;
@@ -59,10 +51,8 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	//me creo un sistema de particulas que actualizara las particulas en todo momento
-	psistem = new ParticleSystem();
-	psistem->createscene(gScene,gPhysics);
-	rbmanager = new RBManager(gPhysics, gScene);
+	//INICIALIZACION DE LOS OBJETOS
+	
 
 	}
 
@@ -75,8 +65,8 @@ void stepPhysics(bool interactive, double t)
 	PX_UNUSED(interactive);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	if (psistem != nullptr)psistem->update(t);
-	if (rbmanager != nullptr)rbmanager->update(t);
+
+	//ACTUALIZACION DE LOS OBJETOS
 
 	
 }
@@ -97,7 +87,8 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 	
 	gFoundation->release();
-	delete (psistem);
+
+	//DESTRUCTORAS
 	}
 
 // Function called when a key is pressed
@@ -106,85 +97,17 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	PX_UNUSED(camera);
 	switch(toupper(key))
 	{
-	case 'L': //añade dos particulas con distintas gravedades
-		psistem->generateParticle(1, { 0,300,30 }, Vector3(0, 1, 0) * (-80), Vector3(0, 0, 0), 3.0f, 10, Vector4{ 0.659, 0.659, 0.478, 1 }, 5);
-		psistem->generateParticle(2, { 0,300,0 }, Vector3(0, 1, 0) * (-80), Vector3(0, 0, 0), 3.0f, 10, Vector4{ 0.431, 0.42, 0.722, 1 }, 5);
+		//INPUT
+	case ' ':
+	
+		//press enter to start
 		break;
-	case 'P': //explota
-		psistem->boom();
+	case 'A':
+		//press a to move left
 		break;
-	case 'I': //tornado
-		psistem->generateParticle(4, { 0,18,0 }, Vector3(0, 0, 1) * (-80), Vector3(0, 0, 0), 0.5f, 50, Vector4{ 0.902, 0.62, 0.063, 1 }, 10);
+	case 'D':
+		//press d to move right
 		break;
-	case 'O'://añade particulas para la explosion
-		psistem->generateParticle(5, { 0,18,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
-		psistem->generateParticle(5, { 0,18,10 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
-		psistem->generateParticle(5, { 50,18,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
-		psistem->generateParticle(5, { 0,70,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
-		psistem->generateParticle(5, { 50,50,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
-		psistem->generateParticle(5, { 50,50,50 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 },4);
-		break;
-	case 'U': //viento
-		psistem->generateParticle(3, { 0,18,0 }, Vector3(0, 0, 1) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 10);
-		break;
-	case 'R':
-		psistem->generateFirework(2, Vector3(0, 2, 200), Vector3(0, 1, 0) * 80, Vector3(0, 0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-		break;
-	case 'T':
-		psistem->generateFirework(3, Vector3(0, 2, 100), Vector3(0, 1, 0) * 50, Vector3(0,0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-		break;
-	case 'Y':
-		psistem->generateFirework(4, Vector3(0, 2, 0), Vector3(0, 1, 0) * 80, Vector3(0,0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-		break;
-	case 'E':
-		psistem->generateFirework(1, Vector3(0, 2, 300), Vector3(0, 1, 0) * 80, Vector3(0, 0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-		break;
-	case 'B': psistem->generateSpringDemo();
-		break;
-	case 'N': psistem->slinky();
-		break;
-	case 'M': psistem->buoyancy();
-		break;
-	case 'C': psistem->increasek();
-		break;
-	case 'V': psistem->decreasek();
-		break;
-	case 'Z': psistem->addforce();
-		break;
-	case 'X': psistem->Deleteforce();
-		break;
-	case 'H':
-		//float Cestatico, float Cdinamico, float Elastico, PxVec3 inertiaT, Vector3 dimension,
-		//	Vector4 color, Vector3 transform, Vector3 velocity, Vector3 angularvelocity, int density, int timetoleave
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(1,1,1), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 60),
-			Vector3(0, -100, 0), Vector3(0, 80, 80), 0.15, 3);
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(0.5, 0.5, 0.5), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 40),
-			Vector3(0, -400, 0), Vector3(0, 0, 0), 0.15, 3);
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(0.5,0.5,0.5),Vector3(4,4,4),Vector4(0.529,0.22,0.878,1.0),Vector3(-70, 200, -70),
-			Vector3(0, -100, 0), Vector3 (0,0,0), 0.15, 3);
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, Vector3(0.5, 0.5, 0.5), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 0),
-			Vector3(0, -100, 0), Vector3(0, 0, 0), 0.15, 3);
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, Vector3(0.5, 0.5, 0.5), Vector3(2, 2, 2), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 20),
-			Vector3(0, -100, 0), Vector3(0, 0, 0), 0.15, 3);
-		break;
-	//case 'G': //distinta masa
-	//	rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, );
-	//	break;
-	//case 'J': //distinto tensor de inercia
-	//	rbmanager->addDynamicObject();
-	//	break;
-	//case 'K': //distinto material
-	//	rbmanager->addDynamicObject();
-	//	break;
-	//case '1': //dispara desde la camara
-	//	rbmanager->addDynamicObject();
-	//	break;
-	//case '2': //dispara desde la camara circulos
-	//	rbmanager->addDynamicObject();
-	//	break;
-	//case '3': //dispara desde la camara capsulas
-	//	rbmanager->addDynamicObject();
-	//	break;
 	default:
 		break;
 	}

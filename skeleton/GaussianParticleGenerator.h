@@ -1,5 +1,6 @@
 #pragma once
 #include "ParticleGenerator.h"
+#include "Firework.h"
 #include <iostream>
 #include <random>
 #include <time.h>
