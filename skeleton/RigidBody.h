@@ -18,5 +18,9 @@ public:
 	PxRigidStatic* body;
 	RenderItem* item;
 	PxShape* shape;
+	Vector4 color;
 	float time = 0;
+	StaticRigidBody(PxRigidStatic* _body, RenderItem* _item, PxShape* _shape, const Vector4& _color)
+		: body(_body), item(_item), shape(_shape), color(_color) {}
+
 };

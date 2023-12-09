@@ -32,7 +32,7 @@ ContactReportCallback gContactReportCallback;
 RBManager* _RBManager = nullptr;
 ParticleSystem* _particleSystem = nullptr;
 using namespace std;
-
+int Puntos = 0;
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -50,18 +50,20 @@ void initPhysics(bool interactive)
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, -19.8f, 0.0f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	//INICIALIZACION DE LOS OBJETOS
+	
+
 
 	_particleSystem = new ParticleSystem();
-	_particleSystem->createscene(gScene,gPhysics );
-	//_RBManager = new RBManager(gPhysics, gScene);
-	//_RBManager->createscene();
+	//_particleSystem->createscene(gScene,gPhysics );
+	_RBManager = new RBManager(gPhysics, gScene);
+	_RBManager->createscene();
 
 	}
 
@@ -76,7 +78,8 @@ void stepPhysics(bool interactive, double t)
 	gScene->fetchResults(true);
 
 	//ACTUALIZACION DE LOS OBJETOS
-
+	if (_particleSystem != nullptr)_particleSystem->update(t);
+	if (_RBManager != nullptr)_RBManager->update(t);
 	
 }
 
@@ -96,7 +99,8 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 	
 	gFoundation->release();
-
+	delete (_particleSystem);
+	delete (_RBManager);
 	//DESTRUCTORAS
 	}
 
@@ -111,11 +115,14 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	
 		//press enter to start
 		break;
-	case 'A':
-		//press a to move left
+	case 'C':
+		//press c to move left
 		break;
-	case 'D':
-		//press d to move right
+	case 'N':
+		//press n to move right
+		break;
+	case 'P':
+		//press p to move the spring
 		break;
 	default:
 		break;
@@ -124,8 +131,36 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
-	PX_UNUSED(actor1);
-	PX_UNUSED(actor2);
+		const string a = actor1->getName();
+		const string b = actor2->getName();
+		if (a == "trigger" && b=="pelota") {
+			StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor1->userData);
+			if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
+				p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
+				p1->item->color = Vector4{ 0.969, 0.965, 0.071,1 };
+				
+			}
+			else {
+				p1->color = Vector4{ 0.98, 0.084, 0.051,1 };
+				p1->item->color = Vector4{ 0.98, 0.084, 0.051,1 };
+			}
+		}
+		else if (b == "trigger" && a == "pelota") {
+			StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor2->userData);
+			if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
+				p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
+				p1->item->color = Vector4{ 0.969, 0.965, 0.071,1 };
+
+			}
+			else {
+				p1->color = Vector4{ 0.98, 0.084, 0.051,1 };
+				p1->item->color = Vector4{ 0.98, 0.084, 0.051,1 };
+			}
+		}
+		PX_UNUSED(actor1);
+		PX_UNUSED(actor2);
+		Puntos += 100;
+		
 }
 
 

@@ -14,6 +14,19 @@
 		listOfForceGenerators.push_back(_gravityMoon_force_generator);
 		_Wind_Force_Generator = new WindForceGenerator({0,0,3.0f},{ 0, 0, -100 },{ 100, 100, 50 },1.0f , 0);
 		listOfForceGenerators.push_back(_Wind_Force_Generator);
+
+
+
+
+		p3 = new Particle({ 136.96,1.5,267.6 }, { 0,0,0 }, { 0,0,0 }, 2.0f, { 1, 0, 0, 1 }, 600, 2, 0);
+		AnchoredSpringFG* f3 = new AnchoredSpringFG(k, 20, { 136.96,20,267.6 });
+		_pFR->addRegistry(f3, p3);
+		listOfForceGenerators.push_back(f3);
+		_particles.push_back(p3);
+		_pFR->addRegistry(_gravity_force_generator, p3);
+
+
+
 	};
 
 	//destructora de la clase
@@ -126,19 +139,14 @@
 		suelo->attachShape(*shape);
 		gScene->addActor(*suelo);
 		RenderItem* item;
-		item = new RenderItem(shape, suelo, { 0.8,0.8,0.8,1 });
+		item = new RenderItem(shape, suelo, { 0.412, 0.294, 0.412,1 });
+
 	};
 	void ParticleSystem::Deleteforce() {
-		cout << "se quita\n";
-		_pFR->deleteParticleRegistry(p3);
-		_pFR->addRegistry(f3, p3);
-		_pFR->addRegistry(_gravity_force_generator, p3);
+		
 	}
 	void ParticleSystem::addforce() {
-		cout << "se añade\n";
-		GravityForceGenerator* grav = new GravityForceGenerator({ 0,0,7.5 });
-		listOfForceGenerators.push_back(grav);
-		_pFR->addRegistry(grav, p3);
+		
 
 	}
 

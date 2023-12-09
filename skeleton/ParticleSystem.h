@@ -26,7 +26,7 @@ class ParticleSystem
 		Particle* p1 = nullptr;
 		Particle* p2 = nullptr;
 		Particle* p3 = nullptr;
-		AnchoredSpringFG* f3 = nullptr;
+		
 
 		int k = 5;
 		Firework* _part = nullptr;
