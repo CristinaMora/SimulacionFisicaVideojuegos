@@ -8,6 +8,7 @@
 #include <list>
 #include "RBManager.h"
 #include "ParticleSystem.h"
+#include <PxSimulationEventCallback.h>
 
 
 std::string display_text = "Cristina Mora Velasco";
@@ -129,6 +130,9 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	}
 }
 
+void onTriggere(physx::PxTriggerPair* pairs) {
+	cout << "rg";
+}
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
 		const string a = actor1->getName();
