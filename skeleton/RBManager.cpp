@@ -79,6 +79,8 @@ StaticRigidBody RBManager::addStaticObject(Vector3 dimension, Vector4 color, Vec
 		shape = CreateShape(PxBoxGeometry(dimension), gMaterial);
 	}
 	if (name == "trigger") {
+		shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+		shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
 	}
 	suelo->setName(name);
 	suelo->attachShape(*shape);
@@ -159,8 +161,8 @@ void RBManager::createscene() {
 
 	//las palas color = 0.565, 1, 0.514,1
 	
-	//addDynamicObject(0.5f, 0.5f, 0.6f, { 0,0,0 }, { 4,2,2 }, { 0.565, 1, 0.514,1 }, { -36.96,2,217.6 }, { 0,0,0 }, { 0,0,0 }, 0.5f, 2147483647, false, "pala1");
-	//addDynamicObject(0.5f, 0.5f, 0.6f, { 0,0,0 }, { 4,2,2 }, { 0.565, 1, 0.514,1 }, { -66.96,2,217.6 }, { 0,0,0 }, { 0,0,0 }, 0.5f, 2147483647, false, "pala2");
+	addDynamicObject(0.5f, 0.5f, 0.6f, { 0,0,0 }, { 4,2,2 }, { 0.565, 1, 0.514,1 }, { -36.96,2,217.6 }, { 0,0,0 }, { 0,0,0 }, 0.5f, 2147483647, false, "pala1");
+	addDynamicObject(0.5f, 0.5f, 0.6f, { 0,0,0 }, { 4,2,2 }, { 0.565, 1, 0.514,1 }, { -66.96,2,217.6 }, { 0,0,0 }, { 0,0,0 }, 0.5f, 2147483647, false, "pala2");
 
 	//la pelota
 	addDynamicObject(0.1f, 0.1f, 0.6f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,0.25 }, { 55.0,4,-275.6 }, { 0,0,0 }, { 0,0,0 }, 0.5f, 2147483647, true, "pelota");

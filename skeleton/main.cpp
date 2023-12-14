@@ -131,6 +131,17 @@ void keyPress(unsigned char key, const PxTransform& camera)
 }
 
 void onTriggere(physx::PxTriggerPair* pairs) {
+	physx::PxActor* actor1 = static_cast<physx::PxActor*>(pairs->triggerActor);
+	StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor1->userData);
+	if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
+		p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
+		p1->item->color = Vector4{ 0.969, 0.965, 0.071,1 };
+
+	}
+	else {
+		p1->color = Vector4{ 0.98, 0.084, 0.051,1 };
+		p1->item->color = Vector4{ 0.98, 0.084, 0.051,1 };
+	}
 	cout << "rg";
 }
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
@@ -138,6 +149,8 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 		const string a = actor1->getName();
 		const string b = actor2->getName();
 		if (a == "trigger" && b=="pelota") {
+			PX_UNUSED(actor1);
+			PX_UNUSED(actor2);
 			StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor1->userData);
 			if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
 				p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
@@ -150,6 +163,8 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 			}
 		}
 		else if (b == "trigger" && a == "pelota") {
+			PX_UNUSED(actor1);
+			PX_UNUSED(actor2);
 			StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor2->userData);
 			if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
 				p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
