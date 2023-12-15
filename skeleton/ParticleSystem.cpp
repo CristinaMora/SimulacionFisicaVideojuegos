@@ -134,7 +134,7 @@
 	void ParticleSystem::createscene(PxScene* gScene, PxPhysics* gPhysics) {
 
 		suelo = gPhysics->createRigidStatic(PxTransform({ 0,0,0 }));
-		shape = CreateShape(PxBoxGeometry(400, 0.2, 400));
+		shape = CreateShape(PxBoxGeometry(400, 0.9, 400));
 		suelo->attachShape(*shape);
 		gScene->addActor(*suelo);
 		RenderItem* item;

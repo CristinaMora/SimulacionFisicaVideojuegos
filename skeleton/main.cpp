@@ -156,15 +156,16 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case 'H':
 		//float Cestatico, float Cdinamico, float Elastico, PxVec3 inertiaT, Vector3 dimension,
 		//	Vector4 color, Vector3 transform, Vector3 velocity, Vector3 angularvelocity, int density, int timetoleave
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(1,1,1), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 60),
-			Vector3(0, -100, 0), Vector3(0, 80, 80), 0.15, 3);
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(0.5, 0.5, 0.5), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 40),
-			Vector3(0, -400, 0), Vector3(0, 0, 0), 0.15, 3);
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(0.5,0.5,0.5),Vector3(4,4,4),Vector4(0.529,0.22,0.878,1.0),Vector3(-70, 200, -70),
-			Vector3(0, -100, 0), Vector3 (0,0,0), 0.15, 3);
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, Vector3(0.5, 0.5, 0.5), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 0),
+		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(2, 0, 1), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 40),
 			Vector3(0, -100, 0), Vector3(0, 0, 0), 0.15, 3);
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, Vector3(0.5, 0.5, 0.5), Vector3(2, 2, 2), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 20),
+		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(0, 1, 1), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 60),
+			Vector3(0, -100, 0), Vector3(0, 80, 80), 0.15, 3);
+		
+		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(2, 0, 1),Vector3(4,4,4),Vector4(0.529,0.22,0.878,1.0),Vector3(-70, 200, -70),
+			Vector3(0, -100, 0), Vector3 (0,0,0), 0.15, 3);
+		rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, Vector3(2, 0, 1), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 0),
+			Vector3(0, -100, 0), Vector3(0, 0, 0), 0.15, 3);
+		rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, Vector3(2, 0, 1), Vector3(2, 2, 2), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 20),
 			Vector3(0, -100, 0), Vector3(0, 0, 0), 0.15, 3);
 		break;
 	//case 'G': //distinta masa
