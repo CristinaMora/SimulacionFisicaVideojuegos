@@ -32,7 +32,7 @@ class RBManager
 		PxRigidDynamic* object;
 		SolidForceRegistry* _sFR;
 		
-		int num = 0;
+		int num = 9;
 		
 
 };

@@ -4,7 +4,7 @@ RBManager::RBManager(PxPhysics* gPhysics, PxScene* gScene)
 	//CREAMOS LA FISICA NECESARIA
 	_gPhysics = gPhysics;
 	_gScene = gScene;
-	num = 0;
+	num = 10;
 	//CREAMOS EL GENERADOR DE PARTICULAS
 	_generator = new UniformParticleGenerator(Vector3{ 50,50,50 }, Vector3{ 20,20,20 }, gPhysics, gScene);
 	//GENERADOR DE FUERZAS
