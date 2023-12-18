@@ -19,10 +19,12 @@ class RBManager
 		virtual ~RBManager();
 		 RigidBody addDynamicObject(float Cestatico, float Cdinamico, float Elastico, PxVec3 inertiaT, Vector3 dimension,
 			Vector4 color, Vector3 transform, Vector3 velocity, Vector3 angularvelocity, float density, int timetoleave, bool ball=false, const char* name = "");
+		 Pala* addPalas(bool l, Vector3 transform, const char* name);
 		 StaticRigidBody addStaticObject(Vector3 dimension, Vector4 color, Vector3 transform, PxQuat rotate, bool ball=false, const char* name="");
 		void createscene();
 		void update(double t);
 		void addForce();
+		void keypress(unsigned char key);
 	private:
 		
 		std::list<RigidBody> _objects;
@@ -30,12 +32,26 @@ class RBManager
 		UniformParticleGenerator* _generator;
 		WindForceGenerator* windForceGen;
 		GravityForceGenerator* gravityForceGen;
+		GravityForceGenerator* gravityForceGenContra;
 		AnchoredSpringFG* anchoredForceGen;
 		PxPhysics* _gPhysics;
 		PxScene* _gScene;
 		SolidForceRegistry* _sFR;
 
+		bool tenso = false;
+		//cosas del pinball:
+		//palaI
+		Pala* palaI;
+		 
+		//palaD
+		Pala* palaD;
 		
+		//bola
+		RigidBody bola;
+		//muelle
+		RigidBody muelle;
+
+
 		int num = 0;
 		
 

@@ -19,6 +19,7 @@ void SpringForceGenerator::updateForce(Particle* particle, double t) {
 }
 void SpringForceGenerator::updateForce(physx::PxRigidBody* solid, double t) {
 	Vector3 relative_pos_vector = _other2->getGlobalPose().p - solid->getGlobalPose().p;
+	relative_pos_vector.y = 0;
 	const float length = relative_pos_vector.normalize();
 	const float delta_x = length - _resting_length;
 	Vector3 force = relative_pos_vector * delta_x * _k;

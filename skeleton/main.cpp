@@ -51,7 +51,7 @@ void initPhysics(bool interactive)
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -19.8f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = contactReportFilterShader;
@@ -109,40 +109,28 @@ void cleanupPhysics(bool interactive)
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
-	switch(toupper(key))
-	{
-		//INPUT
-	case ' ':
-	
-		//press enter to start
-		break;
-	case 'C':
-		//press c to move left
-		break;
-	case 'N':
-		//press n to move right
-		break;
-	case 'P':
-		//press p to move the spring
-		break;
-	default:
-		break;
-	}
+	_RBManager->keypress( key);
 }
 
 void onTriggere(physx::PxTriggerPair* pairs) {
 	physx::PxActor* actor1 = static_cast<physx::PxActor*>(pairs->triggerActor);
 	StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor1->userData);
-	if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
-		p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
-		p1->item->color = Vector4{ 0.969, 0.965, 0.071,1 };
-
+	if (p1->body->getName()=="triggerfinal" ) {
+		//se acaba la partida
 	}
 	else {
-		p1->color = Vector4{ 0.98, 0.084, 0.051,1 };
-		p1->item->color = Vector4{ 0.98, 0.084, 0.051,1 };
+		if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
+			p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
+			p1->item->color = Vector4{ 0.969, 0.965, 0.071,1 };
+
+		}
+		else {
+			p1->color = Vector4{ 0.98, 0.084, 0.051,1 };
+			p1->item->color = Vector4{ 0.98, 0.084, 0.051,1 };
+		}
 	}
-	cout << "rg";
+	
+	cout << (Puntos += 100);
 }
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
@@ -178,7 +166,7 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 		}
 		PX_UNUSED(actor1);
 		PX_UNUSED(actor2);
-		Puntos += 100;
+		
 		
 }
 

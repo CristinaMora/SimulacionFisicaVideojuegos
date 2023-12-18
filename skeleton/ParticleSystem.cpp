@@ -17,16 +17,6 @@
 
 
 
-
-		p3 = new Particle({ 136.96,1.5,267.6 }, { 0,0,0 }, { 0,0,0 }, 2.0f, { 1, 0, 0, 1 }, 600, 2, 0);
-		AnchoredSpringFG* f3 = new AnchoredSpringFG(k, 20, { 136.96,20,267.6 });
-		_pFR->addRegistry(f3, p3);
-		listOfForceGenerators.push_back(f3);
-		_particles.push_back(p3);
-		_pFR->addRegistry(_gravity_force_generator, p3);
-
-
-
 	};
 
 	//destructora de la clase

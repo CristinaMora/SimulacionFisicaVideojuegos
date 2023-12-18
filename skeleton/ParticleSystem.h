@@ -25,7 +25,6 @@ class ParticleSystem
 	protected:
 		Particle* p1 = nullptr;
 		Particle* p2 = nullptr;
-		Particle* p3 = nullptr;
 		
 
 		int k = 5;

@@ -10,7 +10,7 @@ AnchoredSpringFG::AnchoredSpringFG(double k, double resting, Vector3 anchor_pos,
 	PxTransform trans = PxTransform(anchor_pos);
 	suelo = gPhysics->createRigidStatic(trans);
 	 
-	PxShape* shape = CreateShape(PxBoxGeometry(PxVec3{ 10.0f, 0.2f, 10.0f }));
+	PxShape* shape = CreateShape(PxBoxGeometry(PxVec3{ 10.0f,10.0f ,0.2f  }));
 	suelo->attachShape(*shape);
 	gScene->addActor(*suelo);
 	RenderItem* item;
