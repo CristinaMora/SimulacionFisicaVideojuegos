@@ -1,10 +1,10 @@
 #pragma once
 #include "ForceGenerator.h"
-#include "core.hpp"
 class GravityForceGenerator : public ForceGenerator {
 public:
 	GravityForceGenerator(const Vector3& g) { _gravity = g; };
-	virtual void updateForce(Particle* particle, double t);
+	void updateForce(Particle* particle, double t) override;
+	void updateForce(physx::PxRigidBody* solid, double duration) override;
 	inline void setGravity(Vector3 g) { _gravity = g; }
 	~GravityForceGenerator(){};
 protected:

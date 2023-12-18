@@ -2,10 +2,12 @@
 #include <PxScene.h>
 #include <PxPhysics.h>
 #include "RenderUtils.hpp"
-#include "UniformParticleGenerator.h"
-#include "WindForceGenerator.h"
 #include <list>
 #include "PxShape.h"
+#include "UniformParticleGenerator.h"
+#include "WindForceGenerator.h"
+#include "GravityForceGenerator.h"
+#include "AnchoredSpringFG.h"
 #include "SolidForceRegistry.h"
 
 
@@ -15,24 +17,42 @@ class RBManager
 	public:
 		RBManager(PxPhysics* gPhysics, PxScene* gScene);
 		virtual ~RBManager();
-		void addDynamicObject(float Cestatico, float Cdinamico, float Elastico, PxVec3 inertiaT, Vector3 dimension,
-			Vector4 color, Vector3 transform, Vector3 velocity, Vector3 angularvelocity, float density, int timetoleave);
-		void addStaticObject();
+		 RigidBody addDynamicObject(float Cestatico, float Cdinamico, float Elastico, PxVec3 inertiaT, Vector3 dimension,
+			Vector4 color, Vector3 transform, Vector3 velocity, Vector3 angularvelocity, float density, int timetoleave, bool ball=false, const char* name = "");
+		 Pala* addPalas(bool l, Vector3 transform, const char* name);
+		 StaticRigidBody addStaticObject(Vector3 dimension, Vector4 color, Vector3 transform, PxQuat rotate, bool ball=false, const char* name="");
+		void createscene();
 		void update(double t);
 		void addForce();
+		void keypress(unsigned char key);
 	private:
 		
-		std::list<RigidBodyWithTime> _objects;
+		std::list<RigidBody> _objects;
+		std::list<StaticRigidBody> _statics;
 		UniformParticleGenerator* _generator;
-		//RigidForceRegistry* reg;
 		WindForceGenerator* windForceGen;
-		
+		GravityForceGenerator* gravityForceGen;
+		GravityForceGenerator* gravityForceGenContra;
+		AnchoredSpringFG* anchoredForceGen;
 		PxPhysics* _gPhysics;
 		PxScene* _gScene;
-		PxRigidDynamic* object;
 		SolidForceRegistry* _sFR;
+
+		bool tenso = false;
+		//cosas del pinball:
+		//palaI
+		Pala* palaI;
+		 
+		//palaD
+		Pala* palaD;
 		
-		int num = 9;
+		//bola
+		RigidBody bola;
+		//muelle
+		RigidBody muelle;
+
+
+		int num = 0;
 		
 
 };

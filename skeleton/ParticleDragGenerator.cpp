@@ -1,7 +1,7 @@
 #include "ParticleDragGenerator.h"
 
  void ParticleDragGenerator::updateForce(Particle* particle, double t) {
-	if (fabs((1/particle->masa)) < 1e-10) return;
+	if (fabs((1/particle->getMass())) < 1e-10) return;
 	//compute drag force
 	Vector3 v = particle->getVel();
 	float drag_coef = v.normalize();

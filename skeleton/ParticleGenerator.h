@@ -1,5 +1,6 @@
 #pragma once
 #include "Particle.h"
+#include "RigidBody.h"
 #include <list>
 using namespace std;
 class ParticleGenerator
@@ -14,15 +15,12 @@ public:
 	inline Vector3 getMeanVelocity() const {
 		return _mean_velocity;
 	}
-	inline void setMeanDuration(double new_duration) {
-		_model_particle->timer = new_duration;
-	}
 	inline void setParticle(Particle* p, bool modify_pos_vel) {
 		delete _model_particle;
 		//_model_particle = p->clone();
 		if (modify_pos_vel) {
 			//_origin = p->getPos().p;
-			_mean_velocity = p->vel;
+			_mean_velocity = p->getVel();
 		}
 		_model_particle->setPos({ -1000.0f, -1000.0f, -1000.0f });
 	}

@@ -40,10 +40,10 @@ std::list<Particle*>  UniformParticleGenerator::generatefirework1() {
 
 	return particles;
 };
-std::list<RigidBodyWithTime> UniformParticleGenerator::generateSolidRigid() {
-	std::list<RigidBodyWithTime> solidss;
+std::list<RigidBody> UniformParticleGenerator::generateSolidRigid() {
+	std::list<RigidBody> solidss;
 	for (int i = 0; i < nsolid; i++) {
-		RigidBodyWithTime solid;
+		RigidBody solid;
 		PxRigidDynamic* new_solid;
 		//POSICION
 		Vector3 position = Vector3{ -70,200,-70 } + Vector3(dis(_mt) * stdDevPos.x, dis(_mt) * stdDevPos.y, dis(_mt) * stdDevPos.z);

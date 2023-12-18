@@ -254,52 +254,47 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnchoredSpringFG.cpp" />
-    <ClCompile Include="BuoyancyForceGenerator.cpp" />
     <ClCompile Include="callbacks.cpp" />
-    <ClCompile Include="ExpplosionForceGenerator.cpp" />
     <ClCompile Include="Firework.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="GaussianParticleGenerator.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
-    <ClCompile Include="ParticleDragGenerator.cpp" />
-    <ClCompile Include="ParticleForceRegistry.cpp" />
-    <ClCompile Include="RBManager.cpp" />
-    <ClCompile Include="SolidForceRegistry.cpp" />
-    <ClCompile Include="SpringForceGenerator.cpp" />
-    <ClCompile Include="UniformParticleGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Particle.cpp" />
-    <ClCompile Include="ParticleGenerator.cpp" />
+    <ClCompile Include="ParticleDragGenerator.cpp" />
+    <ClCompile Include="ParticleForceRegistry.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="RBManager.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
-    <ClCompile Include="whirlwind.cpp" />
+    <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="SolidForceRegistry.cpp" />
+    <ClCompile Include="SpringForceGenerator.cpp" />
+    <ClCompile Include="UniformParticleGenerator.cpp" />
     <ClCompile Include="WindForceGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnchoredSpringFG.h" />
-    <ClInclude Include="BuoyancyForceGenerator.h" />
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
-    <ClInclude Include="ExpplosionForceGenerator.h" />
     <ClInclude Include="Firework.h" />
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="GaussianParticleGenerator.h" />
     <ClInclude Include="GravityForceGenerator.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleDragGenerator.h" />
     <ClInclude Include="ParticleForceRegistry.h" />
-    <ClInclude Include="RBManager.h" />
-    <ClInclude Include="SolidForceRegistry.h" />
-    <ClInclude Include="SpringForceGenerator.h" />
-    <ClInclude Include="UniformParticleGenerator.h" />
-    <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleGenerator.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="RBManager.h" />
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
-    <ClInclude Include="whirlwind.h" />
+    <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="SolidForceRegistry.h" />
+    <ClInclude Include="SpringForceGenerator.h" />
+    <ClInclude Include="UniformParticleGenerator.h" />
     <ClInclude Include="WindForceGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

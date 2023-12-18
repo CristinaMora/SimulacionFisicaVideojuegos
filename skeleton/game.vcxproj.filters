@@ -7,27 +7,24 @@
     <ClCompile Include="Render\Render.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="callbacks.cpp" />
+    <ClCompile Include="RenderUtils.cpp" />
+    <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Particle.cpp" />
-    <ClCompile Include="ParticleGenerator.cpp" />
-    <ClCompile Include="ParticleSystem.cpp" />
-    <ClCompile Include="Firework.cpp" />
-    <ClCompile Include="UniformParticleGenerator.cpp" />
     <ClCompile Include="GaussianParticleGenerator.cpp" />
-    <ClCompile Include="ForceGenerator.cpp" />
-    <ClCompile Include="ParticleForceRegistry.cpp" />
+    <ClCompile Include="UniformParticleGenerator.cpp" />
+    <ClCompile Include="Firework.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
-    <ClCompile Include="ParticleDragGenerator.cpp" />
-    <ClCompile Include="WindForceGenerator.cpp" />
-    <ClCompile Include="whirlwind.cpp" />
-    <ClCompile Include="ExpplosionForceGenerator.cpp" />
+    <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="AnchoredSpringFG.cpp" />
-    <ClCompile Include="BuoyancyForceGenerator.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="RBManager.cpp" />
     <ClCompile Include="SolidForceRegistry.cpp" />
+    <ClCompile Include="ParticleForceRegistry.cpp" />
+    <ClCompile Include="WindForceGenerator.cpp" />
+    <ClCompile Include="ParticleDragGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -37,26 +34,24 @@
     <ClInclude Include="Render\Render.h">
       <Filter>Render</Filter>
     </ClInclude>
-    <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="callbacks.hpp" />
+    <ClInclude Include="RenderUtils.hpp" />
+    <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="GaussianParticleGenerator.h" />
     <ClInclude Include="UniformParticleGenerator.h" />
     <ClInclude Include="ParticleGenerator.h" />
-    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Firework.h" />
-    <ClInclude Include="GaussianParticleGenerator.h" />
-    <ClInclude Include="ForceGenerator.h" />
-    <ClInclude Include="ParticleForceRegistry.h" />
     <ClInclude Include="GravityForceGenerator.h" />
-    <ClInclude Include="ParticleDragGenerator.h" />
-    <ClInclude Include="WindForceGenerator.h" />
-    <ClInclude Include="whirlwind.h" />
-    <ClInclude Include="ExpplosionForceGenerator.h" />
+    <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="AnchoredSpringFG.h" />
-    <ClInclude Include="BuoyancyForceGenerator.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="RBManager.h" />
     <ClInclude Include="SolidForceRegistry.h" />
+    <ClInclude Include="ParticleForceRegistry.h" />
+    <ClInclude Include="WindForceGenerator.h" />
+    <ClInclude Include="ParticleDragGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

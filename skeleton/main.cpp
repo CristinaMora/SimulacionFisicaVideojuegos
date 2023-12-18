@@ -1,18 +1,17 @@
 #include <ctype.h>
-
 #include <PxPhysicsAPI.h>
-
 #include <vector>
-
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
-#include "ParticleSystem.h"
-#include "RBManager.h"
 #include <iostream>
 #include <list>
-std::string display_text = "Cristina Mora Velasco";
+#include "RBManager.h"
+#include "ParticleSystem.h"
+#include <PxSimulationEventCallback.h>
 
+
+std::string display_text = "Cristina Mora Velasco";
 
 using namespace physx;
 
@@ -29,13 +28,12 @@ PxPvd*                  gPvd        = NULL;
 
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
-ParticleSystem*         psistem = nullptr;
 ContactReportCallback gContactReportCallback;
-RBManager* rbmanager = nullptr;
 
-
+RBManager* _RBManager = nullptr;
+ParticleSystem* _particleSystem = nullptr;
 using namespace std;
-
+int Puntos = 0;
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -59,10 +57,14 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	//me creo un sistema de particulas que actualizara las particulas en todo momento
-	psistem = new ParticleSystem();
-	psistem->createscene(gScene,gPhysics);
-	rbmanager = new RBManager(gPhysics, gScene);
+	//INICIALIZACION DE LOS OBJETOS
+	
+
+
+	_particleSystem = new ParticleSystem();
+	//_particleSystem->createscene(gScene,gPhysics );
+	_RBManager = new RBManager(gPhysics, gScene);
+	_RBManager->createscene();
 
 	}
 
@@ -75,9 +77,10 @@ void stepPhysics(bool interactive, double t)
 	PX_UNUSED(interactive);
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	if (psistem != nullptr)psistem->update(t);
-	if (rbmanager != nullptr)rbmanager->update(t);
 
+	//ACTUALIZACION DE LOS OBJETOS
+	if (_particleSystem != nullptr)_particleSystem->update(t);
+	if (_RBManager != nullptr)_RBManager->update(t);
 	
 }
 
@@ -97,104 +100,74 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 	
 	gFoundation->release();
-	delete (psistem);
+	delete (_particleSystem);
+	delete (_RBManager);
+	//DESTRUCTORAS
 	}
 
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
-	switch(toupper(key))
-	{
-	case 'L': //añade dos particulas con distintas gravedades
-		psistem->generateParticle(1, { 0,300,30 }, Vector3(0, 1, 0) * (-80), Vector3(0, 0, 0), 3.0f, 10, Vector4{ 0.659, 0.659, 0.478, 1 }, 5);
-		psistem->generateParticle(2, { 0,300,0 }, Vector3(0, 1, 0) * (-80), Vector3(0, 0, 0), 3.0f, 10, Vector4{ 0.431, 0.42, 0.722, 1 }, 5);
-		break;
-	case 'P': //explota
-		psistem->boom();
-		break;
-	case 'I': //tornado
-		psistem->generateParticle(4, { 0,18,0 }, Vector3(0, 0, 1) * (-80), Vector3(0, 0, 0), 0.5f, 50, Vector4{ 0.902, 0.62, 0.063, 1 }, 10);
-		break;
-	case 'O'://añade particulas para la explosion
-		psistem->generateParticle(5, { 0,18,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
-		psistem->generateParticle(5, { 0,18,10 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
-		psistem->generateParticle(5, { 50,18,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
-		psistem->generateParticle(5, { 0,70,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
-		psistem->generateParticle(5, { 50,50,0 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 4);
-		psistem->generateParticle(5, { 50,50,50 }, Vector3(0, 0, 0) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 },4);
-		break;
-	case 'U': //viento
-		psistem->generateParticle(3, { 0,18,0 }, Vector3(0, 0, 1) * (-80), Vector3(0, 0, 0), 0.5f, 100, Vector4{ 150 , 0, 50, 1 }, 10);
-		break;
-	case 'R':
-		psistem->generateFirework(2, Vector3(0, 2, 200), Vector3(0, 1, 0) * 80, Vector3(0, 0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-		break;
-	case 'T':
-		psistem->generateFirework(3, Vector3(0, 2, 100), Vector3(0, 1, 0) * 50, Vector3(0,0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-		break;
-	case 'Y':
-		psistem->generateFirework(4, Vector3(0, 2, 0), Vector3(0, 1, 0) * 80, Vector3(0,0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-		break;
-	case 'E':
-		psistem->generateFirework(1, Vector3(0, 2, 300), Vector3(0, 1, 0) * 80, Vector3(0, 0, 0), 0.02f, 3, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-		break;
-	case 'B': psistem->generateSpringDemo();
-		break;
-	case 'N': psistem->slinky();
-		break;
-	case 'M': psistem->buoyancy();
-		break;
-	case 'C': psistem->increasek();
-		break;
-	case 'V': psistem->decreasek();
-		break;
-	case 'Z': psistem->addforce();
-		break;
-	case 'X': psistem->Deleteforce();
-		break;
-	case 'H':
-		//float Cestatico, float Cdinamico, float Elastico, PxVec3 inertiaT, Vector3 dimension,
-		//	Vector4 color, Vector3 transform, Vector3 velocity, Vector3 angularvelocity, int density, int timetoleave
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(2, 0, 1), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 40),
-			Vector3(0, -100, 0), Vector3(0, 0, 0), 0.15, 3);
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(0, 1, 1), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 60),
-			Vector3(0, -100, 0), Vector3(0, 80, 80), 0.15, 3);
-		
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.3f, Vector3(2, 0, 1),Vector3(4,4,4),Vector4(0.529,0.22,0.878,1.0),Vector3(-70, 200, -70),
-			Vector3(0, -100, 0), Vector3 (0,0,0), 0.15, 3);
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, Vector3(2, 0, 1), Vector3(4, 4, 4), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 0),
-			Vector3(0, -100, 0), Vector3(0, 0, 0), 0.15, 3);
-		rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, Vector3(2, 0, 1), Vector3(2, 2, 2), Vector4(0.529, 0.22, 0.878, 1.0), Vector3(-70, 200, 20),
-			Vector3(0, -100, 0), Vector3(0, 0, 0), 0.15, 3);
-		break;
-	//case 'G': //distinta masa
-	//	rbmanager->addDynamicObject(0.2f, 0.1f, 0.8f, );
-	//	break;
-	//case 'J': //distinto tensor de inercia
-	//	rbmanager->addDynamicObject();
-	//	break;
-	//case 'K': //distinto material
-	//	rbmanager->addDynamicObject();
-	//	break;
-	//case '1': //dispara desde la camara
-	//	rbmanager->addDynamicObject();
-	//	break;
-	//case '2': //dispara desde la camara circulos
-	//	rbmanager->addDynamicObject();
-	//	break;
-	//case '3': //dispara desde la camara capsulas
-	//	rbmanager->addDynamicObject();
-	//	break;
-	default:
-		break;
-	}
+	_RBManager->keypress( key);
 }
 
+void onTriggere(physx::PxTriggerPair* pairs) {
+	physx::PxActor* actor1 = static_cast<physx::PxActor*>(pairs->triggerActor);
+	StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor1->userData);
+	if (p1->body->getName()=="triggerfinal" ) {
+		//se acaba la partida
+	}
+	else {
+		if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
+			p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
+			p1->item->color = Vector4{ 0.969, 0.965, 0.071,1 };
+
+		}
+		else {
+			p1->color = Vector4{ 0.98, 0.084, 0.051,1 };
+			p1->item->color = Vector4{ 0.98, 0.084, 0.051,1 };
+		}
+	}
+	
+	cout << (Puntos += 100);
+}
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
-	PX_UNUSED(actor1);
-	PX_UNUSED(actor2);
+		const string a = actor1->getName();
+		const string b = actor2->getName();
+		if (a == "trigger" && b=="pelota") {
+			PX_UNUSED(actor1);
+			PX_UNUSED(actor2);
+			StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor1->userData);
+			if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
+				p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
+				p1->item->color = Vector4{ 0.969, 0.965, 0.071,1 };
+				
+			}
+			else {
+				p1->color = Vector4{ 0.98, 0.084, 0.051,1 };
+				p1->item->color = Vector4{ 0.98, 0.084, 0.051,1 };
+			}
+		}
+		else if (b == "trigger" && a == "pelota") {
+			PX_UNUSED(actor1);
+			PX_UNUSED(actor2);
+			StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor2->userData);
+			if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
+				p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
+				p1->item->color = Vector4{ 0.969, 0.965, 0.071,1 };
+
+			}
+			else {
+				p1->color = Vector4{ 0.98, 0.084, 0.051,1 };
+				p1->item->color = Vector4{ 0.98, 0.084, 0.051,1 };
+			}
+		}
+		PX_UNUSED(actor1);
+		PX_UNUSED(actor2);
+		
+		
 }
 
 

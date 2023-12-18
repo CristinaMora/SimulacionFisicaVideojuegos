@@ -1,7 +1,7 @@
 #include "Particle.h"
 
-#include <iostream>
-Particle::Particle(Vector4 c, Vector3 tam, Vector3 Pos, double mas, float t, int type) : posicion(Pos) {
+//CONSTRUCTORAS
+Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler,double mas,Vector4 c,float t, Vector3 tam, int type) : posicion(Pos) {
 	_type = type;
 	time = t;
 	masa = mas;
@@ -23,64 +23,70 @@ Particle::Particle(Vector3 Pos, Vector3 Vel, Vector3 aceler, double mas, Vector4
 
 	renderItem = new RenderItem(CreateShape(physx::PxSphereGeometry(radio)), &posicion,color);
 }
-Particle::Particle(RenderItem* render, physx::PxTransform pos, Vector3 Vel, double mas, float t, int type){
-	_type = type;
-	time = t;
-	masa = mas;
-	acelera = {0,0,0};
-	vel = Vel;
-	_force_accum = { 0,0,0 };
-	renderItem = render;
-	posicion = pos;
-}
 
+//METODO QUE SE UTILIZA PARA ACTUALIZAR LA PARTICULA Y QUE DEVUELVE SI SIGUE VIVA O NO
 bool  Particle::integrate(float t) {
 
-	// Get the accel considering the force accum
+	//FORMULA DE EULER SEMI IMPLICITA
 	Vector3 resulting_accel = acelera + _force_accum * (1/masa);
-	//euler
-	// posicion.p =posicion.p+vel*t;
-	// vel = vel+ resulting_accel*t;
-	//euler semi- implicito
 	vel += resulting_accel * t; 
 	vel *= pow(damping, t); 
 	posicion.p += vel * t;
+	//RESETEAMOS LAS FUERZAS
 	clearForce();
 
+	//CALCULAMOS EL TIEMPO
 	timer += t;
+	//SI EL TIMER ES MAYOR QUE EL TIEMPO ENTONCESTIENE QUE MORIR
 	if (timer >= time) return true;
 	else return false;
 }
-bool Particle::gettimer() {
-	if (timer >= time) return false;
-	else return true;
-}
-void Particle::setPos(Vector3 Pos) {
-	posicion.p = Pos;
-}
-physx::PxTransform Particle::getPos() {
-	return posicion;
-}
-void Particle::setVel(Vector3 Vel) {
-	vel = Vel;
-}
-void Particle::settime(float t) {
-	time = t;
-}
-void Particle::setCol(Vector4 col) {
-	color = col;
-	renderItem->color = col;
-}
-Vector3 Particle::getVel() {
-	return vel;
-}
-Particle::~Particle() {
-	DeregisterRenderItem(renderItem);
-}
- void Particle::addForce(const Vector3 f) {
+
+//METODO PARA BORRAR Y AÑADIR FUERZAS
+void Particle::addForce(const Vector3 f) {
 	_force_accum += f;
 }
 inline void Particle::clearForce() {
 	_force_accum *= 0.0;
 }
+
+//GETTER Y SETTER PARA LA POSICION
+void Particle::setPos(Vector3 Pos) {
+	posicion.p = Pos;
+}
+Vector3 Particle::getPos() {
+	return posicion.p;
+}
+//GETTER Y SETTER PARA LA VELOCIDAD
+void Particle::setVel(Vector3 Vel) {
+	vel = Vel;
+}
+Vector3 Particle::getVel() {
+	return vel;
+}
+
+//SETTER DEL TIEMPO Y BOOL DE VIDA
+bool Particle::getAlive() {
+	if (timer >= time) return false;
+	else return true;
+}
+void Particle::settime(float t) {
+	time = t;
+}
+//SETTER DEL COLOR
+void Particle::setCol(Vector4 col) {
+	color = col;
+	renderItem->color = col;
+}
+double Particle::getMass() {
+	return masa;
+}
+int Particle::getType() {
+	return _type;
+}
+//DESTRUCTORA
+Particle::~Particle() {
+	DeregisterRenderItem(renderItem);
+}
+
 
