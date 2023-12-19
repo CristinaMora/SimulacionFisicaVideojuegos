@@ -117,6 +117,18 @@ void onTriggere(physx::PxTriggerPair* pairs) {
 	StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor1->userData);
 	if (p1->body->getName()=="triggerfinal" ) {
 		//se acaba la partida
+		physx::PxActor* actor2 = static_cast<physx::PxActor*>(pairs->otherActor);
+		RigidBody* p2 = static_cast<RigidBody*>(actor2->userData);
+		const string a = actor2->getName();
+		if (a == "pelota") {
+
+			// Establece la nueva posición y mantiene la orientación actual
+			PxTransform newTransform({ 105.0,3,-205.6 }, p2->body->getGlobalPose().q);
+
+			// Aplica la nueva transformación al cuerpo
+			p2->body->setGlobalPose(newTransform);
+		}
+
 	}
 	else {
 		if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
@@ -136,7 +148,7 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
 		const string a = actor1->getName();
 		const string b = actor2->getName();
-		if (a == "trigger" && b=="pelota") {
+		/*if (a == "trigger" && b=="pelota") {
 			PX_UNUSED(actor1);
 			PX_UNUSED(actor2);
 			StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor1->userData);
@@ -163,7 +175,7 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 				p1->color = Vector4{ 0.98, 0.084, 0.051,1 };
 				p1->item->color = Vector4{ 0.98, 0.084, 0.051,1 };
 			}
-		}
+		}*/
 		PX_UNUSED(actor1);
 		PX_UNUSED(actor2);
 		

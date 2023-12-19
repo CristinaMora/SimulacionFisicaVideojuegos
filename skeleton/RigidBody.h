@@ -14,6 +14,9 @@ class RigidBody
 		PxShape* shape;
 		float time = 0;
 		float tolive;
+		RigidBody(PxRigidDynamic* _body, RenderItem* _item, PxShape* _shape) : body(_body), item(_item), shape(_shape) {};
+
+		 
 };
 class StaticRigidBody
 {

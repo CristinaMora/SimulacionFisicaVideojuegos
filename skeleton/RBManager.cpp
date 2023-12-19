@@ -9,7 +9,7 @@ RBManager::RBManager(PxPhysics* gPhysics, PxScene* gScene)
 	_generator = new UniformParticleGenerator(Vector3{ 50,50,50 }, Vector3{ 20,20,20 }, gPhysics, gScene);
 	//GENERADOR DE FUERZAS
 	windForceGen = new WindForceGenerator({ 0,0,6000.0f }, { 0, 0, -100 }, { 100, 100, 50 }, 1.0f, 0);
-	gravityForceGen = new GravityForceGenerator({ 0,0,12 });
+	gravityForceGen = new GravityForceGenerator({ 0,0,22 });
 	gravityForceGenContra = new GravityForceGenerator({0,0,2000});
 	anchoredForceGen;
 	//REGISTRO DE SOLIDO-FUERZA
@@ -38,7 +38,7 @@ Pala* RBManager::addPalas(bool l, Vector3 transform, const char* name)
 	new_solid->setLinearVelocity({ 0,0,0 });
 	new_solid->setAngularVelocity({ 0,0,0 });
 	//FORMA
-	Vector3 dimension = { 19,4,5 };
+	Vector3 dimension = { 22,20,5 };
 		solid->shape = CreateShape(PxBoxGeometry(dimension.x, dimension.y, dimension.z));
 	
 	new_solid->attachShape(*solid->shape);
@@ -60,41 +60,45 @@ Pala* RBManager::addPalas(bool l, Vector3 transform, const char* name)
 RigidBody RBManager::addDynamicObject(float Cestatico,float Cdinamico,float Elastico, PxVec3 inertiaT, Vector3 dimension,
 	Vector4 color, Vector3 transform, Vector3 velocity,Vector3 angularvelocity, float density, int timetoleave, bool ball, const char* name)
 {
-		RigidBody solid;
 		PxRigidDynamic* new_solid;
+		//RigidBody solid;
 		//MATERIAL
 		PxMaterial* gMaterial = _gPhysics->createMaterial(Cestatico, Cdinamico, Elastico);
 		//POSICION
+
 		new_solid = _gPhysics->createRigidDynamic(PxTransform(transform));
 		//VELOCIDAD
 		new_solid->setLinearVelocity(velocity);
 		new_solid->setAngularVelocity(angularvelocity);
+		PxShape* shape;
 		//FORMA
 		if (ball) {
-			solid.shape = CreateShape(PxSphereGeometry(dimension.x), gMaterial);
+			shape = CreateShape(PxSphereGeometry(dimension.x), gMaterial);
 		}
 		else {
-			solid.shape = CreateShape(PxBoxGeometry(dimension.x, dimension.y, dimension.z), gMaterial);
+			shape = CreateShape(PxBoxGeometry(dimension.x, dimension.y, dimension.z), gMaterial);
 		}
-		new_solid->attachShape(*solid.shape);
+		new_solid->attachShape(*shape);
 		PxRigidBodyExt::updateMassAndInertia(*new_solid, density);
 		//new_solid->setMassSpaceInertiaTensor(inertiaT);
 		//RENDERITEM
-		solid.item = new RenderItem(solid.shape, new_solid, color);
+		RenderItem* item = new RenderItem(shape, new_solid, color);
 		_gScene->addActor(*new_solid);
 		//TIEMPOS Y REGISTROS
-		solid.body = new_solid;
-		solid.tolive = timetoleave;
+		RigidBody* solid = new RigidBody(new_solid, item, shape);
+		solid->tolive = timetoleave;
 		new_solid->setName(name);
 		if (name == "pelota") {
-			_sFR->addRegistry(gravityForceGen, solid);
+			_sFR->addRegistry(gravityForceGen, *solid);
 		}
 		else if (name == "muelle") {
 
 			new_solid->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
+			new_solid->setRigidDynamicLockFlags(PxRigidDynamicLockFlag::eLOCK_ANGULAR_X | PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y |PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z);
 		}
-		_objects.push_back(solid);
-		return solid;
+		new_solid->userData =solid;
+		_objects.push_back(*solid);
+		return *solid;
 
 }
 StaticRigidBody RBManager::addStaticObject(Vector3 dimension, Vector4 color, Vector3 transform, PxQuat rotate, bool ball, const char* name) {
@@ -104,7 +108,7 @@ StaticRigidBody RBManager::addStaticObject(Vector3 dimension, Vector4 color, Vec
 	trans.q = rotate;
 	suelo = _gPhysics->createRigidStatic(trans);
 	//MATERIAL
-	PxMaterial* gMaterial = _gPhysics->createMaterial(0.5f, 0.5f, 0.0f);
+	PxMaterial* gMaterial = _gPhysics->createMaterial(0.1f, 0.1f, 0.9f);
 	PxShape* shape;
 	if (ball) { //si es un circulo
 		shape = CreateShape(PxSphereGeometry(dimension.x), gMaterial);
@@ -119,7 +123,11 @@ StaticRigidBody RBManager::addStaticObject(Vector3 dimension, Vector4 color, Vec
 	suelo->setName(name);
 	suelo->attachShape(*shape);
 	_gScene->addActor(*suelo);
-	RenderItem* item =  new RenderItem(shape, suelo, color);
+	RenderItem* item;
+	if (name == "tapa") {
+		item = nullptr;
+	}else 
+	item =  new RenderItem(shape, suelo, color);
 	StaticRigidBody* solid = new StaticRigidBody(suelo, item, shape, color);
 	suelo->userData = solid;
 	_statics.push_back(*solid);
@@ -133,13 +141,13 @@ void RBManager::createscene() {
 	addStaticObject(Vector3{ 2, 20, 300 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 150,3,0 }, PxQuat(0, PxVec3(0, 1, 0)));
 	//el suelo
 	addStaticObject(Vector3{ 150, 2, 300 }, Vector4{ 0.945, 0.71,1,1 }, Vector3{ 0,0,0 }, PxQuat(0, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 150, 2, 300 }, Vector4{ 0.945, 0.71,1,0 }, Vector3{ 0,13.999999,0 }, PxQuat(0, PxVec3(0, 1, 0)), false, "tapa");
 	
 	//esquina de abajo a la derecha
-	//addStaticObject(Vector3{ 13.04, 5, 32.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 136.96,1.5,267.6 }, PxQuat(0, PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 42.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 96.96,1.5,267.6 }, PxQuat(-PxPi / 4.0f, PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 70.96,1.5,230 }, PxQuat(-PxPi / 4.0f, PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 95.96,1.5,173 }, PxQuat(0, PxVec3(0, 1, 0)));
-	addStaticObject(Vector3{ 3.04, 20, 246.5 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 125.96,1.5,30.6 }, PxQuat(0, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 3.04, 20, 256.5 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 125.96,1.5,41.6 }, PxQuat(0, PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 55.96,1.5,173 }, PxQuat(0, PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 20.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 37,1.5,205 }, PxQuat(PxPi / 2.0f, PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 38.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 35.96,1.5,173 }, PxQuat(-PxPi / 6.0f, PxVec3(0, 1, 0)));
@@ -181,17 +189,19 @@ void RBManager::createscene() {
 	
 	
 	//triggers
-	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 105.0,1.5,-205.6 }, PxQuat(0, PxVec3(0, 1, 0)), true, "trigger");
-	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 55.0,1.5,-255.6 }, PxQuat(0, PxVec3(0, 1, 0)), true,"trigger");
-	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 25.0,1.5,-255.6 }, PxQuat(0, PxVec3(0, 1, 0)), true,"trigger");
-	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -5,1.5,-255.6 }, PxQuat(0, PxVec3(0, 1, 0)), true,"trigger");
-	addStaticObject(Vector3{ 3, 0, 0}, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 85,1.5,5.6 }, PxQuat(0, PxVec3(0, 1, 0)), true,"trigger");
+	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 105.0,3,-205.6 }, PxQuat(0, PxVec3(0, 1, 0)), true, "trigger");
+	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 55.0,3,-255.6 }, PxQuat(0, PxVec3(0, 1, 0)), true,"trigger");
+	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 25.0,3,-255.6 }, PxQuat(0, PxVec3(0, 1, 0)), true,"trigger");
+	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -5,3,-255.6 }, PxQuat(0, PxVec3(0, 1, 0)), true,"trigger");
+	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 85,3,5.6 }, PxQuat(0, PxVec3(0, 1, 0)), true, "trigger");
+	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -85,3,-20 }, PxQuat(0, PxVec3(0, 1, 0)), true, "trigger");
+	addStaticObject(Vector3{ 3, 0, 0}, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -100,3,-49 }, PxQuat(0, PxVec3(0, 1, 0)), true,"trigger");
 
 	//rebotes
-	addStaticObject(Vector3{ 7, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ -90.0,1.5,-255.6 }, PxQuat(0, PxVec3(0, 1, 0)), true);
-	addStaticObject(Vector3{ 7, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ 70.0,1.5,-155.6 }, PxQuat(0, PxVec3(0, 1, 0)), true);
-	addStaticObject(Vector3{ 7, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ -20.0,1.5,-135.6 }, PxQuat(0, PxVec3(0, 1, 0)), true);
-	addStaticObject(Vector3{ 7, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ 30.0,1.5,-100.6 }, PxQuat(0, PxVec3(0, 1, 0)), true);
+	addStaticObject(Vector3{ 10, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ -90.0,3,-255.6 }, PxQuat(0, PxVec3(0, 1, 0)), true);
+	addStaticObject(Vector3{ 10, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ 70.0,3,-155.6 }, PxQuat(0, PxVec3(0, 1, 0)), true);
+	addStaticObject(Vector3{ 10, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ -20.0,3,-135.6 }, PxQuat(0, PxVec3(0, 1, 0)), true);
+	addStaticObject(Vector3{ 10, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ 30.0,3,-100.6 }, PxQuat(0, PxVec3(0, 1, 0)), true);
 
 	//las palas color = 0.565, 1, 0.514,1
 	palaI = addPalas(true, { 26.96,2,257.6 }, "palaI");
@@ -200,7 +210,8 @@ void RBManager::createscene() {
 	//la pelota
 	//bola= addDynamicObject(0.1f, 0.1f, 0.6f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,0.25 }, { 55.0,4,-275.6 }, { 0,0,0 }, { 0,0,0 }, 0.5f, 2147483647, true, "pelota");
 	
-	bola= addDynamicObject(0.1f, 0.1f, 0.8f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,1 }, { 136.96,9,217.6 }, { 0,0,0 }, { 0,0,0 }, 0.5f, 2147483647, true, "pelota");
+	bola= addDynamicObject(0.1f, 0.1f, 0.8f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,1 }, { 136.96,9,217.6 }, { 0,0,0 }, { 0,0,0 }, 5.0f, 2147483647, true, "pelota");
+	//bola= addDynamicObject(0.1f, 0.1f, 0.8f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,1 }, { 0,9,257.6 }, { 0,0,0 }, { 0,0,0 }, 5.0f, 2147483647, true, "pelota");
 	//muelle
 
 	 muelle  = addDynamicObject(0.5f, 0.5f, 0.01f, { 0,0.1,0 }, { 8,4,3 }, { 0.18, 0.184, 0.851,1 }, { 138.5,10,255.6 }, { 0,0,0 }, { 0,0,0 }, 70, 2147483647, false, "muelle");
@@ -209,7 +220,7 @@ void RBManager::createscene() {
 	//_sFR->addRegistry(gravityForceGenContra, muelle);
 	
 	//triger final que termina la partida
-	addStaticObject(Vector3{ 8, 4, 3 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 0,1.5,205.6 }, PxQuat(0, PxVec3(0, 1, 0)), false, "triggerfinal");
+	addStaticObject(Vector3{ 80, 14, 5 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -15,15,295.6 }, PxQuat(0, PxVec3(0, 1, 0)), false, "triggerfinal");
 
 }
 void RBManager::update(double t)
