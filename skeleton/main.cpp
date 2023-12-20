@@ -34,6 +34,7 @@ RBManager* _RBManager = nullptr;
 ParticleSystem* _particleSystem = nullptr;
 using namespace std;
 int Puntos = 0;
+string Puntosfinales = "";
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -79,8 +80,8 @@ void stepPhysics(bool interactive, double t)
 	gScene->fetchResults(true);
 
 	//ACTUALIZACION DE LOS OBJETOS
-	if (_particleSystem != nullptr)_particleSystem->update(t);
 	if (_RBManager != nullptr)_RBManager->update(t);
+	if (_particleSystem != nullptr)_particleSystem->update(t);
 	
 }
 
@@ -115,16 +116,24 @@ void keyPress(unsigned char key, const PxTransform& camera)
 void onTriggere(physx::PxTriggerPair* pairs) {
 	physx::PxActor* actor1 = static_cast<physx::PxActor*>(pairs->triggerActor);
 	StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor1->userData);
-	if (p1->body->getName()=="triggerfinal" ) {
+	physx::PxActor* actor2 = static_cast<physx::PxActor*>(pairs->otherActor);
+	RigidBody* p2 = static_cast<RigidBody*>(actor2->userData);
+	if (p1->body->getName() == "triggerfinal" ) {
+		//_particleSystem->generateFirework
+		//_particleSystem->generateFirework(4, { 0, 200, 257.6 }, Vector3(0, 0, 1) * -50, Vector3(0, 0, 0), 2, 1, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
+		//_RBManager->fin(p2);
+		_RBManager->fin = true;
+		_particleSystem->finish = true;
+		Puntosfinales = std::to_string((int)(Puntos));
+	}
+	else if ( p1->body->getName() == "triggerregreso") {
 		//se acaba la partida
-		physx::PxActor* actor2 = static_cast<physx::PxActor*>(pairs->otherActor);
-		RigidBody* p2 = static_cast<RigidBody*>(actor2->userData);
+		
 		const string a = actor2->getName();
 		if (a == "pelota") {
 
 			// Establece la nueva posición y mantiene la orientación actual
-			PxTransform newTransform({ 105.0,3,-205.6 }, p2->body->getGlobalPose().q);
-
+			PxTransform newTransform({ 0.0,3,-255.6 }, p2->body->getGlobalPose().q);
 			// Aplica la nueva transformación al cuerpo
 			p2->body->setGlobalPose(newTransform);
 		}
@@ -141,41 +150,38 @@ void onTriggere(physx::PxTriggerPair* pairs) {
 			p1->item->color = Vector4{ 0.98, 0.084, 0.051,1 };
 		}
 	}
-	
-	cout << (Puntos += 100);
+	_particleSystem->generatesparks(p2->body->getGlobalPose().p);
+
 }
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
 		const string a = actor1->getName();
 		const string b = actor2->getName();
-		/*if (a == "trigger" && b=="pelota") {
-			PX_UNUSED(actor1);
-			PX_UNUSED(actor2);
-			StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor1->userData);
-			if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
-				p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
-				p1->item->color = Vector4{ 0.969, 0.965, 0.071,1 };
-				
-			}
-			else {
-				p1->color = Vector4{ 0.98, 0.084, 0.051,1 };
-				p1->item->color = Vector4{ 0.98, 0.084, 0.051,1 };
-			}
-		}
-		else if (b == "trigger" && a == "pelota") {
-			PX_UNUSED(actor1);
-			PX_UNUSED(actor2);
-			StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor2->userData);
-			if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
-				p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
-				p1->item->color = Vector4{ 0.969, 0.965, 0.071,1 };
+		
+		if (a == "rebote" && b=="pelota") {
 
-			}
-			else {
-				p1->color = Vector4{ 0.98, 0.084, 0.051,1 };
-				p1->item->color = Vector4{ 0.98, 0.084, 0.051,1 };
-			}
-		}*/
+			PX_UNUSED(actor1);
+			PX_UNUSED(actor2);
+			RigidBody* p1 = static_cast<RigidBody*>(actor2->userData);
+			RigidBody* p2 = static_cast<RigidBody*>(actor1->userData);
+			//a la pelota se le añade una fuerza de explosion
+			_RBManager->createsplosion(*p1,p2->body->getGlobalPose().p);
+			_particleSystem->generatesparks(p1->body->getGlobalPose().p);
+
+			Puntos += 50;
+		}
+		else if (b == "rebote" && a == "pelota") {
+			PX_UNUSED(actor1);
+			PX_UNUSED(actor2);
+			RigidBody* p1 = static_cast<RigidBody*>(actor1->userData);
+			RigidBody* p2 = static_cast<RigidBody*>(actor2->userData);
+
+			_RBManager->createsplosion(*p1, p2->body->getGlobalPose().p);
+			Puntos += 50;
+			_particleSystem->generatesparks(p1->body->getGlobalPose().p);
+
+
+		}
 		PX_UNUSED(actor1);
 		PX_UNUSED(actor2);
 		

@@ -6,7 +6,7 @@ public:
 	SpringForceGenerator(double k, double resting_length, Particle* other);
 	SpringForceGenerator( double resting_length, PxRigidStatic* other, double k);
 	virtual void updateForce(Particle* particle, double t);
-	virtual void updateForce(physx::PxRigidBody* solid, double t);
+	virtual bool updateForce(physx::PxRigidBody* solid, double t);
 	~SpringForceGenerator();
 	inline void setk(double k) { _k = k; };
 	inline double getK() { return _k; }

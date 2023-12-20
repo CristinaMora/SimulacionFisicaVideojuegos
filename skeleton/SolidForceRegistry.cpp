@@ -1,9 +1,24 @@
 #include "SolidForceRegistry.h"
 
 void SolidForceRegistry::updateForces(double duration) {
-	for (auto it = begin(); it != end(); it++) {
-		it->first->updateForce(it->second.body, duration);
+
+
+
+
+	auto it = begin();
+	while (it != end()) {
+		bool todelete = it->first->updateForce(it->second.body, duration);
+		if (!todelete) {
+			auto it2 = it;
+			it2++;
+			erase(it);			
+			it = it2;
+		}
+		else {
+			++it; // Solo incrementa el iterador si no se elimina el elemento
+		}
 	}
+
 }
 void SolidForceRegistry::addRegistry(ForceGenerator* fg, RigidBody p) { //registra una particula
 

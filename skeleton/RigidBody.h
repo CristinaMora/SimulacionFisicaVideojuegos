@@ -33,17 +33,19 @@ public:
 class Pala:public RigidBody {
 	public:
 		Pala(): RigidBody() {}
+		~Pala() {}
 		bool left;
 		PxVec3 iniPos; //posicion inicial
 		const float  speed = .08f;
-		const PxVec3 rise = PxVec3(0, 0, -.14f);
+		const PxVec3 rise = PxVec3(0, 0, 0);
 		float lerp = 0;
 		void Update(double t) {
 			lerp += GetAsyncKeyState(left ? 'N' : 'C') ? -speed : speed;
 			lerp = PxClamp<float>(lerp, 0, 1);
 			//cambias la posición + cuanto queremos que sume * 
+
 			body->setKinematicTarget(PxTransform(iniPos + lerp * rise,
-				PxQuat(degToRad(pow(-1, left) * -20 * (2 * lerp - 1)), PxVec3(0, 1, 0))));
+				PxQuat(degToRad(pow(-1, left) * -20 * (lerp )), PxVec3(0, 1, 0))));
 			//                                                        en que eje
 		}
 };

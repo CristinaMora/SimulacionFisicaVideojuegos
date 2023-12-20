@@ -19,9 +19,8 @@ class ParticleSystem
 		void generateFirework(unsigned firework_type, Vector3 pos, Vector3 vel, Vector3 acel, double masa, float t, Vector4 c, int radio);
 		void generateParticle(unsigned dorcetype, Vector3 pos, Vector3 vel, Vector3 acel, double masa, float t, Vector4 c, int radio);
 		void createscene(PxScene* gScene, PxPhysics* gPhysics);
-		void Deleteforce();
-		void addforce();
-
+		void generatesparks(Vector3 origen);
+		bool finish = false;
 	protected:
 		Particle* p1 = nullptr;
 		Particle* p2 = nullptr;

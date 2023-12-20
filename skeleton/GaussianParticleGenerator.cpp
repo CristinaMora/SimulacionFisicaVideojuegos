@@ -22,6 +22,8 @@ list<Particle*> GaussianParticleGenerator::generateParticles(int type) {
 		return generatefirework3();
 	
 	default:
+		std::list<Particle*> particles;
+		return particles;
 		break;
 	}
     

@@ -1,7 +1,8 @@
 ﻿#include "ParticleSystem.h"
 	
 	ParticleSystem::ParticleSystem() {
-		_firework_generator = new UniformParticleGenerator(Vector3{ 50,50,50 }, Vector3{ 20,20,20 });
+		_firework_generator = new UniformParticleGenerator(Vector3{ 10,50,10 }, Vector3{ 20,20,20 });
+		_firework_generator->setOrigin({ -200,0,-300 });
 		_particle_generators.push_back(_firework_generator);
 		_firework_generator = new GaussianParticleGenerator(Vector3{ 50,50,50 }, Vector3{ 20,20,20 });
 		_particle_generators.push_back(_firework_generator);
@@ -22,7 +23,10 @@
 	//destructora de la clase
 	ParticleSystem::~ParticleSystem() {
 		
-
+			for (auto e : _particle_generators)
+			{
+				_particle_generators.pop_front();
+			}
 			for (auto e : _particles)
 			{
 				delete e;
@@ -32,10 +36,7 @@
 				delete e;
 			}
 			_firework_pool.clear();
-			for (auto e : _particle_generators)
-			{
-				_particle_generators.pop_front();
-			}
+			
 			delete _gravity_force_generator;
 			delete _Wind_Force_Generator;
 		
@@ -46,15 +47,35 @@
 		
 		_pFR->updateForces(t);
 		//actualiza las particulas y las elimina en caso de que esten muertas
-		
-		//lista de generadores fuentes
-		/*for (auto gen : _particle_generators) {
-			std::list<Particle*> lista = gen->generateParticles();
+		if (finish) {
+			_particle_generators.back()->setOrigin({ -150,20,300 });
+			_particle_generators.back()->setMeanVelocity({ 10,0,-20 });
+			std::list<Particle*> lista = _particle_generators.back()->generateParticles(1);
 			for (auto partic : lista) {
 				_particles.push_back(partic);
 			}
-			
-		}*/
+			_particle_generators.back()->setOrigin({ 150,20,300 });
+			_particle_generators.back()->setMeanVelocity({ -20,0,-20 });
+			lista = _particle_generators.back()->generateParticles(1);
+			for (auto partic : lista) {
+				_particles.push_back(partic);
+			}
+
+			_particle_generators.back()->setOrigin({ 150,20,-300 });
+			_particle_generators.back()->setMeanVelocity({ -20,0,20 });
+			 lista = _particle_generators.back()->generateParticles(1);
+			for (auto partic : lista) {
+				_particles.push_back(partic);
+			}
+
+			_particle_generators.back()->setOrigin({ -150,20,-300 });
+			_particle_generators.back()->setMeanVelocity({ 10,0,20 });
+			 lista = _particle_generators.back()->generateParticles(1);
+			for (auto partic : lista) {
+				_particles.push_back(partic);
+			}
+		}
+		
 		//lista de particulas, se actualizan, explotan...
 		list<Particle*>::iterator e = _particles.begin();
 		while (e != _particles.end()) {
@@ -112,7 +133,6 @@
 
 	};
 
-
 	//destructora de las particulas
 	void ParticleSystem::onParticleDeath(Particle* particleaa){
 		
@@ -124,20 +144,17 @@
 
 	};
 	void ParticleSystem::createscene(PxScene* gScene, PxPhysics* gPhysics) {
-		suelo = gPhysics->createRigidStatic(PxTransform({ 0,0,0 }));
-		shape = CreateShape(PxBoxGeometry(400, 0.2, 400));
-		suelo->attachShape(*shape);
-		gScene->addActor(*suelo);
-		RenderItem* item;
-		item = new RenderItem(shape, suelo, { 0.412, 0.294, 0.412,1 });
+		
 
 	};
-	void ParticleSystem::Deleteforce() {
-		
-	}
-	void ParticleSystem::addforce() {
-		
+	void ParticleSystem::generatesparks(Vector3 origen) {
+		_particle_generators.front()->setOrigin(origen);
+			std::list<Particle*> lista = _particle_generators.front()->generateParticles(4);
+			for (auto partic : lista) {
+				_particles.push_back(partic);
+			}
 
+		
 	}
 
 

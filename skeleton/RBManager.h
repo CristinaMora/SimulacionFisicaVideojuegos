@@ -9,7 +9,7 @@
 #include "GravityForceGenerator.h"
 #include "AnchoredSpringFG.h"
 #include "SolidForceRegistry.h"
-
+#include "ExplosionForceGenerator.h"
 
 using namespace physx;
 class RBManager
@@ -22,9 +22,11 @@ class RBManager
 		 Pala* addPalas(bool l, Vector3 transform, const char* name);
 		 StaticRigidBody addStaticObject(Vector3 dimension, Vector4 color, Vector3 transform, PxQuat rotate, bool ball=false, const char* name="");
 		void createscene();
+		void createsplosion(RigidBody p1, Vector3 pos);
 		void update(double t);
 		void addForce();
 		void keypress(unsigned char key);
+		bool fin = false;
 	private:
 		
 		std::list<RigidBody> _objects;

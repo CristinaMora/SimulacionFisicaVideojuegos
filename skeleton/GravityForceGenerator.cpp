@@ -6,11 +6,11 @@ void GravityForceGenerator::updateForce(Particle*p, double t) {
 	p->addForce(_gravity * p->getMass());
 	
 }
-void GravityForceGenerator::updateForce(physx::PxRigidBody* solid, double t) {
+bool GravityForceGenerator::updateForce(physx::PxRigidBody* solid, double t) {
 	if (fabs((1 / solid->getMass()) < 1e-10)) {
-		return;
+		return true;
 	}
 	solid->addForce(_gravity * solid->getMass());
-
+	return true;
 }
 

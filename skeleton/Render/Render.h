@@ -48,6 +48,9 @@
 #include <string>
 
 extern std::string display_text;
+extern std::string Puntosfinales;
+extern int Puntos;
+
 
 namespace Snippets
 {
