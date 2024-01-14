@@ -151,6 +151,7 @@ void onTriggere(physx::PxTriggerPair* pairs) {
 		}
 	}
 	_particleSystem->generatesparks(p2->body->getGlobalPose().p);
+	Puntos += 10;
 
 }
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
