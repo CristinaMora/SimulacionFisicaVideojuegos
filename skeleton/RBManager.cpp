@@ -11,7 +11,6 @@ RBManager::RBManager(PxPhysics* gPhysics, PxScene* gScene)
 	windForceGen = new WindForceGenerator({ 0,0,6000.0f }, { 0, 0, -100 }, { 100, 100, 50 }, 1.0f, 0);
 	gravityForceGen = new GravityForceGenerator({ 0,0,72 });
 	gravityForceGenContra = new GravityForceGenerator({0,0,2000});
-	anchoredForceGen;
 	//REGISTRO DE SOLIDO-FUERZA
 	_sFR = new SolidForceRegistry();
 	
@@ -27,36 +26,36 @@ RBManager::~RBManager() {
 	delete _sFR;
 }
 
-Pala* RBManager::addPalas(bool l, Vector3 transform, const char* name)
-{
-	Pala* solid = new Pala();
-	PxRigidDynamic* new_solid;
-	//MATERIAL
-	//POSICION
-	new_solid = _gPhysics->createRigidDynamic(PxTransform(transform));
-	//VELOCIDAD
-	new_solid->setLinearVelocity({ 0,0,0 });
-	new_solid->setAngularVelocity({ 0,0,0 });
-	//FORMA
-	Vector3 dimension = { 27,20,5 };
-		solid->shape = CreateShape(PxBoxGeometry(dimension.x, dimension.y, dimension.z));
-	
-	new_solid->attachShape(*solid->shape);
-	PxRigidBodyExt::updateMassAndInertia(*new_solid, 0.5);
-	//RENDERITEM
-	solid->item = new RenderItem(solid->shape, new_solid, { 0.565, 1, 0.514,1 });
-	_gScene->addActor(*new_solid);
-	//TIEMPOS Y REGISTROS
-	solid->body = new_solid;
-	solid->tolive = 2147483647;
-	new_solid->setName(name);
-	solid->iniPos = new_solid->getGlobalPose().p;
-	solid->left = l;
-	solid->body->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
-	
-	return solid;
-
-}
+//Pala* RBManager::addPalas(bool l, Vector3 transform, const char* name)
+//{
+//	Pala* solid = new Pala();
+//	PxRigidDynamic* new_solid;
+//	//MATERIAL
+//	//POSICION
+//	new_solid = _gPhysics->createRigidDynamic(PxTransform(transform));
+//	//VELOCIDAD
+//	new_solid->setLinearVelocity({ 0,0,0 });
+//	new_solid->setAngularVelocity({ 0,0,0 });
+//	//FORMA
+//	Vector3 dimension = { 27,20,5 };
+//		solid->shape = CreateShape(PxBoxGeometry(dimension.x, dimension.y, dimension.z));
+//	
+//	new_solid->attachShape(*solid->shape);
+//	PxRigidBodyExt::updateMassAndInertia(*new_solid, 0.5);
+//	//RENDERITEM
+//	solid->item = new RenderItem(solid->shape, new_solid, { 0.565, 1, 0.514,1 });
+//	_gScene->addActor(*new_solid);
+//	//TIEMPOS Y REGISTROS
+//	solid->body = new_solid;
+//	solid->tolive = 2147483647;
+//	new_solid->setName(name);
+//	solid->iniPos = new_solid->getGlobalPose().p;
+//	solid->left = l;
+//	solid->body->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+//	
+//	return solid;
+//
+//}
 RigidBody RBManager::addDynamicObject(float Cestatico,float Cdinamico,float Elastico, PxVec3 inertiaT, Vector3 dimension,
 	Vector4 color, Vector3 transform, Vector3 velocity,Vector3 angularvelocity, float density, int timetoleave, bool ball, const char* name)
 {
@@ -207,8 +206,21 @@ void RBManager::createscene() {
 
 	//mapa de arriba
 	//las palas color = 0.565, 1, 0.514,1
-	palaI = addPalas(true, { 20.96,2,257.6 }, "palaI");
-	palaD = addPalas(false, { -45.96,2,257.6 },"palaD");
+	// 
+	// 
+	RigidBody aux =addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 16,5,5 }, { 0.565, 1, 0.514,1 }, {15,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 900000000000.0f, 2147483647, false , "palaI");
+	palaI= addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 5,5,5 }, { 0.265, 0.1, 0.214,1 }, { 35,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 9000000000000.0f, 2147483647, false, "auxI");
+	//
+	PxRevoluteJoint* joint = PxRevoluteJointCreate(*_gPhysics,palaI.body , {0,0,0 }, aux.body , { 20,0,0 });
+
+
+
+	RigidBody aux2 = addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 16,5,5 }, { 0.565, 1, 0.514,1 }, { -32,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 900000000000.0f, 2147483647, false, "palaI");
+	palaD = addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 5,5,5 }, { 0.265, 0.1, 0.214,1 }, { -55,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 9000000000000.0f, 2147483647, false, "auxI");
+
+	//palaD = addPalas(false, { -45.96,2,257.6 },"palaD");
+	PxRevoluteJoint* joint2 = PxRevoluteJointCreate(*_gPhysics, palaD.body, { 0,0,0 }, aux2.body, { -20,0,0 });
+
 
 	//la pelota
 	//bola= addDynamicObject(0.1f, 0.1f, 0.9f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,0.25 }, { 45.0,4,-275.6 }, { 0,0,0 }, { 0,0,0 }, 0.5f, 2147483647, true, "pelota");
@@ -218,7 +230,7 @@ void RBManager::createscene() {
 	
 	
 	//muelle
-	 muelle  = addDynamicObject(0.5f, 0.5f, 0.01f, { 0,0.1,0 }, { 8,4,3 }, { 0.18, 0.184, 0.851,1 }, { 143.5,10,255.6 }, { 0,0,0 }, { 0,0,0 }, 70000, 2147483647, false, "muelle");
+	 muelle  = addDynamicObject(0.5f, 0.5f, 0.01f, { 0,0.1,0 }, { 8,4,3}, { 0.18, 0.184, 0.851,1 }, { 143.5,10,255.6 }, { 0,0,0 }, { 0,0,0 }, 70000, 2147483647, false, "muelle");
 	anchoredForceGen = new AnchoredSpringFG(6000000000, 40, { 138.5,10,295.6 }, _gPhysics, _gScene);
 	//_sFR->addRegistry(anchoredForceGen, muelle);
 	//_sFR->addRegistry(gravityForceGenContra, muelle);
@@ -241,6 +253,33 @@ void RBManager::update(double t)
 			it = _objects.erase(it);
 			
 		}
+		
+	}
+	else {
+		if (girarD) {
+			palaI.body->setAngularVelocity({ 0,-250,0 });
+			girarDc += 1;
+			if (girarDc >= 40) girarD = false;
+		}
+		else {
+			if (girarDc >= 0) {
+				palaI.body->setAngularVelocity({ 0,1.1,0 });
+				palaI.body->setGlobalPose({ 35,6,250.6 });
+				girarDc -= 1;
+			}
+		}
+		if (girarI) {
+			palaD.body->setAngularVelocity({ 0,250,0 });
+			girarIc += 1;
+			if (girarIc >= 40) girarI = false;
+		}
+		else {
+			if (girarIc >= 0) {
+				palaD.body->setAngularVelocity({ 0,-1.1,0 });
+				palaD.body->setGlobalPose({ -55,6,250.6 });
+				girarIc -= 1;
+			}
+		}
 	}
 	for (auto it = _objects.begin(); it != _objects.end(); ) {
 		it->time += t;
@@ -256,32 +295,38 @@ void RBManager::update(double t)
 			++it;
 		}
 	}
-	palaI->Update(t);
-	palaD->Update(t);
+	
+
 }
 void RBManager::keypress(unsigned char key)
 {
+	char a =  toupper(key);
 	switch (toupper(key))
 	{
-		//INPUT
-	case ' ':
-		if (tenso && !fin) {
-			tenso = false;
-			muelle.body->clearForce();
-			_sFR->deleteParticleRegistry(muelle);
-			_sFR->addRegistry(anchoredForceGen, muelle);
+		case 'C':
+			girarI = true;
+			break;
+		case 'M':
+			girarD = true;
+			break;
+			//INPUT
+		case ' ':
+			if (tenso && !fin) {
+				tenso = false;
+				muelle.body->clearForce();
+				_sFR->deleteParticleRegistry(muelle);
+				_sFR->addRegistry(anchoredForceGen, muelle);
 
-		}
-		else if(!fin) {
-			_sFR->addRegistry(gravityForceGenContra, muelle);
+			}
+			else if(!fin) {
+				_sFR->addRegistry(gravityForceGenContra, muelle);
 			
-			tenso = true;
-		}
-		//press enter to start
-		break;
-	
-	default:
-		break;
+				tenso = true;
+			}
+			//press enter to start
+			break;
+		default:
+			break;
 	}
 }
 void RBManager::createsplosion(RigidBody p1, Vector3 pos) {

@@ -10,6 +10,7 @@ bool GravityForceGenerator::updateForce(physx::PxRigidBody* solid, double t) {
 	if (fabs((1 / solid->getMass()) < 1e-10)) {
 		return true;
 	}
+	
 	solid->addForce(_gravity * solid->getMass());
 	return true;
 }

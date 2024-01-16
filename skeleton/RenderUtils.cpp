@@ -137,8 +137,8 @@ void exitCallback(void)
 void renderLoop()
 {
 	StartCounter();
-	sCamera = new Camera(PxVec3(0.0f, 400.0f, 260.0f), PxVec3(-0.00f, -0.99f, -0.45f));
-	//sCamera = new Camera(PxVec3(0.0f, 750.0f, 0.0f), PxVec3(-0.00f,-0.99f,-0.001f));
+	//sCamera = new Camera(PxVec3(-26.3329f, 44.136f, 178.56889f), PxVec3(0.5439f, -0.28398f, 0.78959f));
+	sCamera = new Camera(PxVec3(0.0f, 428.640f, 261.55f), PxVec3(-0.00f, -0.99f, -0.45f));
 
 	setupDefaultWindow("PINBALL                                                                         CMV");
 	setupDefaultRenderState();

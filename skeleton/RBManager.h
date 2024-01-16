@@ -19,7 +19,7 @@ class RBManager
 		virtual ~RBManager();
 		 RigidBody addDynamicObject(float Cestatico, float Cdinamico, float Elastico, PxVec3 inertiaT, Vector3 dimension,
 			Vector4 color, Vector3 transform, Vector3 velocity, Vector3 angularvelocity, float density, int timetoleave, bool ball=false, const char* name = "");
-		 Pala* addPalas(bool l, Vector3 transform, const char* name);
+		 PxRigidDynamic* addPalas(bool l, Vector3 transform, const char* name);
 		 StaticRigidBody addStaticObject(Vector3 dimension, Vector4 color, Vector3 transform, PxQuat rotate, bool ball=false, const char* name="");
 		void createscene();
 		void createsplosion(RigidBody p1, Vector3 pos);
@@ -39,14 +39,15 @@ class RBManager
 		PxPhysics* _gPhysics;
 		PxScene* _gScene;
 		SolidForceRegistry* _sFR;
-
+		bool girarI = false;
+		bool girarD = false;
+		int girarIc=0, girarDc=0;
 		bool tenso = false;
 		//cosas del pinball:
 		//palaI
-		Pala* palaI;
-		 
+		RigidBody palaI;
 		//palaD
-		Pala* palaD;
+		RigidBody palaD;
 		
 		//bola
 		RigidBody bola;

@@ -35,6 +35,20 @@ ParticleSystem* _particleSystem = nullptr;
 using namespace std;
 int Puntos = 0;
 string Puntosfinales = "";
+
+
+
+
+
+RenderItem* item = NULL;
+RenderItem* item2 = NULL;
+PxRigidDynamic* palo2 = NULL;
+
+
+
+
+
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -59,7 +73,25 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	//INICIALIZACION DE LOS OBJETOS
-	
+
+	/*PxRigidStatic* palo1 = gPhysics->createRigidStatic(PxTransform({ 0, 20, 0 }));
+	PxShape* shape = CreateShape(PxBoxGeometry(1, 1, 1));
+	palo1->setName("");
+	palo1->attachShape(*shape);
+	item = new RenderItem(shape, palo1, { 1,0.1,0.1,1 });
+	gScene->addActor(*palo1);
+
+	palo2 = gPhysics->createRigidDynamic(PxTransform({ 0.5,30.5,0.5 }));
+	PxShape* shape2 = CreateShape(PxBoxGeometry(0.5, 10, 0.5));
+	palo2->setName("");
+	palo2->attachShape(*shape2);
+	item2 = new RenderItem(shape2, palo2, { 0,0.1,0.8,1 });
+	gScene->addActor(*palo2);
+
+	PxRevoluteJoint* art = PxRevoluteJointCreate(*gPhysics, palo1, { 0,0,0 }, palo2, { 0.5,-10.5,0.5 });
+*/
+
+
 
 
 	_particleSystem = new ParticleSystem();
@@ -118,13 +150,14 @@ void onTriggere(physx::PxTriggerPair* pairs) {
 	StaticRigidBody* p1 = static_cast<StaticRigidBody*>(actor1->userData);
 	physx::PxActor* actor2 = static_cast<physx::PxActor*>(pairs->otherActor);
 	RigidBody* p2 = static_cast<RigidBody*>(actor2->userData);
+
 	if (p1->body->getName() == "triggerfinal" ) {
 		//_particleSystem->generateFirework
 		//_particleSystem->generateFirework(4, { 0, 200, 257.6 }, Vector3(0, 0, 1) * -50, Vector3(0, 0, 0), 2, 1, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
 		//_RBManager->fin(p2);
 		_RBManager->fin = true;
 		_particleSystem->finish = true;
-		Puntosfinales = std::to_string((int)(Puntos));
+		Puntosfinales = std::to_string((int)(Puntos +10));
 	}
 	else if ( p1->body->getName() == "triggerregreso") {
 		//se acaba la partida
@@ -158,7 +191,6 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
 		const string a = actor1->getName();
 		const string b = actor2->getName();
-		
 		if (a == "rebote" && b=="pelota") {
 
 			PX_UNUSED(actor1);
