@@ -9,7 +9,7 @@ RBManager::RBManager(PxPhysics* gPhysics, PxScene* gScene)
 	_generator = new UniformParticleGenerator(Vector3{ 50,50,50 }, Vector3{ 20,20,20 }, gPhysics, gScene);
 	//GENERADOR DE FUERZAS
 	windForceGen = new WindForceGenerator({ 0,0,6000.0f }, { 0, 0, -100 }, { 100, 100, 50 }, 1.0f, 0);
-	gravityForceGen = new GravityForceGenerator({ 0,0,72 });
+	gravityForceGen = new GravityForceGenerator({ 0,0,80 });
 	gravityForceGenContra = new GravityForceGenerator({0,0,2000});
 	//REGISTRO DE SOLIDO-FUERZA
 	_sFR = new SolidForceRegistry();
@@ -26,36 +26,7 @@ RBManager::~RBManager() {
 	delete _sFR;
 }
 
-//Pala* RBManager::addPalas(bool l, Vector3 transform, const char* name)
-//{
-//	Pala* solid = new Pala();
-//	PxRigidDynamic* new_solid;
-//	//MATERIAL
-//	//POSICION
-//	new_solid = _gPhysics->createRigidDynamic(PxTransform(transform));
-//	//VELOCIDAD
-//	new_solid->setLinearVelocity({ 0,0,0 });
-//	new_solid->setAngularVelocity({ 0,0,0 });
-//	//FORMA
-//	Vector3 dimension = { 27,20,5 };
-//		solid->shape = CreateShape(PxBoxGeometry(dimension.x, dimension.y, dimension.z));
-//	
-//	new_solid->attachShape(*solid->shape);
-//	PxRigidBodyExt::updateMassAndInertia(*new_solid, 0.5);
-//	//RENDERITEM
-//	solid->item = new RenderItem(solid->shape, new_solid, { 0.565, 1, 0.514,1 });
-//	_gScene->addActor(*new_solid);
-//	//TIEMPOS Y REGISTROS
-//	solid->body = new_solid;
-//	solid->tolive = 2147483647;
-//	new_solid->setName(name);
-//	solid->iniPos = new_solid->getGlobalPose().p;
-//	solid->left = l;
-//	solid->body->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
-//	
-//	return solid;
-//
-//}
+
 RigidBody RBManager::addDynamicObject(float Cestatico,float Cdinamico,float Elastico, PxVec3 inertiaT, Vector3 dimension,
 	Vector4 color, Vector3 transform, Vector3 velocity,Vector3 angularvelocity, float density, int timetoleave, bool ball, const char* name)
 {
@@ -107,7 +78,7 @@ StaticRigidBody RBManager::addStaticObject(Vector3 dimension, Vector4 color, Vec
 	trans.q = rotate;
 	suelo = _gPhysics->createRigidStatic(trans);
 	//MATERIAL
-	PxMaterial* gMaterial = _gPhysics->createMaterial(0.1f, 0.1f, 0.7f);
+	PxMaterial* gMaterial = _gPhysics->createMaterial(0.1f, 0.1f, 0.4f);
 	PxShape* shape;
 	if (ball) { //si es un circulo
 		shape = CreateShape(PxSphereGeometry(dimension.x), gMaterial);
@@ -147,17 +118,18 @@ void RBManager::createscene() {
 	addStaticObject(Vector3{ 3.04, 20, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 70.96,1.5,230 }, PxQuat((-55.0f * PxPi / 180.0f), PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 45.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 97.96,1.5,168 }, PxQuat(0, PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 256.5 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 125.96,1.5,41.6 }, PxQuat(0, PxVec3(0, 1, 0)));
-	addStaticObject(Vector3{ 3.04, 20, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 55.96,1.5,173 }, PxQuat(0, PxVec3(0, 1, 0)));
-	addStaticObject(Vector3{ 3.04, 20, 20.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 37,1.5,205 }, PxQuat(PxPi / 2.0f, PxVec3(0, 1, 0)));
-	addStaticObject(Vector3{ 3.04, 20, 38.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 35.96,1.5,173 }, PxQuat(-PxPi / 6.0f, PxVec3(0, 1, 0)));
+	
+	addStaticObject(Vector3{ 3.04, 20, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 65.96,1.5,173 }, PxQuat(0, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 3.04, 20, 20.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 47,1.5,205 }, PxQuat(PxPi / 2.0f, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 3.04, 20, 38.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 45.96,1.5,173 }, PxQuat(-PxPi / 6.0f, PxVec3(0, 1, 0)));
 
 	//abajo a la izquierda
 	addStaticObject(Vector3{ 3.04, 20, 42.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -119.96,1.5,267.6 }, PxQuat(PxPi / 4.0f, PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -90.96,1.5,230 }, PxQuat((55.0f * PxPi / 180.0f), PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 45.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -120.96,1.5,173 }, PxQuat(0, PxVec3(0, 1, 0)));
-	addStaticObject(Vector3{ 3.04, 21, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -75.96,1.5,173 }, PxQuat(0, PxVec3(0, 1, 0)));
-	addStaticObject(Vector3{ 3.04, 21, 20.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{-57,1.5,205 }, PxQuat(PxPi / 2.0f, PxVec3(0, 1, 0)));
-	addStaticObject(Vector3{ 3.04, 21, 38.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -55.96,1.5,173 }, PxQuat(PxPi / 6.0f, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 3.04, 21, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -85.96,1.5,173 }, PxQuat(0, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 3.04, 21, 20.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{-67,1.5,205 }, PxQuat(PxPi / 2.0f, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 3.04, 21, 38.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -65.96,1.5,173 }, PxQuat(PxPi / 6.0f, PxVec3(0, 1, 0)));
 
 	//arriba a la izquierda
 	addStaticObject(Vector3{ 3.04, 21, 33.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -126.96,1.5,-277.6 }, PxQuat(-PxPi / 4.0f, PxVec3(0, 1, 0)));
@@ -204,36 +176,28 @@ void RBManager::createscene() {
 	addStaticObject(Vector3{ 10, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ 30.0,3,-100.6 }, PxQuat(0, PxVec3(0, 1, 0)), true, "rebote");
 
 
-	//mapa de arriba
-	//las palas color = 0.565, 1, 0.514,1
-	// 
-	// 
+	//palas
 	RigidBody aux =addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 16,5,5 }, { 0.565, 1, 0.514,1 }, {15,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 900000000000.0f, 2147483647, false , "palaI");
 	palaI= addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 5,5,5 }, { 0.265, 0.1, 0.214,1 }, { 35,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 9000000000000.0f, 2147483647, false, "auxI");
 	//
 	PxRevoluteJoint* joint = PxRevoluteJointCreate(*_gPhysics,palaI.body , {0,0,0 }, aux.body , { 20,0,0 });
 
 
-
 	RigidBody aux2 = addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 16,5,5 }, { 0.565, 1, 0.514,1 }, { -32,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 900000000000.0f, 2147483647, false, "palaI");
 	palaD = addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 5,5,5 }, { 0.265, 0.1, 0.214,1 }, { -55,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 9000000000000.0f, 2147483647, false, "auxI");
 
-	//palaD = addPalas(false, { -45.96,2,257.6 },"palaD");
 	PxRevoluteJoint* joint2 = PxRevoluteJointCreate(*_gPhysics, palaD.body, { 0,0,0 }, aux2.body, { -20,0,0 });
 
 
-	//la pelota
-	//bola= addDynamicObject(0.1f, 0.1f, 0.9f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,0.25 }, { 45.0,4,-275.6 }, { 0,0,0 }, { 0,0,0 }, 0.5f, 2147483647, true, "pelota");
 	
-	bola= addDynamicObject(0.1f, 0.1f, 0.8f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,1 }, { 136.96,9,217.6 }, { 0,0,0 }, { 0,0,0 }, 30.0f, 2147483647, true, "pelota");
+	bola= addDynamicObject(0.1f, 0.1f, 0.8f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,1 }, { 136.96,9,217.6 }, { 0,0,0 }, { 0,0,0 }, 5.0f, 2147483647, true, "pelota");
 	//bola= addDynamicObject(0.1f, 0.1f, 0.8f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,1 }, { 0,9,257.6 }, { 0,0,0 }, { 0,0,0 }, 5.0f, 2147483647, true, "pelota");
 	
 	
 	//muelle
 	 muelle  = addDynamicObject(0.5f, 0.5f, 0.01f, { 0,0.1,0 }, { 8,4,3}, { 0.18, 0.184, 0.851,1 }, { 143.5,10,255.6 }, { 0,0,0 }, { 0,0,0 }, 70000, 2147483647, false, "muelle");
 	anchoredForceGen = new AnchoredSpringFG(6000000000, 40, { 138.5,10,295.6 }, _gPhysics, _gScene);
-	//_sFR->addRegistry(anchoredForceGen, muelle);
-	//_sFR->addRegistry(gravityForceGenContra, muelle);
+	
 	
 	//triger final que termina la partida
 	addStaticObject(Vector3{ 80, 14, 5 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -15,15,295.6 }, PxQuat(0, PxVec3(0, 1, 0)), false, "triggerfinal");
@@ -257,9 +221,9 @@ void RBManager::update(double t)
 	}
 	else {
 		if (girarD) {
-			palaI.body->setAngularVelocity({ 0,-250,0 });
+			palaI.body->setAngularVelocity({ 0,-1050,0 });
 			girarDc += 1;
-			if (girarDc >= 40) girarD = false;
+			if (girarDc >= 45) girarD = false;
 		}
 		else {
 			if (girarDc >= 0) {
@@ -269,9 +233,9 @@ void RBManager::update(double t)
 			}
 		}
 		if (girarI) {
-			palaD.body->setAngularVelocity({ 0,250,0 });
+			palaD.body->setAngularVelocity({ 0,1050,0 });
 			girarIc += 1;
-			if (girarIc >= 40) girarI = false;
+			if (girarIc >= 45) girarI = false;
 		}
 		else {
 			if (girarIc >= 0) {
@@ -330,6 +294,6 @@ void RBManager::keypress(unsigned char key)
 	}
 }
 void RBManager::createsplosion(RigidBody p1, Vector3 pos) {
-	ExplosionForceGenerator* expl = new ExplosionForceGenerator(900000, 0.0000001,pos );
+	ExplosionForceGenerator* expl = new ExplosionForceGenerator(9000000, 0.0000001,pos );
 	_sFR->addRegistry(expl, p1);
 }

@@ -10,6 +10,8 @@
 #include "ParticleSystem.h"
 #include <PxSimulationEventCallback.h>
 
+#include <thread>
+#include <utilapiset.h>
 
 std::string display_text = "Cristina Mora Velasco";
 
@@ -35,7 +37,7 @@ ParticleSystem* _particleSystem = nullptr;
 using namespace std;
 int Puntos = 0;
 string Puntosfinales = "";
-
+const vector<float> notasmusicales = { 523.25, 587.33, 659.25, 698.46, 783.99, 880, 987.77, 1046.5, 1400.78 };
 
 
 
@@ -165,7 +167,7 @@ void onTriggere(physx::PxTriggerPair* pairs) {
 		const string a = actor2->getName();
 		if (a == "pelota") {
 
-			// Establece la nueva posición y mantiene la orientación actual
+			// Establece la nueva posición y mantiene la orientación actualc 
 			PxTransform newTransform({ 0.0,3,-255.6 }, p2->body->getGlobalPose().q);
 			// Aplica la nueva transformación al cuerpo
 			p2->body->setGlobalPose(newTransform);
@@ -173,6 +175,9 @@ void onTriggere(physx::PxTriggerPair* pairs) {
 
 	}
 	else {
+		thread sound(&Beep, notasmusicales[7], 800);
+		sound.detach();
+
 		if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
 			p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
 			p1->item->color = Vector4{ 0.969, 0.965, 0.071,1 };
@@ -189,10 +194,12 @@ void onTriggere(physx::PxTriggerPair* pairs) {
 }
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
+	
 		const string a = actor1->getName();
 		const string b = actor2->getName();
 		if (a == "rebote" && b=="pelota") {
-
+			thread sound(&Beep, notasmusicales[8], 800);
+			sound.detach();
 			PX_UNUSED(actor1);
 			PX_UNUSED(actor2);
 			RigidBody* p1 = static_cast<RigidBody*>(actor2->userData);
@@ -204,6 +211,8 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 			Puntos += 50;
 		}
 		else if (b == "rebote" && a == "pelota") {
+			thread sound(&Beep, notasmusicales[8], 800);
+			sound.detach();
 			PX_UNUSED(actor1);
 			PX_UNUSED(actor2);
 			RigidBody* p1 = static_cast<RigidBody*>(actor1->userData);
