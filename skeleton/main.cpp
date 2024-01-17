@@ -148,9 +148,14 @@ void onTriggere(physx::PxTriggerPair* pairs) {
 		sound.detach();
 
 		if (p1->color == Vector4{ 0.98, 0.084, 0.051,1 }) {
+			
+			p1->color = Vector4{ 0.349, 0.988, 0.549,1 };
+			p1->item->color = Vector4{ 0.349, 0.988, 0.549,1 };
+
+		}
+		else if (p1->color == Vector4{ 0.349, 0.988, 0.549,1 }) {
 			p1->color = Vector4{ 0.969, 0.965, 0.071,1 };
 			p1->item->color = Vector4{ 0.969, 0.965, 0.071,1 };
-
 		}
 		else {
 			p1->color = Vector4{ 0.98, 0.084, 0.051,1 };

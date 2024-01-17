@@ -44,7 +44,6 @@ class ParticleSystem
 private:
 	//objetos para la creacion de la escena:
 	RenderItem* base;
-
 	PxRigidStatic* suelo;
 	PxShape* shape;
 

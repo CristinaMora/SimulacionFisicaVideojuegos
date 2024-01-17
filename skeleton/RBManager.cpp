@@ -163,13 +163,20 @@ void RBManager::createscene() {
 	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -5,3,-255.6 }, PxQuat(0, PxVec3(0, 1, 0)), true,"trigger");
 	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 85,3,5.6 }, PxQuat(0, PxVec3(0, 1, 0)), true, "trigger");
 	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -85,3,-20 }, PxQuat(0, PxVec3(0, 1, 0)), true, "trigger");
-	addStaticObject(Vector3{ 3, 0, 0}, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -100,3,-49 }, PxQuat(0, PxVec3(0, 1, 0)), true,"trigger");
+	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -100,3,-49 }, PxQuat(0, PxVec3(0, 1, 0)), true, "trigger");
+	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -85,3,0 }, PxQuat(0, PxVec3(0, 1, 0)), true, "trigger");
+	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -85,3,70 }, PxQuat(0, PxVec3(0, 1, 0)), true, "trigger");
+	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -105,3,100 }, PxQuat(0, PxVec3(0, 1, 0)), true, "trigger");
+	addStaticObject(Vector3{ 3, 0, 0 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 105,3,100 }, PxQuat(0, PxVec3(0, 1, 0)), true, "trigger");
+	addStaticObject(Vector3{ 3, 0, 0}, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 85,3,80 }, PxQuat(0, PxVec3(0, 1, 0)), true,"trigger");
 
 	//rebotes
 	addStaticObject(Vector3{ 10, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ -90.0,3,-255.6 }, PxQuat(0, PxVec3(0, 1, 0)), true, "rebote");
 	addStaticObject(Vector3{ 10, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ 50.0,3,-185.6 }, PxQuat(0, PxVec3(0, 1, 0)), true, "rebote");
 	addStaticObject(Vector3{ 10, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ 0.0,3,-155.6 }, PxQuat(0, PxVec3(0, 1, 0)), true, "rebote");
 	addStaticObject(Vector3{ 10, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ 30.0,3,-100.6 }, PxQuat(0, PxVec3(0, 1, 0)), true, "rebote");
+	addStaticObject(Vector3{ 7, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ 30.0,3,100.6 }, PxQuat(0, PxVec3(0, 1, 0)), true, "rebote");
+	addStaticObject(Vector3{ 7, 0, 0 }, Vector4{ 0, 0.988, 0.714 ,1 }, Vector3{ -50.0,3,40.6 }, PxQuat(0, PxVec3(0, 1, 0)), true, "rebote");
 
 
 	//palas
@@ -186,12 +193,12 @@ void RBManager::createscene() {
 
 
 	
-	bola= addDynamicObject(0.1f, 0.1f, 0.8f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,1 }, { 136.96,9,207.6 }, { 0,0,0 }, { 0,0,0 }, 1.0f, 2147483647, true, "pelota");
+	bola= addDynamicObject(0.1f, 0.1f, 0.8f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,1 }, { 136.96,9,207.6 }, { 0,0,0 }, { 0,0,0 }, 0.5f, 2147483647, true, "pelota");
 	
 	
 	//muelle
 	 muelle  = addDynamicObject(0.5f, 0.5f, 0.01f, { 0,0.1,0 }, { 8,4,3}, { 0.18, 0.184, 0.851,1 }, { 143.5,10,255.6 }, { 0,0,0 }, { 0,0,0 }, 70000, 2147483647, false, "muelle");
-	anchoredForceGen = new AnchoredSpringFG(6000000000, 40, { 138.5,10,295.6 }, _gPhysics, _gScene);
+	anchoredForceGen = new AnchoredSpringFG(30000000000, 40, { 138.5,10,295.6 }, _gPhysics, _gScene);
 	
 	
 	//triger final que termina la partida
@@ -218,9 +225,9 @@ void RBManager::update(double t)
 	}
 	else {
 		if (girarD) {
-			palaI.body->setAngularVelocity({ 0,-1050,0 });
+			palaI.body->setAngularVelocity({ 0,-70050,0 });
 			girarDc += 1;
-			if (girarDc >= 45) girarD = false;
+			if (girarDc >= 60) girarD = false;
 		}
 		else {
 			if (girarDc >= 0) {
@@ -230,9 +237,9 @@ void RBManager::update(double t)
 			}
 		}
 		if (girarI) {
-			palaD.body->setAngularVelocity({ 0,1050,0 });
+			palaD.body->setAngularVelocity({ 0,7050,0 });
 			girarIc += 1;
-			if (girarIc >= 45) girarI = false;
+			if (girarIc >= 60) girarI = false;
 		}
 		else {
 			if (girarIc >= 0) {
@@ -291,7 +298,7 @@ void RBManager::keypress(unsigned char key)
 	}
 }
 void RBManager::createsplosion(RigidBody p1, Vector3 pos) {
-	ExplosionForceGenerator* expl = new ExplosionForceGenerator(9000000, 0.0000001,pos );
+	ExplosionForceGenerator* expl = new ExplosionForceGenerator(9000000000, 0.0000001,pos );
 	_sFR->addRegistry(expl, p1);
 }
 void RBManager::createpared() {
