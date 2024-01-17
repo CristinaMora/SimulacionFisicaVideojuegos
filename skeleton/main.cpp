@@ -9,7 +9,6 @@
 #include "RBManager.h"
 #include "ParticleSystem.h"
 #include <PxSimulationEventCallback.h>
-
 #include <thread>
 #include <utilapiset.h>
 
@@ -41,16 +40,6 @@ const vector<float> notasmusicales = { 523.25, 587.33, 659.25, 698.46, 783.99, 8
 
 
 
-
-RenderItem* item = NULL;
-RenderItem* item2 = NULL;
-PxRigidDynamic* palo2 = NULL;
-
-
-
-
-
-
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -75,27 +64,6 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 	//INICIALIZACION DE LOS OBJETOS
-
-	/*PxRigidStatic* palo1 = gPhysics->createRigidStatic(PxTransform({ 0, 20, 0 }));
-	PxShape* shape = CreateShape(PxBoxGeometry(1, 1, 1));
-	palo1->setName("");
-	palo1->attachShape(*shape);
-	item = new RenderItem(shape, palo1, { 1,0.1,0.1,1 });
-	gScene->addActor(*palo1);
-
-	palo2 = gPhysics->createRigidDynamic(PxTransform({ 0.5,30.5,0.5 }));
-	PxShape* shape2 = CreateShape(PxBoxGeometry(0.5, 10, 0.5));
-	palo2->setName("");
-	palo2->attachShape(*shape2);
-	item2 = new RenderItem(shape2, palo2, { 0,0.1,0.8,1 });
-	gScene->addActor(*palo2);
-
-	PxRevoluteJoint* art = PxRevoluteJointCreate(*gPhysics, palo1, { 0,0,0 }, palo2, { 0.5,-10.5,0.5 });
-*/
-
-
-
-
 	_particleSystem = new ParticleSystem();
 	//_particleSystem->createscene(gScene,gPhysics );
 	_RBManager = new RBManager(gPhysics, gScene);
@@ -154,9 +122,6 @@ void onTriggere(physx::PxTriggerPair* pairs) {
 	RigidBody* p2 = static_cast<RigidBody*>(actor2->userData);
 
 	if (p1->body->getName() == "triggerfinal" ) {
-		//_particleSystem->generateFirework
-		//_particleSystem->generateFirework(4, { 0, 200, 257.6 }, Vector3(0, 0, 1) * -50, Vector3(0, 0, 0), 2, 1, Vector4{ 0.749, 0.749, 0.851, 1 }, 2.0f);
-		//_RBManager->fin(p2);
 		_RBManager->fin = true;
 		_particleSystem->finish = true;
 		Puntosfinales = std::to_string((int)(Puntos +10));
@@ -173,6 +138,10 @@ void onTriggere(physx::PxTriggerPair* pairs) {
 			p2->body->setGlobalPose(newTransform);
 		}
 
+	}
+	else if (p1->body->getName() == "triggerpared") {
+		//crear una pared
+		_RBManager->createpared();
 	}
 	else {
 		thread sound(&Beep, notasmusicales[7], 800);

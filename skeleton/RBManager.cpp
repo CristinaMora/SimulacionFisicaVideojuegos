@@ -4,12 +4,9 @@ RBManager::RBManager(PxPhysics* gPhysics, PxScene* gScene)
 	//CREAMOS LA FISICA NECESARIA
 	_gPhysics = gPhysics;
 	_gScene = gScene;
-	num = 0;
-	//CREAMOS EL GENERADOR DE PARTICULAS
-	_generator = new UniformParticleGenerator(Vector3{ 50,50,50 }, Vector3{ 20,20,20 }, gPhysics, gScene);
 	//GENERADOR DE FUERZAS
 	windForceGen = new WindForceGenerator({ 0,0,6000.0f }, { 0, 0, -100 }, { 100, 100, 50 }, 1.0f, 0);
-	gravityForceGen = new GravityForceGenerator({ 0,0,80 });
+	gravityForceGen = new GravityForceGenerator({ 0,0,100 });
 	gravityForceGenContra = new GravityForceGenerator({0,0,2000});
 	//REGISTRO DE SOLIDO-FUERZA
 	_sFR = new SolidForceRegistry();
@@ -17,10 +14,9 @@ RBManager::RBManager(PxPhysics* gPhysics, PxScene* gScene)
 }
 RBManager::~RBManager() {
 	
-	for (auto& obj : _objects) {
-		_gScene->removeActor(*(obj.body));
-	}
-	delete _generator;
+	_objects.clear();
+	_statics.clear();
+	
 	delete windForceGen;
 	delete gravityForceGen;
 	delete _sFR;
@@ -86,7 +82,7 @@ StaticRigidBody RBManager::addStaticObject(Vector3 dimension, Vector4 color, Vec
 	else { //si es un cuadrado 
 		shape = CreateShape(PxBoxGeometry(dimension), gMaterial);
 	}
-	if (name == "trigger" || name == "triggerfinal" || name == "triggerregreso") {
+	if (name == "trigger" || name == "triggerfinal" || name == "triggerregreso" || name == "triggerpared") {
 		shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
 		shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
 	}
@@ -119,17 +115,17 @@ void RBManager::createscene() {
 	addStaticObject(Vector3{ 3.04, 20, 45.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 97.96,1.5,168 }, PxQuat(0, PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 256.5 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 125.96,1.5,41.6 }, PxQuat(0, PxVec3(0, 1, 0)));
 	
-	addStaticObject(Vector3{ 3.04, 20, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 65.96,1.5,173 }, PxQuat(0, PxVec3(0, 1, 0)));
-	addStaticObject(Vector3{ 3.04, 20, 20.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 47,1.5,205 }, PxQuat(PxPi / 2.0f, PxVec3(0, 1, 0)));
-	addStaticObject(Vector3{ 3.04, 20, 38.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 45.96,1.5,173 }, PxQuat(-PxPi / 6.0f, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 3.04, 20, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 68.96,1.5,165 }, PxQuat(0, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 3.04, 20, 20.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 50,1.5,193 }, PxQuat(PxPi / 2.0f, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 3.04, 20, 36.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 48.96,1.5,165 }, PxQuat(-PxPi / 6.0f, PxVec3(0, 1, 0)));
 
 	//abajo a la izquierda
 	addStaticObject(Vector3{ 3.04, 20, 42.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -119.96,1.5,267.6 }, PxQuat(PxPi / 4.0f, PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -90.96,1.5,230 }, PxQuat((55.0f * PxPi / 180.0f), PxVec3(0, 1, 0)));
 	addStaticObject(Vector3{ 3.04, 20, 45.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -120.96,1.5,173 }, PxQuat(0, PxVec3(0, 1, 0)));
-	addStaticObject(Vector3{ 3.04, 21, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -85.96,1.5,173 }, PxQuat(0, PxVec3(0, 1, 0)));
-	addStaticObject(Vector3{ 3.04, 21, 20.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{-67,1.5,205 }, PxQuat(PxPi / 2.0f, PxVec3(0, 1, 0)));
-	addStaticObject(Vector3{ 3.04, 21, 38.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -65.96,1.5,173 }, PxQuat(PxPi / 6.0f, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 3.04, 21, 34.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -88.96,1.5,165 }, PxQuat(0, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 3.04, 21, 20.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{-70,1.5,193 }, PxQuat(PxPi / 2.0f, PxVec3(0, 1, 0)));
+	addStaticObject(Vector3{ 3.04, 21, 30.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -68.96,1.5,165 }, PxQuat(PxPi / 6.0f, PxVec3(0, 1, 0)));
 
 	//arriba a la izquierda
 	addStaticObject(Vector3{ 3.04, 21, 33.43 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ -126.96,1.5,-277.6 }, PxQuat(-PxPi / 4.0f, PxVec3(0, 1, 0)));
@@ -177,21 +173,20 @@ void RBManager::createscene() {
 
 
 	//palas
-	RigidBody aux =addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 16,5,5 }, { 0.565, 1, 0.514,1 }, {15,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 900000000000.0f, 2147483647, false , "palaI");
+	RigidBody aux =addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 18,5,5 }, { 0.565, 1, 0.514,1 }, {13,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 900000000000.0f, 2147483647, false , "palaI");
 	palaI= addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 5,5,5 }, { 0.265, 0.1, 0.214,1 }, { 35,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 9000000000000.0f, 2147483647, false, "auxI");
 	//
 	PxRevoluteJoint* joint = PxRevoluteJointCreate(*_gPhysics,palaI.body , {0,0,0 }, aux.body , { 20,0,0 });
 
 
-	RigidBody aux2 = addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 16,5,5 }, { 0.565, 1, 0.514,1 }, { -32,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 900000000000.0f, 2147483647, false, "palaI");
+	RigidBody aux2 = addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 18,5,5 }, { 0.565, 1, 0.514,1 }, { -28,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 900000000000.0f, 2147483647, false, "palaI");
 	palaD = addDynamicObject(0.1f, 0.1f, 0.1f, { 0,0,0 }, { 5,5,5 }, { 0.265, 0.1, 0.214,1 }, { -55,6,250.6 }, { 0,0,0 }, { 0,0,0 }, 9000000000000.0f, 2147483647, false, "auxI");
 
 	PxRevoluteJoint* joint2 = PxRevoluteJointCreate(*_gPhysics, palaD.body, { 0,0,0 }, aux2.body, { -20,0,0 });
 
 
 	
-	bola= addDynamicObject(0.1f, 0.1f, 0.8f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,1 }, { 136.96,9,217.6 }, { 0,0,0 }, { 0,0,0 }, 5.0f, 2147483647, true, "pelota");
-	//bola= addDynamicObject(0.1f, 0.1f, 0.8f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,1 }, { 0,9,257.6 }, { 0,0,0 }, { 0,0,0 }, 5.0f, 2147483647, true, "pelota");
+	bola= addDynamicObject(0.1f, 0.1f, 0.8f, { 0,0,0 }, { 5,0,0 }, { 0, 0, 0,1 }, { 136.96,9,207.6 }, { 0,0,0 }, { 0,0,0 }, 1.0f, 2147483647, true, "pelota");
 	
 	
 	//muelle
@@ -201,6 +196,8 @@ void RBManager::createscene() {
 	
 	//triger final que termina la partida
 	addStaticObject(Vector3{ 80, 14, 5 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ -15,15,295.6 }, PxQuat(0, PxVec3(0, 1, 0)), false, "triggerfinal");
+	//triger para que no vuelva la bola
+	addStaticObject(Vector3{ 8, 14, 5 }, Vector4{ 0.98, 0.084, 0.051,1 }, Vector3{ 60,15,-280 }, PxQuat(0, PxVec3(0, 1, 0)), false, "triggerpared");
 
 }
 void RBManager::update(double t)
@@ -296,4 +293,7 @@ void RBManager::keypress(unsigned char key)
 void RBManager::createsplosion(RigidBody p1, Vector3 pos) {
 	ExplosionForceGenerator* expl = new ExplosionForceGenerator(9000000, 0.0000001,pos );
 	_sFR->addRegistry(expl, p1);
+}
+void RBManager::createpared() {
+	addStaticObject(Vector3{ 3.04, 20, 26.5 }, Vector4{ 0.18, 0.184, 0.851,1 }, Vector3{ 75.96,1.5,-261.6 }, PxQuat(0, PxVec3(0, 1, 0)));
 }

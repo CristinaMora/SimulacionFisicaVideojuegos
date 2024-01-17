@@ -2,9 +2,6 @@
 
 void SolidForceRegistry::updateForces(double duration) {
 
-
-
-
 	auto it = begin();
 	while (it != end()) {
 		bool todelete = it->first->updateForce(it->second.body, duration);

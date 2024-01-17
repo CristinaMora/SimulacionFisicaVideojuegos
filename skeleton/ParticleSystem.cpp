@@ -25,7 +25,7 @@
 		
 			for (auto e : _particle_generators)
 			{
-				_particle_generators.pop_front();
+				delete e;
 			}
 			for (auto e : _particles)
 			{
